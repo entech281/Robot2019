@@ -1,5 +1,5 @@
 # Robot2019
-The Robot With No Name
+![The Martian](https://i.imgur.com/DKR9qvG.jpg)
 
 ### Build Status
 [![Build Status](https://travis-ci.org/entech281/Pele2019.svg?branch=master)](https://travis-ci.org/entech281/Pele2019)
