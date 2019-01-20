@@ -6,7 +6,7 @@ cache:
   - ~/.gradle
 
 script: # Modify the commands below to build your repository.
-  - ./gradlew clean build jacocoTestREport 
+  - ./gradlew clean build 
 
 notifications:
   slack: entech281:mpBJ2mwOFaAywAQDGPA2GV8d
