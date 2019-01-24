@@ -48,8 +48,14 @@ public class Robot extends TimedRobot {
           SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
-          Scheduler.getInstance().run();
+
+          if (m_driveStick.getZ() < 0.05 && m_driveStick.getZ() > -0.05 ){
+               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
+               Scheduler.getInstance().run();  
+          } else {
+               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
+               Scheduler.getInstance().run();
+          }
      }
   
 }
