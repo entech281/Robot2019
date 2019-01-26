@@ -16,6 +16,7 @@ import frc.robot.commands.ExtendCommand;
 import frc.robot.commands.RetractCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
     compressor.start();
     shooter.initialize();
 
+    CameraServer.getInstance().startAutomaticCapture();
 
     JoystickButton shootButton= new JoystickButton(m_driveStick, 11);
     JoystickButton retractButton= new JoystickButton(m_driveStick, 12);
@@ -56,6 +58,8 @@ public class Robot extends TimedRobot {
                robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
                Scheduler.getInstance().run();
           }
+
+          SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
      }
   
 }
