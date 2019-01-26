@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
    ShooterSubsystem shooter = new ShooterSubsystem();
   //Define joystick being used at USB port 1 on the Driver Station
    Joystick m_driveStick = new Joystick(0);
+   JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
 
    @Override
    public void robotInit() {
@@ -49,11 +50,12 @@ public class Robot extends TimedRobot {
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
 
-          if (m_driveStick.getZ() < 0.05 && m_driveStick.getZ() > -0.05 ){
-               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
+          if (turnButton.get()){
+
+               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
                Scheduler.getInstance().run();  
           } else {
-               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
+               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
                Scheduler.getInstance().run();
           }
      }
