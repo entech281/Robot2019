@@ -14,8 +14,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExtendCommand;
 import frc.robot.commands.RetractCommand;
+import frc.robot.commands.ThumbsDown;
+import frc.robot.commands.ThumbsStop;
+import frc.robot.commands.ThumbsUp;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ThumbsSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 /**
@@ -29,6 +33,8 @@ public class Robot extends TimedRobot {
    private Compressor compressor;
    DriveSubsystem robotDrive = new DriveSubsystem();
    ShooterSubsystem shooter = new ShooterSubsystem();
+   ThumbsSubsystem thumbs = new ThumbsSubsystem();
+
   //Define joystick being used at USB port 1 on the Driver Station
    Joystick m_driveStick = new Joystick(0);
    JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
@@ -41,10 +47,17 @@ public class Robot extends TimedRobot {
 
     CameraServer.getInstance().startAutomaticCapture();
 
-    JoystickButton shootButton= new JoystickButton(m_driveStick, 11);
-    JoystickButton retractButton= new JoystickButton(m_driveStick, 12);
+    JoystickButton shootButton = new JoystickButton(m_driveStick, 11);
+    JoystickButton retractButton = new JoystickButton(m_driveStick, 12);
+    JoystickButton thumbUp = new JoystickButton(m_driveStick, 5);
+    JoystickButton thumbDown = new JoystickButton(m_driveStick, 3);
+
     shootButton.whenPressed(new ExtendCommand(shooter));
     retractButton.whenPressed(new RetractCommand(shooter));
+    thumbUp.whenPressed(new ThumbsUp(thumbs));
+    thumbUp.whenReleased(new ThumbsStop(thumbs));
+    thumbDown.whenPressed(new ThumbsDown(thumbs));
+    thumbDown.whenReleased(new ThumbsStop(thumbs));
     }
 
      public void teleopPeriodic(){
@@ -53,14 +66,12 @@ public class Robot extends TimedRobot {
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
 
           if (turnButton.get()){
-
                robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
-               Scheduler.getInstance().run();  
           } else {
                robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
-               Scheduler.getInstance().run();
+               
           }
-
+          Scheduler.getInstance().run();
           SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
      }
   

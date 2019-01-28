@@ -8,25 +8,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ThumbsSubsystem;
 
-public class RetractCommand extends Command {
-  private ShooterSubsystem shooter;
-  public RetractCommand(ShooterSubsystem shooter) {
-    this.shooter=shooter;
-    requires(shooter);
-  }
+public class ThumbsUp extends Command {
+  // Use requires() here to declare subsystem dependencies
+  private ThumbsSubsystem thumbs;
+  public ThumbsUp(ThumbsSubsystem thumbs) {
+    this.thumbs=thumbs;
+    requires(thumbs);
+}
 
-  // Called just before this Command runs the first time
+  public ThumbsUp(Object thumbs2) {
+}
+
+// Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    shooter.retract();
+    thumbs.Up();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    shooter.retract();
+    thumbs.Up();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -38,6 +42,7 @@ public class RetractCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    thumbs.Stop();
   }
 
   // Called when another command which requires one or more of the same
