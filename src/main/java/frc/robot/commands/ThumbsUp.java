@@ -24,13 +24,13 @@ public class ThumbsUp extends Command {
 // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    thumbs.Up();
+    thumbs.up();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    thumbs.Up();
+    thumbs.up();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -42,7 +42,7 @@ public class ThumbsUp extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    thumbs.Stop();
+    thumbs.stop();
   }
 
   // Called when another command which requires one or more of the same
