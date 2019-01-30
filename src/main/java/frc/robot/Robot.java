@@ -13,11 +13,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExtendCommand;
+import frc.robot.commands.GrabberIn;
+import frc.robot.commands.GrabberOut;
 import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -34,6 +37,7 @@ public class Robot extends TimedRobot {
    DriveSubsystem robotDrive = new DriveSubsystem();
    ShooterSubsystem shooter = new ShooterSubsystem();
    ThumbsSubsystem thumbs = new ThumbsSubsystem();
+   GrabberSubsystem grabber = new GrabberSubsystem();
 
   //Define joystick being used at USB port 1 on the Driver Station
    Joystick m_driveStick = new Joystick(0);
@@ -47,14 +51,27 @@ public class Robot extends TimedRobot {
 
     CameraServer.getInstance().startAutomaticCapture();
 
+    // Shooter Subsystem
     JoystickButton shootButton = new JoystickButton(m_driveStick, 11);
     JoystickButton retractButton = new JoystickButton(m_driveStick, 12);
+
+    // Grabber Subsystem
+    JoystickButton inButton = new JoystickButton(m_driveStick, 8);
+    JoystickButton outButton = new JoystickButton(m_driveStick, 10);
+
+    // Thumbs Subsystem
     JoystickButton thumbUp = new JoystickButton(m_driveStick, 7);
     JoystickButton thumbDown = new JoystickButton(m_driveStick, 9);
 
+    // Shooter Subsystem
     shootButton.whenPressed(new ExtendCommand(shooter));
     retractButton.whenPressed(new RetractCommand(shooter));
+
+    // Grabber Subsystem
+    inButton.whenPressed(new GrabberIn(grabber));
+    outButton.whenPressed(new GrabberOut(grabber));
     
+    // Thumbs Subsystem
     thumbUp.whileHeld(new ThumbsUp(thumbs));
     thumbUp.whenReleased(new ThumbsStop(thumbs));
     thumbDown.whileHeld(new ThumbsDown(thumbs));
