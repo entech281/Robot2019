@@ -19,8 +19,10 @@ public class ThumbsSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  private double desiredSpeed = 0;
+
   private WPI_TalonSRX m_ThumbMotor  = new WPI_TalonSRX(2);
-  
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -28,15 +30,45 @@ public class ThumbsSubsystem extends Subsystem {
   }
 
   public void up() {
-    m_ThumbMotor.set(ControlMode.PercentOutput, 100.0);
+    desiredSpeed = 1;
+    m_ThumbMotor.set(ControlMode.PercentOutput, desiredSpeed);
   }
 
   public void down() {
-    m_ThumbMotor.set(ControlMode.PercentOutput, -100.0);
+    desiredSpeed = -1;
+    m_ThumbMotor.set(ControlMode.PercentOutput, desiredSpeed);
   }
   
   public void stop(){
-    m_ThumbMotor.set(ControlMode.PercentOutput, 0.0);
+    m_ThumbMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  /**
+   * @return the desiredSpeed
+   */
+  public double getDesiredSpeed() {
+    return desiredSpeed;
+  }
+
+  /**
+   * @param desiredSpeed the desiredSpeed to set
+   */
+  public void setDesiredSpeed(double desiredSpeed) {
+    this.desiredSpeed = desiredSpeed;
+  }
+
+  /**
+   * @return the m_ThumbMotor
+   */
+  public WPI_TalonSRX getM_ThumbMotor() {
+    return m_ThumbMotor;
+  }
+
+  /**
+   * @param m_ThumbMotor the m_ThumbMotor to set
+   */
+  public void setM_ThumbMotor(WPI_TalonSRX m_ThumbMotor) {
+    this.m_ThumbMotor = m_ThumbMotor;
   }
   
 }

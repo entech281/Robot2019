@@ -49,14 +49,15 @@ public class Robot extends TimedRobot {
 
     JoystickButton shootButton = new JoystickButton(m_driveStick, 11);
     JoystickButton retractButton = new JoystickButton(m_driveStick, 12);
-    JoystickButton thumbUp = new JoystickButton(m_driveStick, 5);
-    JoystickButton thumbDown = new JoystickButton(m_driveStick, 3);
+    JoystickButton thumbUp = new JoystickButton(m_driveStick, 7);
+    JoystickButton thumbDown = new JoystickButton(m_driveStick, 9);
 
     shootButton.whenPressed(new ExtendCommand(shooter));
     retractButton.whenPressed(new RetractCommand(shooter));
-    thumbUp.whenPressed(new ThumbsUp(thumbs));
+    
+    thumbUp.whileHeld(new ThumbsUp(thumbs));
     thumbUp.whenReleased(new ThumbsStop(thumbs));
-    thumbDown.whenPressed(new ThumbsDown(thumbs));
+    thumbDown.whileHeld(new ThumbsDown(thumbs));
     thumbDown.whenReleased(new ThumbsStop(thumbs));
     }
 
@@ -73,6 +74,10 @@ public class Robot extends TimedRobot {
           }
           Scheduler.getInstance().run();
           SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
+
+          SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
+
+          SmartDashboard.putData(thumbs);
      }
   
 }
