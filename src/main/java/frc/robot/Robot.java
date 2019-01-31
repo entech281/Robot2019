@@ -48,7 +48,8 @@ public class Robot extends TimedRobot {
     compressor = new Compressor(10);
     compressor.start();
     shooter.initialize();
-
+    grabber.initialize();
+    
     CameraServer.getInstance().startAutomaticCapture();
 
     // Shooter Subsystem

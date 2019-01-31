@@ -23,6 +23,7 @@ public class GrabberSubsystem extends Subsystem {
 
   private DoubleSolenoid solenoid;
 
+  
   public void initialize(){
     solenoid= new DoubleSolenoid(10, 2, 3);
   }
