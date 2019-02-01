@@ -12,7 +12,7 @@ public class DriveSubsystem extends Subsystem{
     protected void initDefaultCommand() {
         m_robotDrive.driveCartesian(0.0, 0.0, 0.0);
     }
-    public void drive(double x, double y, double theta){
-        m_robotDrive.driveCartesian(x, y, theta);
+    public void drive(DriveCommand command){
+        m_robotDrive.driveCartesian(command.getX(),command.getY(), command.getZ());
     }
 }

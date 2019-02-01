@@ -25,6 +25,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import frc.robot.core.RobotPose;
+import frc.robot.subsystems.DriveCommand;
+import frc.robot.subsystems.TwistLockDriveFilter;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -38,7 +41,8 @@ public class Robot extends TimedRobot {
    ShooterSubsystem shooter = new ShooterSubsystem();
    ThumbsSubsystem thumbs = new ThumbsSubsystem();
    GrabberSubsystem grabber = new GrabberSubsystem();
-
+   TwistLockDriveFilter twistLockFilter = new TwistLockDriveFilter();
+   
   //Define joystick being used at USB port 1 on the Driver Station
    Joystick m_driveStick = new Joystick(0);
    JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
@@ -79,20 +83,27 @@ public class Robot extends TimedRobot {
     thumbDown.whenReleased(new ThumbsStop(thumbs));
     }
 
+   //i think this belongs in another class, like the OI, but
+   //i dont want to get into that now
+    protected DriveCommand readJoystickDriveCommand(){
+        return new DriveCommand(m_driveStick.getX(),-m_driveStick.getY(),m_driveStick.getZ());
+    }
+
+    protected RobotPose getRobotPose(){
+        return null;
+    }
      public void teleopPeriodic(){
           SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
 
-          if (turnButton.get()){
-               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
-          } else {
-               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
-               
-          }
+          //lock out z twist unless button is pressed
+          twistLockFilter.setEnabled(! turnButton.get());
+          
+          robotDrive.drive(twistLockFilter.filter(readJoystickDriveCommand(), getRobotPose()));
+          
           Scheduler.getInstance().run();
           SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
-
           SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
 
           SmartDashboard.putData(thumbs);
