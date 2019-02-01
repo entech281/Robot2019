@@ -62,8 +62,8 @@ public class Robot extends TimedRobot {
     JoystickButton outButton = new JoystickButton(m_driveStick, 10);
 
     // Thumbs Subsystem
-    JoystickButton thumbUp = new JoystickButton(m_driveStick, 7);
-    JoystickButton thumbDown = new JoystickButton(m_driveStick, 9);
+    JoystickButton upButton = new JoystickButton(m_driveStick, 7);
+    JoystickButton downButton = new JoystickButton(m_driveStick, 9);
 
     // Shooter Subsystem
     shootButton.whenPressed(new ExtendCommand(shooter));
@@ -74,10 +74,10 @@ public class Robot extends TimedRobot {
     outButton.whenPressed(new GrabberOut(grabber));
     
     // Thumbs Subsystem
-    thumbUp.whileHeld(new ThumbsUp(thumbs));
-    thumbUp.whenReleased(new ThumbsStop(thumbs));
-    thumbDown.whileHeld(new ThumbsDown(thumbs));
-    thumbDown.whenReleased(new ThumbsStop(thumbs));
+    upButton.whileHeld(new ThumbsUp(thumbs));
+    upButton.whenReleased(new ThumbsStop(thumbs));
+    downButton.whileHeld(new ThumbsDown(thumbs));
+    downButton.whenReleased(new ThumbsStop(thumbs));
   }
 
   public void teleopPeriodic(){
