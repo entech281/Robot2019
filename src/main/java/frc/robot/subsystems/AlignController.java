@@ -10,25 +10,18 @@ package frc.robot.subsystems;
  * output: x and y control signals for drive
  * @author dcowden
  */
-public class AlignController implements DriveFilter{
+public class AlignController extends DriveFilter{
     
     public AlignController(){
         
     }
 
-
     @Override
-    public void setEnable(boolean enabled) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DriveCommand doFilter(DriveCommand input, RobotPose state) {
+        //here we do the logic to read sensors and all that.
+        //ideally, MOST sensor data is already availalbe in state.
+        return input;
     }
 
-    @Override
-    public boolean getEnabled() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public DriveCommand filter(DriveCommand input, RobotPose state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
