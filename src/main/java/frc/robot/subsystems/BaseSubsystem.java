@@ -8,13 +8,20 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
-public class BaseSubsystem extends Subsystem {
+public abstract class BaseSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  public BaseSubsystem() {
+    SmartDashboard.putData(this);
+  }
+
+  public abstract void initialize();
 
   @Override
   public void initDefaultCommand() {

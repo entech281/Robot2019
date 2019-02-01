@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -33,18 +33,19 @@ import edu.wpi.first.wpilibj.Compressor;
  * project.
  */
 public class Robot extends TimedRobot {
-   private Compressor compressor;
-   DriveSubsystem robotDrive = new DriveSubsystem();
-   ShooterSubsystem shooter = new ShooterSubsystem();
-   ThumbsSubsystem thumbs = new ThumbsSubsystem();
-   GrabberSubsystem grabber = new GrabberSubsystem();
+  private Compressor compressor;
+
+  DriveSubsystem robotDrive = new DriveSubsystem();
+  ShooterSubsystem shooter = new ShooterSubsystem();
+  ThumbsSubsystem thumbs = new ThumbsSubsystem();
+  GrabberSubsystem grabber = new GrabberSubsystem();
 
   //Define joystick being used at USB port 1 on the Driver Station
-   Joystick m_driveStick = new Joystick(0);
-   JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
+  Joystick m_driveStick = new Joystick(0);
+  JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
 
-   @Override
-   public void robotInit() {
+  @Override
+  public void robotInit() {
     compressor = new Compressor(10);
     compressor.start();
     shooter.initialize();
@@ -77,25 +78,22 @@ public class Robot extends TimedRobot {
     thumbUp.whenReleased(new ThumbsStop(thumbs));
     thumbDown.whileHeld(new ThumbsDown(thumbs));
     thumbDown.whenReleased(new ThumbsStop(thumbs));
+  }
+
+  public void teleopPeriodic(){
+    SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
+    SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
+    SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
+
+    if (turnButton.get()){
+      robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
+    } else {
+      robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
     }
 
-     public void teleopPeriodic(){
-          SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
-          SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
-          SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
+    Scheduler.getInstance().run();
 
-          if (turnButton.get()){
-               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
-          } else {
-               robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
-               
-          }
-          Scheduler.getInstance().run();
-          SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
-
-          SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
-
-          SmartDashboard.putData(thumbs);
-     }
-  
+    SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
+    SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
+  }
 }

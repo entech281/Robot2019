@@ -70,5 +70,4 @@ public class ThumbsSubsystem extends Subsystem {
   public void setM_ThumbMotor(WPI_TalonSRX m_ThumbMotor) {
     this.m_ThumbMotor = m_ThumbMotor;
   }
-  
 }
