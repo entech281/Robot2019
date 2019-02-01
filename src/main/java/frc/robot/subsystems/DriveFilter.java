@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import frc.robot.core.RobotPose;
+
 /**
  * Base Drive Filter
  * @author dcowden

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import frc.robot.core.RobotPose;
+
 /**
  * Generates output that aligns the robot 
  * left-to-right based on sensor input

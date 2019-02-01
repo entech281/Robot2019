@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.core;
 
 /**
  * The robot pose, relative to some reference frame
