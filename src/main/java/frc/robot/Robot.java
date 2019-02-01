@@ -93,16 +93,22 @@ public class Robot extends TimedRobot {
         return null;
     }
      public void teleopPeriodic(){
+         ///this stuff doesnt go here
           SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
 
           //lock out z twist unless button is pressed
+          //i can imagine having a filter chain instead of hard-coding it like
+          //this.
           twistLockFilter.setEnabled(! turnButton.get());
           
+          //note here that robotDrive.drive(readJoystickDriveCommand()) would work too!
           robotDrive.drive(twistLockFilter.filter(readJoystickDriveCommand(), getRobotPose()));
           
           Scheduler.getInstance().run();
+          
+          //neither does this stuff
           SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
           SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
 
