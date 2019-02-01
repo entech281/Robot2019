@@ -89,9 +89,11 @@ public class Robot extends TimedRobot {
         return new DriveCommand(m_driveStick.getX(),-m_driveStick.getY(),m_driveStick.getZ());
     }
 
+    //obviously this doesnt work-- i'd propose getting it from somewhere else
     protected RobotPose getRobotPose(){
         return null;
     }
+    
      public void teleopPeriodic(){
          ///this stuff doesnt go here
           SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
