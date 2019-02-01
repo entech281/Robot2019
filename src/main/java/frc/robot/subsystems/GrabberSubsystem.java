@@ -7,13 +7,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
  * Add your docs here.
  */
-public class GrabberSubsystem extends Subsystem {
+public class GrabberSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -24,11 +23,11 @@ public class GrabberSubsystem extends Subsystem {
   private DoubleSolenoid solenoid;
 
   public void initialize(){
-    solenoid= new DoubleSolenoid(10, 2, 3);
+    solenoid = new DoubleSolenoid(10, 2, 3);
   }
 
   @Override
-  protected void initDefaultCommand() {
+  public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
