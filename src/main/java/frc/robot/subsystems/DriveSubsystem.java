@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 /**
  * Add your docs here.
  */
-public class DriveSubsystem extends BaseSubsystem{
+public class DriveSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
