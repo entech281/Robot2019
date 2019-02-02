@@ -35,10 +35,10 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Robot extends TimedRobot {
   private Compressor compressor;
 
-  DriveSubsystem robotDrive = new DriveSubsystem();
-  ShooterSubsystem shooter = new ShooterSubsystem();
-  ThumbsSubsystem thumbs = new ThumbsSubsystem();
-  GrabberSubsystem grabber = new GrabberSubsystem();
+  private DriveSubsystem robotDrive;
+  private ShooterSubsystem shooter;
+  private ThumbsSubsystem thumbs;
+  private GrabberSubsystem grabber;
 
   //Define joystick being used at USB port 1 on the Driver Station
   Joystick m_driveStick = new Joystick(0);
@@ -47,8 +47,17 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     compressor = new Compressor(10);
+
     compressor.start();
+
+    robotDrive = new DriveSubsystem();
+    shooter = new ShooterSubsystem();
+    thumbs = new ThumbsSubsystem();
+    grabber = new GrabberSubsystem();
+
+    robotDrive.initialize();
     shooter.initialize();
+    thumbs.initialize();
     grabber.initialize();
     
     CameraServer.getInstance().startAutomaticCapture();
