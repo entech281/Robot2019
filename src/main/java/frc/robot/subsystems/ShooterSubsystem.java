@@ -16,13 +16,14 @@ public class ShooterSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public ShooterSubsystem(){
+  public ShooterSubsystem() {
     super();
   }
 
   private DoubleSolenoid solenoid;
   
-  public void initialize(){
+  @Override
+  public void initialize() {
     solenoid = new DoubleSolenoid(10, 0, 1);
   }
 
@@ -32,11 +33,11 @@ public class ShooterSubsystem extends BaseSubsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   
-  public void extend(){
+  public void extend() {
     solenoid.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void retract(){
+  public void retract() {
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 }
