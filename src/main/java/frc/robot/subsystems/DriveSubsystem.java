@@ -10,9 +10,9 @@ public class DriveSubsystem extends Subsystem{
     private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
     @Override
     protected void initDefaultCommand() {
-        m_robotDrive.driveCartesian(0.0, 0.0, 0.0);
+        m_robotDrive.driveCartesian(0.0, 0.0, 0.0, 0.0);
     }
-    public void drive(double x, double y, double theta){
-        m_robotDrive.driveCartesian(x, y, theta);
+    public void drive(double x, double y, double z, double angle){
+        m_robotDrive.driveCartesian(x, y, z, angle);
     }
 }
