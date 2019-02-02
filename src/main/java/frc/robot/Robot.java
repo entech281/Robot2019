@@ -19,6 +19,7 @@ import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
+import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -55,11 +56,15 @@ public class Robot extends TimedRobot {
     thumbs = new ThumbsSubsystem();
     grabber = new GrabberSubsystem();
 
+    BaseSubsystem.initializeList();
+/*Replaces these, only way to forget to call them is by not having the subsystem
+  extend subsystem
     robotDrive.initialize();
     shooter.initialize();
     thumbs.initialize();
     grabber.initialize();
-    
+*/
+
     CameraServer.getInstance().startAutomaticCapture();
 
     // Shooter Subsystem
