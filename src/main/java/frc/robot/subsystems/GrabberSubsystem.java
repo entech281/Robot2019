@@ -9,21 +9,23 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.navigation.NavigationManager;
 
 /**
  * Add your docs here.
  */
-public class GrabberSubsystem extends Subsystem {
+public class GrabberSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public GrabberSubsystem(){
-    super();
-  }
-
   private DoubleSolenoid solenoid;
 
+    public GrabberSubsystem(NavigationManager navigationManager) {
+        super(navigationManager);
+    }
+
   
+  @Override
   public void initialize(){
     solenoid= new DoubleSolenoid(10, 2, 3);
   }

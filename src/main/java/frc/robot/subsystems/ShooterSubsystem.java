@@ -1,16 +1,18 @@
 package frc.robot.subsystems;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-public class ShooterSubsystem extends Subsystem{
+import frc.robot.navigation.NavigationManager;
+public class ShooterSubsystem extends BaseSubsystem{
 
-    public ShooterSubsystem(){
-        super();
-    }
 
 
     private DoubleSolenoid solenoid;
 
+    public ShooterSubsystem(NavigationManager navigationManager) {
+        super(navigationManager);
+    }
 
+
+    @Override
     public void initialize(){
         solenoid= new DoubleSolenoid(10, 0, 1);
     }
