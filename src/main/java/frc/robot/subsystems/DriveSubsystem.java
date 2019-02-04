@@ -10,21 +10,36 @@ public class DriveSubsystem extends BaseSubsystem{
     private WPI_TalonSRX m_frontRight = new WPI_TalonSRX(6);	
     private WPI_TalonSRX m_rearRight  = new WPI_TalonSRX(8);
     private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
+    private DriveInstruction currentCommand = new DriveInstruction(0,0,0,0);
+    private NavigationManager navigation;
 
+    public NavigationManager getNavigation() {
+        return navigation;
+    }
     public DriveSubsystem(NavigationManager navigationManager) {
-        super(navigationManager);
+        this.navigation = navigationManager;
     }
 
     @Override
     protected void initDefaultCommand() {
-        m_robotDrive.driveCartesian(0.0, 0.0, 0.0, 0.0);
+        
     }
-    public void drive(DriveCommand command){
-        m_robotDrive.driveCartesian(command.getX(),command.getY(), command.getZ(), command.getAngle());
+    public void drive(DriveInstruction command){
+        currentCommand = command;
     }
 
     @Override
     public void initialize() {
         
     }
+
+    @Override
+    public void periodic() {
+        m_robotDrive.driveCartesian(currentCommand.getX(),
+                currentCommand.getY(), 
+                currentCommand.getZ(), 
+                currentCommand.getAngle());
+    }
+    
+    
 }

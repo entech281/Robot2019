@@ -17,9 +17,10 @@ import frc.robot.navigation.NavigationManager;
 public class NavXSubsystem extends BaseSubsystem{
 
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
+    private NavigationManager navigation;
     
     public NavXSubsystem(NavigationManager navigationManager) {
-        super(navigationManager);
+        this.navigation = navigationManager;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class NavXSubsystem extends BaseSubsystem{
     @Override
     public void periodic() {
         double navxAngle = navX.getAngle();
-        getNavigationManager().acceptNavXPoseUpdate(navxAngle);
+        navigation.acceptNavXPoseUpdate(navxAngle);
         SmartDashboard.putNumber("Gyro Angle", navxAngle);
     }
     

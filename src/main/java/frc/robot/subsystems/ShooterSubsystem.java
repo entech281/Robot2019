@@ -7,10 +7,6 @@ public class ShooterSubsystem extends BaseSubsystem{
 
     private DoubleSolenoid solenoid;
 
-    public ShooterSubsystem(NavigationManager navigationManager) {
-        super(navigationManager);
-    }
-
 
     @Override
     public void initialize(){

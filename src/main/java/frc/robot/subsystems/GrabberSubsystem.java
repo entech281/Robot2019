@@ -7,9 +7,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import frc.robot.navigation.NavigationManager;
 
 /**
  * Add your docs here.
@@ -20,9 +18,6 @@ public class GrabberSubsystem extends BaseSubsystem {
 
   private DoubleSolenoid solenoid;
 
-    public GrabberSubsystem(NavigationManager navigationManager) {
-        super(navigationManager);
-    }
 
   
   @Override

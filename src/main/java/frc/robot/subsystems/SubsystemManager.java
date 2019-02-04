@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.robot.Initable;
 import frc.robot.navigation.NavigationManager;
 
 /**
@@ -12,25 +13,20 @@ import frc.robot.navigation.NavigationManager;
  * different year to year
  * @author dcowden
  */
-public class SubsystemManager {
+public class SubsystemManager implements Initable{
 
-    public SubsystemManager(NavigationManager navigation){
-        this.navigation = navigation;
-        shooter = new ShooterSubsystem(navigation);
-        drive = new DriveSubsystem(navigation);
-        thumbs = new ThumbsSubsystem(navigation);
-        grabber = new GrabberSubsystem(navigation);
-        navx = new NavXSubsystem(navigation);
-    }
     
-    public void initializeAllSubsystems(){
+    @Override
+    public void initialize(){
         //leaving this as hard-coded allows flexibility for init order,
         //if that matters
+        compressor.initialize();
         shooter.initialize();
         drive.initialize();
         thumbs.initialize();
         navx.initialize();
         grabber.initialize();
+        camera.initialize();
     }
     
     public ShooterSubsystem getShooter() {
@@ -52,17 +48,49 @@ public class SubsystemManager {
     public NavXSubsystem getNavx() {
         return navx;
     }
-   
-    public NavigationManager getNavigation(){
-        return navigation;
+  
+
+    public void setShooter(ShooterSubsystem shooter) {
+        this.shooter = shooter;
     }
 
-    
-    private NavigationManager navigation = null;
+    public void setGrabber(GrabberSubsystem grabber) {
+        this.grabber = grabber;
+    }
+
+    public void setDrive(DriveSubsystem drive) {
+        this.drive = drive;
+    }
+
+    public void setThumbs(ThumbsSubsystem thumbs) {
+        this.thumbs = thumbs;
+    }
+
+    public void setNavx(NavXSubsystem navx) {
+        this.navx = navx;
+    }
+   
+
+    public CameraSubsystem getCamera() {
+        return camera;
+    }
+
+    public void setCamera(CameraSubsystem camera) {
+        this.camera = camera;
+    }
     private ShooterSubsystem shooter = null;
     private GrabberSubsystem grabber = null;
     private DriveSubsystem drive = null;
     private ThumbsSubsystem thumbs = null;
     private NavXSubsystem navx = null;
-    
+    private CameraSubsystem camera = null;
+    private CompressorSubsystem compressor = null;
+
+    public CompressorSubsystem getCompressor() {
+        return compressor;
+    }
+
+    public void setCompressor(CompressorSubsystem compressor) {
+        this.compressor = compressor;
+    }
 }

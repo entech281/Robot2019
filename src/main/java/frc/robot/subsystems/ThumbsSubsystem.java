@@ -22,10 +22,6 @@ public class ThumbsSubsystem extends BaseSubsystem {
 
     private WPI_TalonSRX m_ThumbMotor = new WPI_TalonSRX(2);
 
-    public ThumbsSubsystem(NavigationManager navigationManager) {
-        super(navigationManager);
-    }
-
     @Override
     public void initialize() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

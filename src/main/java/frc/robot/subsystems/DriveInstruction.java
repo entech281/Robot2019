@@ -6,17 +6,18 @@
 package frc.robot.subsystems;
 
 /**
- *
+ * A plain object that is the input to the drive.
+ * Useful for testing
  * @author dcowden
  */
-public class DriveCommand {
+public class DriveInstruction {
 
     private double x = 0;
     private double y = 0;
     private double z = 0;
     private double angle = 0;
     
-    public DriveCommand(double x, double y, double z,  double angle){
+    public DriveInstruction(double x, double y, double z,  double angle){
         this.x = x;
         this.y = y;
         this.z = z;
