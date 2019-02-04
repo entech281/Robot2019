@@ -5,8 +5,6 @@
  */
 package frc.robot.subsystems;
 
-import frc.robot.core.RobotPose;
-
 import java.lang.Math;
 
 /**
@@ -16,7 +14,7 @@ import java.lang.Math;
 public class DeadbandDriveFilter extends DriveFilter {
 
     @Override
-    public DriveCommand doFilter(DriveCommand input, RobotPose state) {
+    public DriveCommand doFilter(DriveCommand input) {
         double x = input.getX();
         double y = input.getY();
         double z = input.getZ();
@@ -30,7 +28,7 @@ public class DeadbandDriveFilter extends DriveFilter {
         if (Math.abs(z) < 0.05) {
             z = 0.0;
         }
-        return new DriveCommand(x, y, z);          
+        return new DriveCommand(x, y, z, input.getFieldAngle());          
     }
     
 }

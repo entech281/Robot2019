@@ -20,9 +20,11 @@ import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
+import frc.robot.commands.ToggleFieldAbsoluteCommand;;
+import frc.robot.commands.NudgeLeftCommand;;
+import frc.robot.commands.NudgeRightCommand;;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
-import frc.robot.subsystems.HoldYawDriveFilter;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 
@@ -30,8 +32,11 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import frc.robot.core.RobotPose;
 import frc.robot.subsystems.DeadbandDriveFilter;
+import frc.robot.subsystems.DisableFieldAbsDriveFilter;
+import frc.robot.subsystems.HoldYawDriveFilter;
+import frc.robot.subsystems.NudgeLeftDriveFilter;
+import frc.robot.subsystems.NudgeRightDriveFilter;
 import frc.robot.subsystems.DriveCommand;
 import frc.robot.subsystems.TwistLockDriveFilter;
 /**
@@ -49,7 +54,10 @@ public class Robot extends TimedRobot {
    GrabberSubsystem grabber = new GrabberSubsystem();
    TwistLockDriveFilter twistLockFilter;
    DeadbandDriveFilter deadbandDriveFilter;
+   DisableFieldAbsDriveFilter disableFieldAbsDriveFilter;
    HoldYawDriveFilter holdYawDriveFilter;
+   NudgeLeftDriveFilter nudgeLeftDriveFilter;
+   NudgeRightDriveFilter nudgeRightDriveFilter;
    AHRS m_navx;
    
   //Define joystick being used at USB port 1 on the Driver Station
@@ -69,6 +77,11 @@ public class Robot extends TimedRobot {
     deadbandDriveFilter = new DeadbandDriveFilter();
     holdYawDriveFilter = new HoldYawDriveFilter(m_navx);
     holdYawDriveFilter.disable();
+    nudgeLeftDriveFilter = new NudgeLeftDriveFilter();
+    nudgeLeftDriveFilter.disable();
+    nudgeRightDriveFilter = new NudgeRightDriveFilter();
+    nudgeRightDriveFilter.disable();
+    disableFieldAbsDriveFilter = new DisableFieldAbsDriveFilter();
     
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -88,6 +101,15 @@ public class Robot extends TimedRobot {
     shootButton.whenPressed(new ExtendCommand(shooter));
     retractButton.whenPressed(new RetractCommand(shooter));
 
+    // Drive Subsystem
+    JoystickButton button = new JoystickButton(m_driveStick, 8);
+    button.whenPressed(new ToggleFieldAbsoluteCommand(disableFieldAbsDriveFilter));
+    button = new JoystickButton(m_driveStick, 3);
+    button.whenPressed(new NudgeLeftCommand(nudgeLeftDriveFilter));
+    button = new JoystickButton(m_driveStick, 4);
+    button.whenPressed(new NudgeRightCommand(nudgeRightDriveFilter));
+
+
     // Grabber Subsystem
     inButton.whenPressed(new GrabberIn(grabber));
     outButton.whenPressed(new GrabberOut(grabber));
@@ -102,14 +124,16 @@ public class Robot extends TimedRobot {
    //i think this belongs in another class, like the OI, but
    //i dont want to get into that now
     protected DriveCommand readJoystickDriveCommand(){
-        return new DriveCommand(m_driveStick.getX(),-m_driveStick.getY(),m_driveStick.getZ());
-    }
-
-    //obviously this doesnt work-- i'd propose getting it from somewhere else
-    protected RobotPose getRobotPose(){
-        return null;
+        return new DriveCommand(m_driveStick.getX(),-m_driveStick.getY(),m_driveStick.getZ(),m_navx.getAngle());
     }
     
+    // Sandstorm reports as autonomous
+    @Override
+    public void autonomousPeriodic() {
+      teleopPeriodic();
+    }
+
+    @Override
      public void teleopPeriodic(){
          ///this stuff doesnt go here
           SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
@@ -127,9 +151,11 @@ public class Robot extends TimedRobot {
 
         // note here that robotDrive.drive(readJoystickDriveCommand()) would work too!
           DriveCommand dc = readJoystickDriveCommand();
-          RobotPose rp = getRobotPose();
-          dc = deadbandDriveFilter.filter(dc, rp);
-          dc = twistLockFilter.filter(dc, rp);
+          dc = deadbandDriveFilter.filter(dc);
+          dc = twistLockFilter.filter(dc);
+          dc = disableFieldAbsDriveFilter.filter(dc);
+          dc = nudgeLeftDriveFilter.filter(dc);
+          dc = nudgeRightDriveFilter.filter(dc);
           robotDrive.drive(dc);
           
           Scheduler.getInstance().run();

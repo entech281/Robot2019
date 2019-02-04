@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.core.RobotPose;
-
 /**
  * Base Drive Filter
  * @author dcowden
@@ -18,13 +16,13 @@ public abstract class DriveFilter {
     public boolean isEnabled(){
         return this.enabled;
     }
-    public DriveCommand filter(DriveCommand input, RobotPose state){
+    public DriveCommand filter(DriveCommand input){
         if ( this.enabled){
-            return doFilter(input, state);
+            return doFilter(input);
         }
         else{
             return input;
         }
     }
-    abstract DriveCommand doFilter(DriveCommand input, RobotPose state);
+    abstract DriveCommand doFilter(DriveCommand input);
 }

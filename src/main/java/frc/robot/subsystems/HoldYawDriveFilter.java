@@ -11,7 +11,6 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import frc.robot.core.RobotPose;
 
 /**
  * Add your docs here.
@@ -19,7 +18,6 @@ import frc.robot.core.RobotPose;
 public class HoldYawDriveFilter extends DriveFilter implements PIDOutput {
   PIDController yaw_pid;
   double pid_twist;
-  double gyro_angle;
   double Kp = 0.03;
   double Ki = 0.0001;
   double Kd = 0.01;
@@ -55,7 +53,7 @@ public class HoldYawDriveFilter extends DriveFilter implements PIDOutput {
     // Put methods for controlling this subsystem
   // here. Call these from Commands.
   @Override
-  public DriveCommand doFilter(DriveCommand input, RobotPose state) {
-    return new DriveCommand(input.getX(), input.getY(), this.pid_twist);
+  public DriveCommand doFilter(DriveCommand input) {
+    return new DriveCommand(input.getX(), input.getY(), this.pid_twist, input.getFieldAngle());
   }
 }

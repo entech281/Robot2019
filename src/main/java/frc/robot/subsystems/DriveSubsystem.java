@@ -13,6 +13,6 @@ public class DriveSubsystem extends Subsystem{
         m_robotDrive.driveCartesian(0.0, 0.0, 0.0);
     }
     public void drive(DriveCommand command){
-        m_robotDrive.driveCartesian(command.getX(),command.getY(), command.getZ());
+        m_robotDrive.driveCartesian(command.getX(),command.getY(), command.getZ(), command.getFieldAngle());
     }
 }

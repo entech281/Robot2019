@@ -5,8 +5,6 @@
  */
 package frc.robot.subsystems;
 
-import frc.robot.core.RobotPose;
-
 /**
  * SImply drops the z component
  * @author dcowden
@@ -14,8 +12,8 @@ import frc.robot.core.RobotPose;
 public class TwistLockDriveFilter extends DriveFilter{
 
     @Override
-    public DriveCommand doFilter(DriveCommand input, RobotPose state) {
-        return new DriveCommand(input.getX(), input.getY(), 0.0);          
+    public DriveCommand doFilter(DriveCommand input) {
+        return new DriveCommand(input.getX(), input.getY(), 0.0, input.getFieldAngle());          
     }
     
 }
