@@ -82,6 +82,7 @@ public class Robot extends TimedRobot {
     nudgeRightDriveFilter = new NudgeRightDriveFilter();
     nudgeRightDriveFilter.disable();
     disableFieldAbsDriveFilter = new DisableFieldAbsDriveFilter();
+    disableFieldAbsDriveFilter.disable();  // start in field abs mode
     
     CameraServer.getInstance().startAutomaticCapture();
 
