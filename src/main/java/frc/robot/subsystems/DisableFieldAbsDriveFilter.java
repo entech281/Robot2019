@@ -5,8 +5,6 @@
  */
 package frc.robot.subsystems;
 
-import java.lang.Math;
-
 /**
  * SImply drops the z component
  * @author dcowden

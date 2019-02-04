@@ -5,8 +5,6 @@
  */
 package frc.robot.subsystems;
 
-import java.lang.Math;
-
 import edu.wpi.first.wpilibj.Timer;
 
 /**
