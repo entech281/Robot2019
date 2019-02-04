@@ -7,12 +7,15 @@ import frc.robot.core.RobotPose;
  * @author dcowden
  */
 public abstract class DriveFilter {
-    private boolean enabled;
+    private boolean enabled = true;;
     
-    public void setEnabled(boolean enabled){
-        this.enabled = enabled;
+    public void enable(){
+        this.enabled = true;
     }
-    public boolean getEnabled(){
+    public void disable(){
+        this.enabled = false;
+    }
+    public boolean isEnabled(){
         return this.enabled;
     }
     public DriveCommand filter(DriveCommand input, RobotPose state){

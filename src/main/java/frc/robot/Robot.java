@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExtendCommand;
 import frc.robot.commands.GrabberIn;
@@ -21,11 +22,16 @@ import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.HoldYawDriveFilter;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.core.RobotPose;
+import frc.robot.subsystems.DeadbandDriveFilter;
 import frc.robot.subsystems.DriveCommand;
 import frc.robot.subsystems.TwistLockDriveFilter;
 /**
@@ -41,7 +47,10 @@ public class Robot extends TimedRobot {
    ShooterSubsystem shooter = new ShooterSubsystem();
    ThumbsSubsystem thumbs = new ThumbsSubsystem();
    GrabberSubsystem grabber = new GrabberSubsystem();
-   TwistLockDriveFilter twistLockFilter = new TwistLockDriveFilter();
+   TwistLockDriveFilter twistLockFilter;
+   DeadbandDriveFilter deadbandDriveFilter;
+   HoldYawDriveFilter holdYawDriveFilter;
+   AHRS m_navx;
    
   //Define joystick being used at USB port 1 on the Driver Station
    Joystick m_driveStick = new Joystick(0);
@@ -53,6 +62,13 @@ public class Robot extends TimedRobot {
     compressor.start();
     shooter.initialize();
     grabber.initialize();
+
+    // Create our drive filters - filters are enabled by default
+    m_navx = new AHRS(SPI.Port.kMXP);
+    twistLockFilter = new TwistLockDriveFilter();
+    deadbandDriveFilter = new DeadbandDriveFilter();
+    holdYawDriveFilter = new HoldYawDriveFilter(m_navx);
+    holdYawDriveFilter.disable();
     
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -103,10 +119,18 @@ public class Robot extends TimedRobot {
           //lock out z twist unless button is pressed
           //i can imagine having a filter chain instead of hard-coding it like
           //this.
-          twistLockFilter.setEnabled(! turnButton.get());
-          
-          //note here that robotDrive.drive(readJoystickDriveCommand()) would work too!
-          robotDrive.drive(twistLockFilter.filter(readJoystickDriveCommand(), getRobotPose()));
+          if (turnButton.get()) {
+            twistLockFilter.disable();
+          } else {
+            twistLockFilter.enable();
+          }
+
+        // note here that robotDrive.drive(readJoystickDriveCommand()) would work too!
+          DriveCommand dc = readJoystickDriveCommand();
+          RobotPose rp = getRobotPose();
+          dc = deadbandDriveFilter.filter(dc, rp);
+          dc = twistLockFilter.filter(dc, rp);
+          robotDrive.drive(dc);
           
           Scheduler.getInstance().run();
           
