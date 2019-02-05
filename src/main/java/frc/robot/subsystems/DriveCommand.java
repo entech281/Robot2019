@@ -10,15 +10,15 @@ public class DriveCommand {
         
     }
     
-    public double getX(){
+    public double getX() {
         return 0.0;
     }
     
-    public double getY(){
+    public double getY() {
         return 0.0;
     }
     
-    public double getZ(){
+    public double getZ() {
         return 0.0;
     }
 }

@@ -12,7 +12,7 @@ package frc.robot.subsystems;
  */
 public class AlignController {
     
-    public AlignController(){
+    public AlignController() {
         
     }
     

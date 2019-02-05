@@ -16,14 +16,14 @@ public class GrabberSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public GrabberSubsystem(){
+  public GrabberSubsystem() {
     super();
   }
 
   private DoubleSolenoid solenoid;
 
   @Override
-  public void initialize(){
+  public void initialize() {
     solenoid = new DoubleSolenoid(10, 2, 3);
   }
 
@@ -33,11 +33,11 @@ public class GrabberSubsystem extends BaseSubsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   
-  public void extend(){
+  public void extend() {
     solenoid.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void retract(){
+  public void retract() {
     solenoid.set(DoubleSolenoid.Value.kReverse);
   }
 }

@@ -42,7 +42,7 @@ public class ThumbsSubsystem extends BaseSubsystem {
     m_ThumbMotor.set(ControlMode.PercentOutput, desiredSpeed);
   }
   
-  public void stop(){
+  public void stop() {
     m_ThumbMotor.set(ControlMode.PercentOutput, 0);
   }
 

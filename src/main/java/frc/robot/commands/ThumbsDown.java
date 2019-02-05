@@ -14,6 +14,7 @@ public class ThumbsDown extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     private ThumbsSubsystem thumbs;
+    
     public ThumbsDown(ThumbsSubsystem thumbs) {
       this.thumbs=thumbs;
       requires(thumbs);

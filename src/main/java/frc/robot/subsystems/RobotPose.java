@@ -6,21 +6,21 @@ package frc.robot.subsystems;
  */
 public class RobotPose {
     
-    public RobotPose(){
+    public RobotPose() {
         
     }
     
-    public double getAngle(){
+    public double getAngle() {
         return 0.0;
     }
     
     //this is sideways offset
-    public double getX(){
+    public double getX() {
         return 0.0;
     }
     
     //this is front-to-back offset
-    public double getY(){
+    public double getY() {
         return 0.0;
     }
 }

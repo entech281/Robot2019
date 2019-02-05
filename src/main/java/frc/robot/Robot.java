@@ -94,12 +94,12 @@ public class Robot extends TimedRobot {
     downButton.whenReleased(new ThumbsStop(thumbs));
   }
 
-  public void teleopPeriodic(){
+  public void teleopPeriodic() {
     SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
     SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
     SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
 
-    if (turnButton.get()){
+    if (turnButton.get()) {
       robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), m_driveStick.getZ());
     } else {
       robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), 0.0);
