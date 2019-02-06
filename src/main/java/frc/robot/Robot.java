@@ -54,14 +54,13 @@ public class Robot extends TimedRobot {
   Joystick m_driveStick = new Joystick(0);
   JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
 
-   public void toggleFieldAbsolute() {
-     inFieldAbsolute = !inFieldAbsolute;
-   }
+  public void toggleFieldAbsolute() {
+    inFieldAbsolute = !inFieldAbsolute;
+  }
 
-   @Override
-   public void robotInit() {
+  @Override
+  public void robotInit() {
     compressor = new Compressor(10);
-
     compressor.start();
 
     robotDrive = new DriveSubsystem();
@@ -106,28 +105,28 @@ public class Robot extends TimedRobot {
     toggleFieldAbsoluteButton.whenPressed(new ToggleFieldAbsoluteCommand(this));
   }
 
-     public void teleopPeriodic(){
-          SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
-          SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
-          SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-          SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
+  public void teleopPeriodic(){
+    SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
+    SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
+    SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
+    SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
 
-          double z = 0.0;
-          if (turnButton.get()) {
-            z = m_driveStick.getZ();
-          }
+    double z = 0.0;
+    if (turnButton.get()) {
+      z = m_driveStick.getZ();
+    }
 
-          double angle = 0.0;
-          if (inFieldAbsolute) {
-            angle = navX.getAngle();
-          }
+    double angle = 0.0;
+    if (inFieldAbsolute) {
+      angle = navX.getAngle();
+    }
 
-          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
-          Scheduler.getInstance().run();
-          SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
+    robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
+    Scheduler.getInstance().run();
+    SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
 
-          SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
+    SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
 
-          SmartDashboard.putData(thumbs);
-     }
+    SmartDashboard.putData(thumbs);
+  }
 }
