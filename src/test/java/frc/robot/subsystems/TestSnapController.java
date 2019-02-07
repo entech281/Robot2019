@@ -15,25 +15,21 @@ import frc.robot.subsystems.SnapController;
 public class TestSnapController {
     @Test
     public void testThatRounderWorks(){
+        double delta = 1e-15;
+
         SnapController snap = new SnapController();
-        assertEquals(0.0, snap.findNearestQuadrant(337.5));
-        assertEquals(0.0, snap.findNearestQuadrant(22.5));
+        assertEquals(0.0, snap.findNearestQuadrant(337.5), delta);
+        assertEquals(0.0, snap.findNearestQuadrant(22.5), delta);
 
-        assertEquals(45.0, snap.findNearestQuadrant(67.5));
+        assertEquals(45.0, snap.findNearestQuadrant(67.5), delta);
 
-        assertEquals(90.0, snap.findNearestQuadrant(112.5));
+        assertEquals(90.0, snap.findNearestQuadrant(112.5), delta);
 
-        assertEquals(180.0, snap.findNearestQuadrant(157.5));
-        assertEquals(180.0, snap.findNearestQuadrant(202.5));
+        assertEquals(180.0, snap.findNearestQuadrant(157.5), delta);
+        assertEquals(180.0, snap.findNearestQuadrant(202.5), delta);
 
-        assertEquals(270.0, snap.findNearestQuadrant(247.5));
+        assertEquals(270.0, snap.findNearestQuadrant(247.5), delta);
 
-        assertEquals(315.0, snap.findNearestQuadrant(292.5));
-    }
-
-    @Test
-    public void test() {
-        SnapController snap = new SnapController();
-        assertEquals(0.0, snap.findNearestQuadrant(337.5));
+        assertEquals(315.0, snap.findNearestQuadrant(292.5), delta);
     }
 }
