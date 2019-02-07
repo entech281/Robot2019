@@ -21,10 +21,12 @@ import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
 import frc.robot.commands.ToggleFieldAbsoluteCommand;
+import frc.robot.navigation.NavigationManager;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -38,11 +40,14 @@ import edu.wpi.first.wpilibj.Compressor;
  * project.
  */
 public class Robot extends TimedRobot {
+  private final NavigationManager navigation = new NavigationManager();
+
    private Compressor compressor;
    DriveSubsystem robotDrive = new DriveSubsystem();
    ShooterSubsystem shooter = new ShooterSubsystem();
    ThumbsSubsystem thumbs = new ThumbsSubsystem();
    GrabberSubsystem grabber = new GrabberSubsystem();
+   VisionSubsystem vision = new VisionSubsystem(navigation);
 
    boolean inFieldAbsolute = false;
 
