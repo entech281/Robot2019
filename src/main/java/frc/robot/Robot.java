@@ -40,14 +40,14 @@ import edu.wpi.first.wpilibj.Compressor;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final NavigationManager navigation = new NavigationManager();
+  //NavigationManager navigation = new NavigationManager();
 
    private Compressor compressor;
    DriveSubsystem robotDrive = new DriveSubsystem();
    ShooterSubsystem shooter = new ShooterSubsystem();
    ThumbsSubsystem thumbs = new ThumbsSubsystem();
    GrabberSubsystem grabber = new GrabberSubsystem();
-   VisionSubsystem vision = new VisionSubsystem(navigation);
+  //VisionSubsystem vision = new VisionSubsystem(navigation);
 
    boolean inFieldAbsolute = false;
 
