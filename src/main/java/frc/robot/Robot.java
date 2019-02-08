@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
           SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
-          SmartDashboard.putNumber("RobotPose", navigation.getEstimatedRobotPose().getDistanceToTarget());
+          SmartDashboard.putNumber("Distance_to_target:", navigation.getEstimatedRobotPose().getDistanceToTarget());
 
           double z = 0.0;
           if (turnButton.get()) {
