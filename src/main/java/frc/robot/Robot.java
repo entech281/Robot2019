@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,14 +41,15 @@ import edu.wpi.first.wpilibj.Compressor;
  * project.
  */
 public class Robot extends TimedRobot {
-  //NavigationManager navigation = new NavigationManager();
+  private final NavigationManager navigation = new NavigationManager();
 
-   private Compressor compressor;
-   DriveSubsystem robotDrive = new DriveSubsystem();
-   ShooterSubsystem shooter = new ShooterSubsystem();
-   ThumbsSubsystem thumbs = new ThumbsSubsystem();
-   GrabberSubsystem grabber = new GrabberSubsystem();
-  //VisionSubsystem vision = new VisionSubsystem(navigation);
+  private Compressor compressor;
+  DriveSubsystem robotDrive = new DriveSubsystem();
+  ShooterSubsystem shooter = new ShooterSubsystem();
+  ThumbsSubsystem thumbs = new ThumbsSubsystem();
+  GrabberSubsystem grabber = new GrabberSubsystem();
+  VisionSubsystem vision = new VisionSubsystem(navigation);
+  
 
    boolean inFieldAbsolute = false;
 
@@ -67,6 +69,8 @@ public class Robot extends TimedRobot {
     compressor.start();
     shooter.initialize();
     grabber.initialize();
+    vision.initialize();
+    
     
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -108,6 +112,7 @@ public class Robot extends TimedRobot {
           SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
           SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
+          SmartDashboard.putNumber("RobotPose", navigation.getEstimatedRobotPose().getDistanceToTarget());
 
           double z = 0.0;
           if (turnButton.get()) {
