@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.robot.RobotMap;
 import frc.robot.drive.DriveInput;
+import frc.robot.drive.GetDriveInput;
 
 import frc.robot.commands.ExtendCommand;
 import frc.robot.commands.GrabberIn;
@@ -24,7 +25,7 @@ import frc.robot.commands.ThumbsUp;
  * Keep in mind that for testing, this cannot be instantiated.
  * @author dcowden
  */
-public class OperatorInterface {
+public class OperatorInterface implements GetDriveInput {
     
     private Robot m_robot;
     private Joystick driveStick;
@@ -53,9 +54,9 @@ public class OperatorInterface {
         createCommands();
     }
     
+    @Override
     public DriveInput getDriveInput() {
-        DriveInput di = new DriveInput(driveStick.getX(), driveStick.getY(), driveStick.getZ(), m_robot.getRobotAngle());
-        return di;
+        return new DriveInput(driveStick.getX(), driveStick.getY(), driveStick.getZ());
     }
     
     protected void createButtons() {

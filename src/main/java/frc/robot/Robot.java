@@ -16,13 +16,12 @@ import frc.robot.navigation.NavigationManager;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
-
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -37,15 +36,13 @@ public class Robot extends TimedRobot {
   private Compressor compressor;
 
   private DriveSubsystem robotDrive;
+  private NavXSubsystem navX;
   private ShooterSubsystem shooter;
   private ThumbsSubsystem thumbs;
   private GrabberSubsystem grabber;
 
   private boolean inFieldAbsolute = false;
 
-  private static AHRS navX = new AHRS(SPI.Port.kMXP);
-
-  //Define joystick being used at USB port 1 on the Driver Station
   private OperatorInterface m_oi;
 
   public void toggleFieldAbsolute() {
@@ -60,16 +57,16 @@ public class Robot extends TimedRobot {
     return grabber;
   }
 
+  public NavXSubsystem getNavXSubsystem() {
+    return navX;
+  }
+
   public ShooterSubsystem getShooterSubsystem() {
     return shooter;
   }
 
   public ThumbsSubsystem getThumbsSubsystem() {
     return thumbs;
-  }
-
-  public double getRobotAngle() {
-    return navX.getAngle();
   }
 
   @Override
@@ -91,7 +88,7 @@ public class Robot extends TimedRobot {
 
   public void teleopPeriodic(){
 
-    DriveInput di = m_oi.getDriveInput();
+    DriveInput di = mergeOIandNavDriveInput(m_oi.getDriveInput(), navX.getDriveInput());
     robotDrive.drive(di);
     SmartDashboard.putNumber("Joystick X", di.getX());
     SmartDashboard.putNumber("Joystick Y", di.getY());
@@ -101,5 +98,9 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
 
     SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
+  }
+
+  private DriveInput mergeOIandNavDriveInput(DriveInput oi_di, DriveInput nav_di) {
+    return new DriveInput(oi_di.getX(), oi_di.getY(), oi_di.getZ(), nav_di.getFieldAngle());
   }
 }

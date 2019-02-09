@@ -11,9 +11,14 @@ package frc.robot.drive;
  * Add your docs here.
  */
 public class DriveInput {
-  double x,y,z;
-  double field_angle, field_x, field_y;
+  private boolean valid = false;
+  private double x,y,z;
+  private double field_angle, field_x, field_y;
   
+  public DriveInput() {
+    this.valid = false;
+  }
+
   public DriveInput(double x, double y, double z) {
     this.x = x;
     this.y = y;
@@ -21,6 +26,7 @@ public class DriveInput {
     this.field_angle = 0.0;    
     this.field_x = 0.0;
     this.field_y = 0.0;
+    this.valid = true;
   }
 
   public DriveInput(double x, double y, double z, double angle) {
@@ -30,6 +36,7 @@ public class DriveInput {
     this.field_angle = angle;    
     this.field_x = 0.0;
     this.field_y = 0.0;
+    this.valid = true;
   }
 
   public DriveInput(double x, double y, double z, double angle, double fieldX, double fieldY) {
@@ -39,8 +46,13 @@ public class DriveInput {
     this.field_angle = angle;    
     this.field_x = fieldX;
     this.field_y = fieldY;
+    this.valid = true;
   }
-    
+
+  public boolean isValid() {
+    return this.valid;
+  }
+  
   public double getX(){
     return x;
   }
@@ -51,6 +63,21 @@ public class DriveInput {
     
   public double getZ(){
     return z;
+  }
+
+  public void setFieldAngle(double angle) {
+    this.field_angle = angle;
+    this.valid = true;
+  }
+
+  public void setFieldX(double x) {
+    this.field_x = x;
+    this.valid = true;
+  }
+
+  public void setFieldY(double y) {
+    this.field_y = y;
+    this.valid = true;
   }
 
   public double getFieldAngle() {

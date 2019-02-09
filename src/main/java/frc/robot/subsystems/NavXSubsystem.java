@@ -1,0 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package frc.robot.subsystems;
+
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drive.DriveInput;
+import frc.robot.drive.GetDriveInput;
+
+/**
+ *
+ * @author dcowden
+ */
+public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
+
+    private static AHRS navX = null;
+    
+    public NavXSubsystem() {
+    }
+
+    @Override
+    public void initialize() {
+        try {
+            navX = new AHRS(SPI.Port.kMXP);
+        } catch (Exception e) {
+            navX = null;
+        }
+    }
+    
+    @Override
+    public DriveInput getDriveInput() {
+        DriveInput di = new DriveInput();
+        if (navX != null) {
+            di.setFieldAngle(navX.getAngle());
+        }
+        return di;
+    }
+
+    public double getAngle() {
+        if (navX != null) {
+            return navX.getAngle();
+        } else {
+            return 720.0;
+        }
+    }
+
+    @Override
+    public void periodic() {
+        if (navX != null) {
+            SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
+        }
+    }    
+}
