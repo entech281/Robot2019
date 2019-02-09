@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -21,6 +21,7 @@ import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
+import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.commands.ToggleFieldAbsoluteCommand;
 import frc.robot.navigation.NavigationManager;
 import frc.robot.subsystems.DriveSubsystem;
@@ -41,37 +42,37 @@ import edu.wpi.first.wpilibj.Compressor;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final NavigationManager navigation = new NavigationManager();
-
   private Compressor compressor;
-  DriveSubsystem robotDrive = new DriveSubsystem();
-  ShooterSubsystem shooter = new ShooterSubsystem();
-  ThumbsSubsystem thumbs = new ThumbsSubsystem();
-  GrabberSubsystem grabber = new GrabberSubsystem();
-  VisionSubsystem vision = new VisionSubsystem(navigation);
-  
+
+  private DriveSubsystem robotDrive;
+  private ShooterSubsystem shooter;
+  private ThumbsSubsystem thumbs;
+  private GrabberSubsystem grabber;
 
    boolean inFieldAbsolute = false;
 
    private AHRS navX = new AHRS(SPI.Port.kMXP);
 
   //Define joystick being used at USB port 1 on the Driver Station
-   Joystick m_driveStick = new Joystick(0);
-   JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
+  Joystick m_driveStick = new Joystick(0);
+  JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
 
-   public void toggleFieldAbsolute() {
-     inFieldAbsolute = !inFieldAbsolute;
-   }
+  public void toggleFieldAbsolute() {
+    inFieldAbsolute = !inFieldAbsolute;
+  }
 
-   @Override
-   public void robotInit() {
+  @Override
+  public void robotInit() {
     compressor = new Compressor(10);
     compressor.start();
-    shooter.initialize();
-    grabber.initialize();
-    vision.initialize();
-    
-    
+
+    robotDrive = new DriveSubsystem();
+    shooter = new ShooterSubsystem();
+    thumbs = new ThumbsSubsystem();
+    grabber = new GrabberSubsystem();
+
+    BaseSubsystem.initializeList();
+
     CameraServer.getInstance().startAutomaticCapture();
 
     // Shooter Subsystem
@@ -107,30 +108,27 @@ public class Robot extends TimedRobot {
     toggleFieldAbsoluteButton.whenPressed(new ToggleFieldAbsoluteCommand(this));
   }
 
-     public void teleopPeriodic(){
-          SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
-          SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
-          SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-          SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
-          SmartDashboard.putNumber("RobotPose", navigation.getEstimatedRobotPose().getDistanceToTarget());
+  public void teleopPeriodic(){
+    SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
+    SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
+    SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
+    SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
 
-          double z = 0.0;
-          if (turnButton.get()) {
-            z = m_driveStick.getZ();
-          }
+    double z = 0.0;
+    if (turnButton.get()) {
+      z = m_driveStick.getZ();
+    }
 
-          double angle = 0.0;
-          if (inFieldAbsolute) {
-            angle = navX.getAngle();
-          }
+    double angle = 0.0;
+    if (inFieldAbsolute) {
+      angle = navX.getAngle();
+    }
 
-          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
-          Scheduler.getInstance().run();
-          SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
+    DriveCommand dc =  new DriveCommand(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
+    
+    robotDrive.drive(dc);
+    Scheduler.getInstance().run();
 
-          SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
-
-          SmartDashboard.putData(thumbs);
-     }
-  
+    SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
+  }
 }

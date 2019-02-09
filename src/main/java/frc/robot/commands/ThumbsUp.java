@@ -13,6 +13,7 @@ import frc.robot.subsystems.ThumbsSubsystem;
 public class ThumbsUp extends Command {
   // Use requires() here to declare subsystem dependencies
   private ThumbsSubsystem thumbs;
+  
   public ThumbsUp(ThumbsSubsystem thumbs) {
     this.thumbs=thumbs;
     requires(thumbs);

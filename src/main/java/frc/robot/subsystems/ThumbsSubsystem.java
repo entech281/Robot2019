@@ -10,12 +10,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
 /**
  * Add your docs here.
  */
-public class ThumbsSubsystem extends Subsystem {
+public class ThumbsSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -23,6 +21,11 @@ public class ThumbsSubsystem extends Subsystem {
 
   private WPI_TalonSRX m_ThumbMotor  = new WPI_TalonSRX(2);
 
+  @Override
+  public void initialize() {
+    
+  }
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -39,7 +42,7 @@ public class ThumbsSubsystem extends Subsystem {
     m_ThumbMotor.set(ControlMode.PercentOutput, desiredSpeed);
   }
   
-  public void stop(){
+  public void stop() {
     m_ThumbMotor.set(ControlMode.PercentOutput, 0);
   }
 
@@ -70,5 +73,4 @@ public class ThumbsSubsystem extends Subsystem {
   public void setM_ThumbMotor(WPI_TalonSRX m_ThumbMotor) {
     this.m_ThumbMotor = m_ThumbMotor;
   }
-  
 }

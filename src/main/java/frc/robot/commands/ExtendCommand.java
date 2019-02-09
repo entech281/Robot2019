@@ -12,8 +12,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ExtendCommand extends Command {
   private ShooterSubsystem shooter;
+  private int counter = 0;
+
   public ExtendCommand(ShooterSubsystem shooter) {
     this.shooter=shooter;
+    requires(shooter);
   }
 
   // Called just before this Command runs the first time
@@ -26,12 +29,17 @@ public class ExtendCommand extends Command {
   @Override
   protected void execute() {
     shooter.extend();
+    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if ( counter > 10 ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true
