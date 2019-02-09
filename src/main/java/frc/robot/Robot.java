@@ -121,12 +121,11 @@ public class Robot extends TimedRobot {
       angle = navX.getAngle();
     }
 
-    robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
+    DriveCommand dc =  new DriveCommand(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
+    
+    robotDrive.drive(dc);
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
 
     SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
-
-    SmartDashboard.putData(thumbs);
   }
 }

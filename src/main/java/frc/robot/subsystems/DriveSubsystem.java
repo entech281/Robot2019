@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import frc.robot.DriveCommand;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
@@ -34,7 +36,7 @@ public class DriveSubsystem extends BaseSubsystem {
     m_robotDrive.driveCartesian(0.0, 0.0, 0.0, 0.0);
   }
 
-  public void drive(double x, double y, double z, double angle){
-    m_robotDrive.driveCartesian(x, y, z, angle);
+  public void drive(DriveCommand dc) {
+    m_robotDrive.driveCartesian(dc.getX(), dc.getY(), dc.getZ(), dc.getFieldAngle());
   }
 }
