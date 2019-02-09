@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,10 +23,12 @@ import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.commands.ToggleFieldAbsoluteCommand;
+import frc.robot.navigation.NavigationManager;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
 
