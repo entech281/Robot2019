@@ -20,6 +20,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
+import frc.robot.RobotMap;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -73,7 +74,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    compressor = new Compressor(10);
+    compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
     robotDrive = new DriveSubsystem();

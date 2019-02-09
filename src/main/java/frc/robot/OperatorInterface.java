@@ -7,6 +7,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
+import frc.robot.RobotMap;
 import frc.robot.drive.DriveInput;
 
 import frc.robot.commands.ExtendCommand;
@@ -23,22 +25,6 @@ import frc.robot.commands.ThumbsUp;
  * @author dcowden
  */
 public class OperatorInterface {
-
-    public interface Joystick_0 {
-        public int ID = 0;
-        public interface Button {
-            public int SHOOT = 11;
-            public int RETRACT = 12;
-            public int GRAB_IN = 8;
-            public int GRAB_OUT = 10;
-            public int THUMB_UP = 7;
-            public int THUMB_DOWN = 9;
-            public int FIELD_ABSOLUTE = 6;
-            public int ALLOW_TURN = 1;
-            public int NUDGE_LEFT = 2;
-            public int NUDGE_RIGHT = 3;
-        }
-    }    
     
     private Robot m_robot;
     private Joystick driveStick;
@@ -73,24 +59,24 @@ public class OperatorInterface {
     }
     
     protected void createButtons() {
-        driveStick = new Joystick(Joystick_0.ID);
+        driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
 
-        shootButton = new JoystickButton(driveStick, Joystick_0.Button.SHOOT);
-        retractButton = new JoystickButton(driveStick, Joystick_0.Button.RETRACT);
+        shootButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.SHOOT);
+        retractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.RETRACT);
 
         // Grabber Subsystem
-        grabInButton = new JoystickButton(driveStick, Joystick_0.Button.GRAB_IN);
-        grabOutButton = new JoystickButton(driveStick, Joystick_0.Button.GRAB_OUT);
+        grabInButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.GRAB_IN);
+        grabOutButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.GRAB_OUT);
 
         // Thumbs Subsystem
-        thumbsUpButton = new JoystickButton(driveStick, Joystick_0.Button.THUMB_UP);
-        thumbsDownButton = new JoystickButton(driveStick,Joystick_0.Button.THUMB_DOWN);       
+        thumbsUpButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.THUMB_UP);
+        thumbsDownButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.THUMB_DOWN);       
         
-        fieldAbsoluteButton = new JoystickButton(driveStick,Joystick_0.Button.FIELD_ABSOLUTE);  
-        turnButton = new JoystickButton(driveStick,Joystick_0.Button.ALLOW_TURN);
+        fieldAbsoluteButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
+        turnButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.ALLOW_TURN);
         
-        nudgeLeftButton = new JoystickButton(driveStick,Joystick_0.Button.NUDGE_LEFT);   
-        nudgeRightButton = new JoystickButton(driveStick,Joystick_0.Button.NUDGE_RIGHT); 
+        nudgeLeftButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
+        nudgeRightButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.NUDGE_RIGHT); 
       
     }
     
