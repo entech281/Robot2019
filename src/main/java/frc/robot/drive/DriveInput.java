@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.drive;
 
 /**
  * Add your docs here.
  */
-public class DriveCommand {
+public class DriveInput {
   double x,y,z;
   double field_angle, field_x, field_y;
   
-  public DriveCommand(double x, double y, double z) {
+  public DriveInput(double x, double y, double z) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -23,7 +23,7 @@ public class DriveCommand {
     this.field_y = 0.0;
   }
 
-  public DriveCommand(double x, double y, double z, double angle) {
+  public DriveInput(double x, double y, double z, double angle) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -32,7 +32,7 @@ public class DriveCommand {
     this.field_y = 0.0;
   }
 
-  public DriveCommand(double x, double y, double z, double angle, double fieldX, double fieldY) {
+  public DriveInput(double x, double y, double z, double angle, double fieldX, double fieldY) {
     this.x = x;
     this.y = y;
     this.z = z;

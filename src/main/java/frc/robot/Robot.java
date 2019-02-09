@@ -29,6 +29,7 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.drive.DriveInput;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -124,9 +125,9 @@ public class Robot extends TimedRobot {
       angle = navX.getAngle();
     }
 
-    DriveCommand dc =  new DriveCommand(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
+    DriveInput di =  new DriveInput(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
     
-    robotDrive.drive(dc);
+    robotDrive.drive(di);
     Scheduler.getInstance().run();
 
     SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
