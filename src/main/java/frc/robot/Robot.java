@@ -28,7 +28,7 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-
+import frc.robot.subsystems.SensorSubsystem;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -44,12 +44,12 @@ public class Robot extends TimedRobot {
   private final NavigationManager navigation = new NavigationManager();
 
   private Compressor compressor;
-  DriveSubsystem robotDrive = new DriveSubsystem();
+  //DriveSubsystem robotDrive = new DriveSubsystem();
   ShooterSubsystem shooter = new ShooterSubsystem();
   ThumbsSubsystem thumbs = new ThumbsSubsystem();
   GrabberSubsystem grabber = new GrabberSubsystem();
   VisionSubsystem vision = new VisionSubsystem(navigation);
-  
+  SensorSubsystem sensors = new SensorSubsystem(navigation);
 
    boolean inFieldAbsolute = false;
 
@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
     shooter.initialize();
     grabber.initialize();
     vision.initialize();
-    
+    sensors.initialize();
     
     CameraServer.getInstance().startAutomaticCapture();
 
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
           SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
           SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
           SmartDashboard.putNumber("RobotPose", navigation.getEstimatedRobotPose().getDistanceToTarget());
-
+          
           double z = 0.0;
           if (turnButton.get()) {
             z = m_driveStick.getZ();
@@ -124,10 +124,10 @@ public class Robot extends TimedRobot {
             angle = navX.getAngle();
           }
 
-          robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
+          //robotDrive.drive(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
           Scheduler.getInstance().run();
           SmartDashboard.putNumber("Get Z", m_driveStick.getZ());
-
+          
           SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
 
           SmartDashboard.putData(thumbs);

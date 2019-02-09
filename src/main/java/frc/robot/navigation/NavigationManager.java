@@ -38,7 +38,12 @@ public class NavigationManager implements Navigation{
         currentPose.setDistanceToTarget(targetDistance);
     }
     
-    public void acceptSensorPoseUpdate(double lateralOffset){
+    public void acceptSensorPoseUpdate(double  lateralOffset){
+        //probably only lateral direction. 
+        //but we trust this a LOT when we have it
+    }
+
+    public void acceptSensorPoseUpdate(byte[] lateralOffset){
         //probably only lateral direction. 
         //but we trust this a LOT when we have it
     }
