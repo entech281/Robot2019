@@ -9,17 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.BaseSubsystem;
-import frc.robot.navigation.NavigationManager;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
 
@@ -76,6 +73,7 @@ public class Robot extends TimedRobot {
 
     robotDrive = new DriveSubsystem();
     shooter = new ShooterSubsystem();
+    navX = new NavXSubsystem();
     thumbs = new ThumbsSubsystem();
     grabber = new GrabberSubsystem();
 

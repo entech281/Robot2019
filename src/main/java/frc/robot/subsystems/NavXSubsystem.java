@@ -17,18 +17,13 @@ import frc.robot.drive.GetDriveInput;
  */
 public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
 
-    private static AHRS navX = null;
+    private final AHRS navX = new AHRS(SPI.Port.kMXP);
     
     public NavXSubsystem() {
     }
 
     @Override
     public void initialize() {
-        try {
-            navX = new AHRS(SPI.Port.kMXP);
-        } catch (Exception e) {
-            navX = null;
-        }
     }
     
     @Override

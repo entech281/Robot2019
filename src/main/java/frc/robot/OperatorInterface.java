@@ -43,10 +43,10 @@ public class OperatorInterface implements GetDriveInput {
     
     
     //drive related buttons
-    private JoystickButton turnButton;
-    private JoystickButton fieldAbsoluteButton;
-    private JoystickButton nudgeLeftButton;
-    private JoystickButton nudgeRightButton;
+    //private JoystickButton turnButton;
+    //private JoystickButton fieldAbsoluteButton;
+    //private JoystickButton nudgeLeftButton;
+    //private JoystickButton nudgeRightButton;
       
     public OperatorInterface(Robot robot){
         this.m_robot = robot;
@@ -73,11 +73,11 @@ public class OperatorInterface implements GetDriveInput {
         thumbsUpButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.THUMB_UP);
         thumbsDownButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.THUMB_DOWN);       
         
-        fieldAbsoluteButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
-        turnButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.ALLOW_TURN);
+        //fieldAbsoluteButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
+        //turnButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.ALLOW_TURN);
         
-        nudgeLeftButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
-        nudgeRightButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.NUDGE_RIGHT); 
+        //nudgeLeftButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
+        //nudgeRightButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.NUDGE_RIGHT); 
       
     }
     
