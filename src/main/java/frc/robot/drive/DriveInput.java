@@ -13,7 +13,8 @@ package frc.robot.drive;
 public class DriveInput {
   private boolean valid = false;
   private double x,y,z;
-  private double field_angle, field_x, field_y;
+  private double fieldAngle;
+  private double targetX, targetY;
   
   public DriveInput() {
     this.valid = false;
@@ -23,9 +24,9 @@ public class DriveInput {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.field_angle = 0.0;    
-    this.field_x = 0.0;
-    this.field_y = 0.0;
+    this.fieldAngle = 0.0;    
+    this.targetX = 0.0;
+    this.targetY = 0.0;
     this.valid = true;
   }
 
@@ -33,9 +34,9 @@ public class DriveInput {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.field_angle = angle;    
-    this.field_x = 0.0;
-    this.field_y = 0.0;
+    this.fieldAngle = angle;    
+    this.targetX = 0.0;
+    this.targetY = 0.0;
     this.valid = true;
   }
 
@@ -43,9 +44,9 @@ public class DriveInput {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.field_angle = angle;    
-    this.field_x = fieldX;
-    this.field_y = fieldY;
+    this.fieldAngle = angle;    
+    this.targetX = fieldX;
+    this.targetY = fieldY;
     this.valid = true;
   }
 
@@ -66,29 +67,29 @@ public class DriveInput {
   }
 
   public void setFieldAngle(double angle) {
-    this.field_angle = angle;
+    this.fieldAngle = angle;
     this.valid = true;
   }
 
-  public void setFieldX(double x) {
-    this.field_x = x;
+  public void setTargetX(double x) {
+    this.targetX = x;
     this.valid = true;
   }
 
-  public void setFieldY(double y) {
-    this.field_y = y;
+  public void setTargetY(double y) {
+    this.targetY = y;
     this.valid = true;
   }
 
   public double getFieldAngle() {
-    return field_angle;
+    return fieldAngle;
   }
 
-  public double getFieldX() {
-    return field_x;
+  public double getTargetX() {
+    return targetX;
   }
 
-  public double getFieldY() {
-    return field_y;
+  public double getTargetY() {
+    return targetY;
   }
 }

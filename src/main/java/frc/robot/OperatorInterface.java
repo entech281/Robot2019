@@ -27,7 +27,7 @@ import frc.robot.commands.ThumbsUp;
  */
 public class OperatorInterface implements GetDriveInput {
     
-    private Robot m_robot;
+    private Robot robot;
     private Joystick driveStick;
     
     private JoystickButton shootButton ;
@@ -49,7 +49,7 @@ public class OperatorInterface implements GetDriveInput {
     //private JoystickButton nudgeRightButton;
       
     public OperatorInterface(Robot robot){
-        this.m_robot = robot;
+        this.robot = robot;
         createButtons();
         createCommands();
     }
@@ -83,17 +83,17 @@ public class OperatorInterface implements GetDriveInput {
     
     protected void createCommands() {
         
-        shootButton.whenPressed(new ExtendCommand(m_robot.getShooterSubsystem()));
-        retractButton.whenPressed(new RetractCommand(m_robot.getShooterSubsystem()));
+        shootButton.whenPressed(new ExtendCommand(this.robot.getShooterSubsystem()));
+        retractButton.whenPressed(new RetractCommand(this.robot.getShooterSubsystem()));
 
         // Grabber Subsystem
-        grabInButton.whenPressed(new GrabberIn(m_robot.getGrabberSubsystem()));
-        grabOutButton.whenPressed(new GrabberOut(m_robot.getGrabberSubsystem()));
+        grabInButton.whenPressed(new GrabberIn(this.robot.getGrabberSubsystem()));
+        grabOutButton.whenPressed(new GrabberOut(this.robot.getGrabberSubsystem()));
         
         // Thumbs Subsystem
-        thumbsUpButton.whileHeld(new ThumbsUp(m_robot.getThumbsSubsystem()));
-        thumbsUpButton.whenReleased(new ThumbsStop(m_robot.getThumbsSubsystem()));
-        thumbsDownButton.whileHeld(new ThumbsDown(m_robot.getThumbsSubsystem()));
-        thumbsDownButton.whenReleased(new ThumbsStop(m_robot.getThumbsSubsystem()));        
+        thumbsUpButton.whileHeld(new ThumbsUp(this.robot.getThumbsSubsystem()));
+        thumbsUpButton.whenReleased(new ThumbsStop(this.robot.getThumbsSubsystem()));
+        thumbsDownButton.whileHeld(new ThumbsDown(this.robot.getThumbsSubsystem()));
+        thumbsDownButton.whenReleased(new ThumbsStop(this.robot.getThumbsSubsystem()));        
     } 
 }

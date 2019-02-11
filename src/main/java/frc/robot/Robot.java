@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 
   private boolean inFieldAbsolute = false;
 
-  private OperatorInterface m_oi;
+  private OperatorInterface oi;
 
   public void toggleFieldAbsolute() {
     inFieldAbsolute = !inFieldAbsolute;
@@ -79,14 +79,14 @@ public class Robot extends TimedRobot {
 
     BaseSubsystem.initializeList();
 
-    m_oi = new OperatorInterface(this);
+    this.oi = new OperatorInterface(this);
 
     CameraServer.getInstance().startAutomaticCapture();
   }
 
   public void teleopPeriodic(){
 
-    DriveInput di = mergeOIandNavDriveInput(m_oi.getDriveInput(), navX.getDriveInput());
+    DriveInput di = mergeOIandNavDriveInput(this.oi.getDriveInput(), navX.getDriveInput());
     robotDrive.drive(di);
     SmartDashboard.putNumber("Joystick X", di.getX());
     SmartDashboard.putNumber("Joystick Y", di.getY());
