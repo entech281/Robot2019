@@ -8,29 +8,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExtendCommand;
-import frc.robot.commands.GrabberIn;
-import frc.robot.commands.GrabberOut;
-import frc.robot.commands.RetractCommand;
-import frc.robot.commands.ThumbsDown;
-import frc.robot.commands.ThumbsStop;
-import frc.robot.commands.ThumbsUp;
 import frc.robot.subsystems.BaseSubsystem;
-import frc.robot.commands.ToggleFieldAbsoluteCommand;
-import frc.robot.navigation.NavigationManager;
+import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
-
-import com.kauailabs.navx.frc.AHRS;
+import frc.robot.drive.DriveInput;
+import frc.robot.RobotMap;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -45,90 +33,72 @@ public class Robot extends TimedRobot {
   private Compressor compressor;
 
   private DriveSubsystem robotDrive;
+  private NavXSubsystem navX;
   private ShooterSubsystem shooter;
   private ThumbsSubsystem thumbs;
   private GrabberSubsystem grabber;
 
-   boolean inFieldAbsolute = false;
+  private boolean inFieldAbsolute = false;
 
-   private AHRS navX = new AHRS(SPI.Port.kMXP);
-
-  //Define joystick being used at USB port 1 on the Driver Station
-  Joystick m_driveStick = new Joystick(0);
-  JoystickButton turnButton = new JoystickButton(m_driveStick, 1);
+  private OperatorInterface oi;
 
   public void toggleFieldAbsolute() {
     inFieldAbsolute = !inFieldAbsolute;
   }
 
+  public DriveSubsystem getDriveSubsystem() {
+    return robotDrive;
+  }
+
+  public GrabberSubsystem getGrabberSubsystem() {
+    return grabber;
+  }
+
+  public NavXSubsystem getNavXSubsystem() {
+    return navX;
+  }
+
+  public ShooterSubsystem getShooterSubsystem() {
+    return shooter;
+  }
+
+  public ThumbsSubsystem getThumbsSubsystem() {
+    return thumbs;
+  }
+
   @Override
   public void robotInit() {
-    compressor = new Compressor(10);
+    compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
     robotDrive = new DriveSubsystem();
     shooter = new ShooterSubsystem();
+    navX = new NavXSubsystem();
     thumbs = new ThumbsSubsystem();
     grabber = new GrabberSubsystem();
 
     BaseSubsystem.initializeList();
 
+    this.oi = new OperatorInterface(this);
+
     CameraServer.getInstance().startAutomaticCapture();
-
-    // Shooter Subsystem
-    JoystickButton shootButton = new JoystickButton(m_driveStick, 11);
-    JoystickButton retractButton = new JoystickButton(m_driveStick, 12);
-
-    // Grabber Subsystem
-    JoystickButton grabInButton = new JoystickButton(m_driveStick, 8);
-    JoystickButton grabOutButton = new JoystickButton(m_driveStick, 10);
-
-    // Thumbs Subsystem
-    JoystickButton thumbsUpButton = new JoystickButton(m_driveStick, 7);
-    JoystickButton thumbsDownButton = new JoystickButton(m_driveStick, 9);
-
-    // Shooter Subsystem
-    shootButton.whenPressed(new ExtendCommand(shooter));
-    retractButton.whenPressed(new RetractCommand(shooter));
-
-    // Grabber Subsystem
-    grabInButton.whenPressed(new GrabberIn(grabber));
-    grabOutButton.whenPressed(new GrabberOut(grabber));
-    
-    // Thumbs Subsystem
-    thumbsUpButton.whileHeld(new ThumbsUp(thumbs));
-    thumbsUpButton.whenReleased(new ThumbsStop(thumbs));
-    thumbsDownButton.whileHeld(new ThumbsDown(thumbs));
-    thumbsDownButton.whenReleased(new ThumbsStop(thumbs));
-
-    // Field Absolute
-    JoystickButton toggleFieldAbsoluteButton = new JoystickButton(m_driveStick, 6);
-    
-    // Field Absolute
-    toggleFieldAbsoluteButton.whenPressed(new ToggleFieldAbsoluteCommand(this));
   }
 
   public void teleopPeriodic(){
-    SmartDashboard.putNumber("Joystick X", m_driveStick.getX());
-    SmartDashboard.putNumber("Joystick Y", m_driveStick.getY());
-    SmartDashboard.putNumber("Joystick Z", m_driveStick.getZ());
-    SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
 
-    double z = 0.0;
-    if (turnButton.get()) {
-      z = m_driveStick.getZ();
-    }
+    DriveInput di = mergeOIandNavDriveInput(this.oi.getDriveInput(), navX.getDriveInput());
+    robotDrive.drive(di);
+    SmartDashboard.putNumber("Joystick X", di.getX());
+    SmartDashboard.putNumber("Joystick Y", di.getY());
+    SmartDashboard.putNumber("Joystick Z", di.getZ());
+    SmartDashboard.putNumber("Gyro Angle", di.getFieldAngle());
 
-    double angle = 0.0;
-    if (inFieldAbsolute) {
-      angle = navX.getAngle();
-    }
-
-    DriveCommand dc =  new DriveCommand(m_driveStick.getX(), -m_driveStick.getY(), z, angle);
-    
-    robotDrive.drive(dc);
     Scheduler.getInstance().run();
 
     SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
+  }
+
+  private DriveInput mergeOIandNavDriveInput(DriveInput oi_di, DriveInput nav_di) {
+    return new DriveInput(oi_di.getX(), oi_di.getY(), oi_di.getZ(), nav_di.getFieldAngle());
   }
 }
