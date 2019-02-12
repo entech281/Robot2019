@@ -26,7 +26,9 @@ public class SensorSubsystem extends BaseSubsystem {
         }
         
         SmartDashboard.putString("Does this Work", "Yes");
-        SmartDashboard.putRaw("Arduino Values", new byte[]{3});
+        SmartDashboard.putNumber("Zero As a cast from byte",(double) (byte) 0);
+        SmartDashboard.putNumber("One As a cast from byte",(double) (byte) 1);
+        SmartDashboard.putNumber("Arduino Value",(double) b[0]);
         
     }
 
