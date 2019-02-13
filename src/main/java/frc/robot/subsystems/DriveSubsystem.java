@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.drive.DriveInput;
+import frc.robot.drive.NudgeLeftFilter;
+import frc.robot.drive.NudgeRightFilter;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -24,7 +26,10 @@ public class DriveSubsystem extends BaseSubsystem {
   private WPI_TalonSRX m_frontRight = new WPI_TalonSRX(RobotMap.CAN.FRONT_RIGHT_MOTOR);	
   private WPI_TalonSRX m_rearRight  = new WPI_TalonSRX(RobotMap.CAN.REAR_RIGHT_MOTOR);
   private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
-    
+  
+  private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
+  private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
+
   @Override
   public void initialize() {
     m_frontLeft.setInverted(true);
@@ -33,5 +38,25 @@ public class DriveSubsystem extends BaseSubsystem {
 
   public void drive(DriveInput di) {
     m_robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), di.getFieldAngle());
+  }
+
+  public DriveInput applyActiveFilters(DriveInput di) {
+    // Add filters in here, be mindful of order!
+
+    // Override filters go last
+    di = nudgeRightFilter.filter(di);
+    di = nudgeLeftFilter.filter(di);
+
+    return di;
+  }
+
+  public void nudgeRight() {
+    nudgeRightFilter.enable();
+    nudgeLeftFilter.disable();
+  }
+
+  public void nudgeLeft() {
+    nudgeLeftFilter.enable();
+    nudgeRightFilter.disable();
   }
 }

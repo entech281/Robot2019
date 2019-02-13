@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.Timer;
  * Override the drive input to a joystick right
  * @author mandrews
  */
-public class NudgeRightFilter extends DriveFilter {
+public class NudgeLeftFilter extends DriveFilter {
     private Timer m_timer = new Timer();
     static private double nudgeTime = 0.1;
     static private double nudgePower = 0.5;
 
-    public NudgeRightFilter() {
+    public NudgeLeftFilter() {
         super(false);
     }
 
@@ -35,6 +35,6 @@ public class NudgeRightFilter extends DriveFilter {
             disable();
             return input;
         }
-        return new DriveInput(0.0, -nudgePower, 0.0, 0.0, 0.0, 0.0);
+        return new DriveInput(0.0, nudgePower, 0.0, 0.0, 0.0, 0.0);
     }
 }
