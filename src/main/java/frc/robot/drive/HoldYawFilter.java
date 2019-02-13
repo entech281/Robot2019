@@ -36,10 +36,6 @@ public class HoldYawFilter extends DriveFilter implements PIDSource,PIDOutput {
     yaw_pid.enable();
   }
 
-  public void setRobotYaw(double angle) {
-    yaw_pid.setSetpoint(angle);
-  }
-
   @Override
   public void onEnable() {
     if (isEnabled()) {
@@ -56,7 +52,7 @@ public class HoldYawFilter extends DriveFilter implements PIDSource,PIDOutput {
 
   @Override
   public PIDSourceType getPIDSourceType() {
-    return PIDSourceType.kRate;
+    return pidSourceType;
   }
 
   @Override
@@ -74,8 +70,12 @@ public class HoldYawFilter extends DriveFilter implements PIDSource,PIDOutput {
     this.pid_twist = pid_out;
   }
 
-    // Put methods for controlling this subsystem
+   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  public void setRobotYaw(double angle) {
+    yaw_pid.setSetpoint(angle);
+  }
+
   @Override
   public DriveInput doFilter(DriveInput input) {
     return new DriveInput(input.getX(), input.getY(), this.pid_twist, input.getFieldAngle(), input.getTargetX(), input.getTargetY());
