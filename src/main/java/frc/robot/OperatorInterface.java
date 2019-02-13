@@ -21,6 +21,8 @@ import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
+import frc.robot.commands.TwistOff;
+import frc.robot.commands.TwistOn;
 
 /**
  * Has all the code for operator controls
@@ -46,6 +48,9 @@ public class OperatorInterface implements GetDriveInput {
     // Nudge Commands
     private JoystickButton nudgeLeftButton;
     private JoystickButton nudgeRightButton;
+
+    // Twist Commands
+    private JoystickButton twistButton;
 
     //drive related buttons
     //private JoystickButton turnButton;
@@ -76,13 +81,16 @@ public class OperatorInterface implements GetDriveInput {
         // Thumbs Subsystem
         thumbsUpButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.THUMB_UP);
         thumbsDownButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.THUMB_DOWN);       
-        
-        //fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
-        //turnButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TURN);
-        
+         
         // Nudge Commands
         nudgeLeftButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
-        nudgeRightButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_RIGHT); 
+        nudgeRightButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_RIGHT);
+
+        // Twist Commands
+        twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
+
+        //fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
+        //turnButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TURN);
     }
     
     protected void createCommands() {
@@ -104,5 +112,9 @@ public class OperatorInterface implements GetDriveInput {
         // Nudge Commands
         nudgeRightButton.whenPressed(new NudgeRight(this.robot.getDriveSubsystem()));
         nudgeLeftButton.whenPressed(new NudgeLeft(this.robot.getDriveSubsystem()));
+
+        // Twist Commands
+        twistButton.whenPressed(new TwistOn(this.robot.getDriveSubsystem()));
+        twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
     } 
 }

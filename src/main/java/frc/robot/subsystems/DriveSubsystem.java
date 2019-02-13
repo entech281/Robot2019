@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.NudgeLeftFilter;
 import frc.robot.drive.NudgeRightFilter;
+import frc.robot.drive.TwistFilter;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -27,6 +28,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private WPI_TalonSRX m_rearRight  = new WPI_TalonSRX(RobotMap.CAN.REAR_RIGHT_MOTOR);
   private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
   
+  private TwistFilter twistFilter = new TwistFilter();
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
 
@@ -42,12 +44,23 @@ public class DriveSubsystem extends BaseSubsystem {
 
   public DriveInput applyActiveFilters(DriveInput di) {
     // Add filters in here, be mindful of order!
+    di = twistFilter.filter(di);
 
     // Override filters go last
     di = nudgeRightFilter.filter(di);
     di = nudgeLeftFilter.filter(di);
 
     return di;
+  }
+
+  public void twistOn(boolean enabled) {
+    // THIS IS NOT BACKWARDS
+    // The twist filter turns off the twist
+    if ( enabled ) {
+      twistFilter.disable();
+    } else {
+      twistFilter.enable();
+    }
   }
 
   public void nudgeRight() {
