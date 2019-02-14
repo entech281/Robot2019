@@ -32,7 +32,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     @Override
     public DriveInput getDriveInput() {
         double distanceFromTarget = distance.getDouble(UNKNOWN);
-        double lateralDistance = distance.getDouble(UNKNOWN);
+        double lateralDistance = lateral.getDouble(UNKNOWN);
         driveInput.setTargetX(lateralDistance);
         driveInput.setTargetY(distanceFromTarget);
         return null;
