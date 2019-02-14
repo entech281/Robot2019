@@ -2,7 +2,8 @@ package frc.robot.navigation;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.navigation.RobotPose;;
+import frc.robot.navigation.RobotPose;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Responsible for tracking the robot's pose during a match. No unit testable
@@ -41,11 +42,7 @@ public class NavigationManager implements Navigation{
     public void acceptSensorPoseUpdate(double  lateralOffset){
         //probably only lateral direction. 
         //but we trust this a LOT when we have it
-    }
-
-    public void acceptSensorPoseUpdate(byte[] lateralOffset){
-        //probably only lateral direction. 
-        //but we trust this a LOT when we have it
+        SmartDashboard.putNumber("Distance from center.", lateralOffset);
     }
     
     public void acceptNavXPoseUpdate(double robotAngle){

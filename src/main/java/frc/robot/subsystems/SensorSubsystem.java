@@ -1,16 +1,14 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.navigation.NavigationManager;
 
-public class SensorSubsystem extends BaseSubsystem {
+public class SensorSubsystem extends BaseSubsystem implements  {
 
-    private NavigationManager navigation;
+    final private double INSIDE_SENSOR_WIDTH = 1.6;
+    final private double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.8;
     private I2C i2c;
 
-    public SensorSubsystem(NavigationManager navigationManager) {
-        this.navigation = navigationManager;
-    }
+    public SensorSubsystem() {}
 
     @Override                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     public void initialize(){
@@ -19,17 +17,34 @@ public class SensorSubsystem extends BaseSubsystem {
 
     @Override
     public void periodic(){
+
         byte[] b = new byte[1];
-        b[0]=0;
-        if (i2c.readOnly(b, 1)){
-            navigation.acceptSensorPoseUpdate( b );
+        b[0] = 0;
+        i2c.readOnly(b, 1);
+        double offset = 17.3;
+            
+        
+        
+        switch(b[0]){
+            case 1:  offset = - 2 * INSIDE_SENSOR_WIDTH - DISTANCE_BETWEEN_OUT_AND_IN_SENSORS ; break;
+            case 2:  offset = - 2 * INSIDE_SENSOR_WIDTH ; break;
+            case 4:  offset = -INSIDE_SENSOR_WIDTH ; break;
+            case 8:  offset = 0.0 ; break;
+            case 16: offset = INSIDE_SENSOR_WIDTH ; break;
+            case 32: offset = 2 * INSIDE_SENSOR_WIDTH; break;
+            case 64: offset = 2 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS ; break;
+
+            //two sensors on
+            case 3: offset =  - (4 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS) / 2 ; break;
+            case 6:  offset = - 3 * INSIDE_SENSOR_WIDTH / 2 ; break;
+            case 12: offset = -INSIDE_SENSOR_WIDTH / 2 ; break;
+            case 24: offset = INSIDE_SENSOR_WIDTH / 2 ; break;
+            case 48: offset = 3 * INSIDE_SENSOR_WIDTH / 2 ; break;
+            case 96: offset = (4 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS) / 2 ; break;
         }
         
-        SmartDashboard.putString("Does this Work", "Yes");
-        SmartDashboard.putNumber("Zero As a cast from byte",(double) (byte) 0);
-        SmartDashboard.putNumber("One As a cast from byte",(double) (byte) 1);
-        SmartDashboard.putNumber("Arduino Value",(double) b[0]);
-        
+        SmartDashboard.putNumber("Arduino Value", offset);
+        SmartDashboard.putNumber("Byte Value", b[0]);
     }
 
 }
