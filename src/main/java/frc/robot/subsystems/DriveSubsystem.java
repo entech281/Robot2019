@@ -36,6 +36,8 @@ public class DriveSubsystem extends BaseSubsystem {
   public void initialize() {
     m_frontLeft.setInverted(true);
     m_rearLeft.setInverted(true);
+    m_frontRight.setInverted(true);
+    m_rearRight.setInverted(true);
   }
 
   public void drive(DriveInput di) {
