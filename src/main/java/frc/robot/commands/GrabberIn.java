@@ -12,6 +12,8 @@ import frc.robot.subsystems.GrabberSubsystem;
 
 public class GrabberIn extends Command {
   private GrabberSubsystem grabber;
+  private int counter = 0;
+
   public GrabberIn(GrabberSubsystem grabber) {
     this.grabber=grabber;
     requires(grabber);
@@ -27,12 +29,17 @@ public class GrabberIn extends Command {
   @Override
   protected void execute() {
     grabber.retract();
+    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if ( counter > 10 ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true

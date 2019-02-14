@@ -12,6 +12,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class RetractCommand extends Command {
   private ShooterSubsystem shooter;
+  private int counter = 0;
+
   public RetractCommand(ShooterSubsystem shooter) {
     this.shooter=shooter;
     requires(shooter);
@@ -27,12 +29,17 @@ public class RetractCommand extends Command {
   @Override
   protected void execute() {
     shooter.retract();
+    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if ( counter > 10 ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true

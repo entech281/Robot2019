@@ -8,38 +8,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
-public class GrabberOut extends Command {
-  private GrabberSubsystem grabber;
-  private int counter = 0;
+public class TwistOff extends Command {
+  private DriveSubsystem drive;
 
-  public GrabberOut(GrabberSubsystem grabber) {
-    this.grabber=grabber;
-    requires(grabber);
+  public TwistOff(DriveSubsystem drive) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    this.drive = drive;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    grabber.extend();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    grabber.extend();
-    counter++;
+    drive.twistOn(false);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 10 ) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -51,6 +45,5 @@ public class GrabberOut extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }
