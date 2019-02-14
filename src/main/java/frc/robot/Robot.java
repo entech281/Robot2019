@@ -52,6 +52,10 @@ public class Robot extends TimedRobot {
     return robotDrive;
   }
 
+  public SensorSubsystem getSensorSubsystem(){
+    return sensors;
+  }
+
   public GrabberSubsystem getGrabberSubsystem() {
     return grabber;
   }

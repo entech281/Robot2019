@@ -6,8 +6,8 @@ import frc.robot.drive.GetDriveInput;
 public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
     private double current_offset;
 
-    final private double INSIDE_SENSOR_WIDTH = 1.6;
-    final private double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.8;
+    final private static double INSIDE_SENSOR_WIDTH = 1.6;
+    final private static double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.8;
     private I2C i2c;
 
     public SensorSubsystem() {}
@@ -23,7 +23,7 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
         byte[] b = new byte[1];
         b[0] = 0;
         i2c.readOnly(b, 1);
-        current_offset = 17.3;
+        
             
         
         
@@ -43,6 +43,7 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
             case 24: current_offset = INSIDE_SENSOR_WIDTH / 2 ; break;
             case 48: current_offset = 3 * INSIDE_SENSOR_WIDTH / 2 ; break;
             case 96: current_offset = (4 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS) / 2 ; break;
+            default: current_offset = 17.3;
         }
         
         SmartDashboard.putNumber("Arduino Value", current_offset);
