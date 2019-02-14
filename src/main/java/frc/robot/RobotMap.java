@@ -16,10 +16,10 @@ package frc.robot;
 public class RobotMap {
 
   public interface CAN {
-    public static final int FRONT_LEFT_MOTOR = 14;
-    public static final int FRONT_RIGHT_MOTOR = 2;
-    public static final int REAR_LEFT_MOTOR = 8;
-    public static final int REAR_RIGHT_MOTOR = 16;
+    public static final int FRONT_LEFT_MOTOR = 2;
+    public static final int FRONT_RIGHT_MOTOR = 16;
+    public static final int REAR_LEFT_MOTOR = 14;
+    public static final int REAR_RIGHT_MOTOR = 8;
     public static final int CLIMB = 7;
     public static final int PCM_ID = 10;
   }
@@ -27,7 +27,7 @@ public class RobotMap {
   public interface DriveJoystick {
     public static final int PORT = 0;
     public interface Button {
-      public static final int ALLOW_TURN = 1;
+      public static final int ALLOW_TWIST = 1;
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
       public static final int FIELD_ABSOLUTE = 6;
