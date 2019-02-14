@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ToggleFieldAbsoluteCommand extends Command {
   Robot robot;
+  
   public ToggleFieldAbsoluteCommand(Robot robot) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -28,7 +29,6 @@ public class ToggleFieldAbsoluteCommand extends Command {
   @Override
   protected void execute() {
     this.robot.toggleFieldAbsolute();
-
   }
 
   // Make this return true when this Command no longer needs to run execute()

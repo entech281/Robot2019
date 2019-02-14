@@ -21,6 +21,7 @@ import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
+import frc.robot.commands.ToggleFieldAbsoluteCommand;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
 
@@ -54,7 +55,9 @@ public class OperatorInterface implements GetDriveInput {
 
     //drive related buttons
     //private JoystickButton turnButton;
-    //private JoystickButton fieldAbsoluteButton;
+
+    // Field Absolute Toggle
+    private JoystickButton fieldAbsoluteButton;
       
     public OperatorInterface(Robot robot){
         this.robot = robot;
@@ -89,8 +92,10 @@ public class OperatorInterface implements GetDriveInput {
         // Twist Commands
         twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
 
-        //fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
         //turnButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TURN);
+
+        // Field Absolute Toggle
+        fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
     }
     
     protected void createCommands() {
@@ -116,5 +121,8 @@ public class OperatorInterface implements GetDriveInput {
         // Twist Commands
         twistButton.whenPressed(new TwistOn(this.robot.getDriveSubsystem()));
         twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
+
+        // Field Absolute Toggle
+        fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsoluteCommand(robot));
     } 
 }
