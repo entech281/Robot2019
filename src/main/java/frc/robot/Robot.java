@@ -90,17 +90,16 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic(){
-
     DriveInput di = mergeOIandNavDriveInput(this.oi.getDriveInput(), navX.getDriveInput());
+    di = robotDrive.applyActiveFilters(di);
     robotDrive.drive(di);
+
     SmartDashboard.putNumber("Joystick X", di.getX());
     SmartDashboard.putNumber("Joystick Y", di.getY());
     SmartDashboard.putNumber("Joystick Z", di.getZ());
     SmartDashboard.putNumber("Gyro Angle", di.getFieldAngle());
 
     Scheduler.getInstance().run();
-
-    SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
   }
 
   private DriveInput mergeOIandNavDriveInput(DriveInput oi_di, DriveInput nav_di) {

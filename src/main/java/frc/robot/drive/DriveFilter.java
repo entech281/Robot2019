@@ -29,7 +29,7 @@ public abstract class DriveFilter {
         return this.enabled;
     }
     public DriveInput filter(DriveInput input){
-        if ( this.enabled){
+        if ( this.enabled ) {
             return doFilter(input);
         }
         else{

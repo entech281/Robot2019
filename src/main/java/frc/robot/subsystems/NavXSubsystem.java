@@ -6,6 +6,9 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveInput;
@@ -15,8 +18,9 @@ import frc.robot.drive.GetDriveInput;
  *
  * @author dcowden
  */
-public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
+public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSource {
 
+    private PIDSourceType pidSourceType = PIDSourceType.kRate;
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
     
     public NavXSubsystem() {
@@ -49,4 +53,20 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
             SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
         }
     }    
+ 
+    @Override
+    public PIDSourceType getPIDSourceType() {
+      return pidSourceType;
+    }
+  
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+      pidSourceType = pidSource;
+    }
+  
+    @Override
+    public double pidGet() {
+      return navX.getAngle();
+    }
+     
 }
