@@ -8,27 +8,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 
-public class GrabberIn extends Command {
-  private GrabberSubsystem grabber;
+public class Retract extends Command {
+  private HatchSubsystem hatch;
   private int counter = 0;
 
-  public GrabberIn(GrabberSubsystem grabber) {
-    this.grabber=grabber;
-    requires(grabber);
+  public Retract(HatchSubsystem hatch) {
+    this.hatch=hatch;
+    requires(hatch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    grabber.retract();
+    hatch.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    grabber.retract();
+    hatch.retract();
     counter++;
   }
 

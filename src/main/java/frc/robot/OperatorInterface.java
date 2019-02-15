@@ -11,12 +11,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
-
+import frc.robot.commands.Extend;
 import frc.robot.commands.ExtendCommand;
-import frc.robot.commands.GrabberIn;
-import frc.robot.commands.GrabberOut;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
+import frc.robot.commands.Retract;
 import frc.robot.commands.RetractCommand;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
@@ -35,12 +34,13 @@ public class OperatorInterface implements GetDriveInput {
     private Robot robot;
     private Joystick driveStick;
     
+    // Arms Subsystem
     private JoystickButton shootButton ;
     private JoystickButton retractButton;
 
-    // Grabber Subsystem
-    private JoystickButton grabInButton;
-    private JoystickButton grabOutButton;
+    // Hatch Subsystem
+    private JoystickButton hatchExtendButton;
+    private JoystickButton hatchRetractButton;
 
     // Thumbs Subsystem
     private JoystickButton thumbsUpButton;
@@ -73,13 +73,13 @@ public class OperatorInterface implements GetDriveInput {
     protected void createButtons() {
         driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
 
-        // Shooter Subsystem
+        // Arms Subsystem
         shootButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.SHOOT);
         retractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.RETRACT);
 
-        // Grabber Subsystem
-        grabInButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.GRAB_IN);
-        grabOutButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.GRAB_OUT);
+        // Hatch Subsystem
+        hatchRetractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_RETRACT);
+        hatchExtendButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_EXTEND);
 
         // Thumbs Subsystem
         thumbsUpButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.THUMB_UP);
@@ -100,13 +100,13 @@ public class OperatorInterface implements GetDriveInput {
     
     protected void createCommands() {
         
-        // Shooter Subsystem
+        // Arms Subsystem
         shootButton.whenPressed(new ExtendCommand(this.robot.getShooterSubsystem()));
         retractButton.whenPressed(new RetractCommand(this.robot.getShooterSubsystem()));
 
-        // Grabber Subsystem
-        grabInButton.whenPressed(new GrabberIn(this.robot.getGrabberSubsystem()));
-        grabOutButton.whenPressed(new GrabberOut(this.robot.getGrabberSubsystem()));
+        // Hatch Subsystem
+        hatchRetractButton.whenPressed(new Retract(this.robot.getHatchSubsystem()));
+        hatchExtendButton.whenPressed(new Extend(this.robot.getHatchSubsystem()));
         
         // Thumbs Subsystem
         thumbsUpButton.whileHeld(new ThumbsUp(this.robot.getThumbsSubsystem()));

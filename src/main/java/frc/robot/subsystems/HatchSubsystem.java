@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * Add your docs here.
  */
-public class GrabberSubsystem extends BaseSubsystem {
+public class HatchSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public GrabberSubsystem() {
+  public HatchSubsystem() {
     super();
   }
 

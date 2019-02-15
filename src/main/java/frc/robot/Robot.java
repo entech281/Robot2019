@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   private NavXSubsystem navX;
   private ShooterSubsystem shooter;
   private ThumbsSubsystem thumbs;
-  private GrabberSubsystem grabber;
+  private HatchSubsystem hatch;
 
   private boolean inFieldAbsolute = false;
 
@@ -49,8 +49,8 @@ public class Robot extends TimedRobot {
     return robotDrive;
   }
 
-  public GrabberSubsystem getGrabberSubsystem() {
-    return grabber;
+  public HatchSubsystem getHatchSubsystem() {
+    return hatch;
   }
 
   public NavXSubsystem getNavXSubsystem() {
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
     shooter = new ShooterSubsystem();
     navX = new NavXSubsystem();
     thumbs = new ThumbsSubsystem();
-    grabber = new GrabberSubsystem();
+    hatch = new HatchSubsystem();
 
     BaseSubsystem.initializeList();
 
