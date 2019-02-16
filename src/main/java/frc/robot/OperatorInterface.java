@@ -26,7 +26,6 @@ import frc.robot.commands.TwistOn;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
-
 /**
  * Has all the code for operator controls
  * Keep in mind that for testing, this cannot be instantiated.
@@ -45,7 +44,7 @@ public class OperatorInterface implements GetDriveInput {
     private JoystickButton hatchExtendButton;
     private JoystickButton hatchRetractButton;
 
-    // Thumbs Subsystem
+    // Flip Subsystem
     private JoystickButton flipForwardButton;
     private JoystickButton flipBackwardButton;
     
@@ -84,7 +83,7 @@ public class OperatorInterface implements GetDriveInput {
         hatchRetractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_RETRACT);
         hatchExtendButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_EXTEND);
 
-        // Thumbs Subsystem
+        // Flip Subsystem
         flipForwardButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FLIP_FORWARD);
         flipBackwardButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.FLIP_BACKWARD);       
          
@@ -111,7 +110,7 @@ public class OperatorInterface implements GetDriveInput {
         hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
         hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
         
-        // Thumbs Subsystem
+        // Flip Subsystem
         flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
         flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
         flipBackwardButton.whileHeld(new FlipBackward(this.robot.getFlipSubsystem()));
