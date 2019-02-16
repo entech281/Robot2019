@@ -133,6 +133,6 @@ public class OperatorInterface implements GetDriveInput {
     zeroYawButton.whenPressed(new ZeroYaw(this.robot.getNavXSubsystem()));
 
     // Field Absolute Toggle
-    fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsolute(robot));
+    fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsolute(this.robot.getDriveSubsystem()));
   } 
 }

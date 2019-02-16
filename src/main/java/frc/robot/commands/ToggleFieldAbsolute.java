@@ -7,17 +7,16 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class ToggleFieldAbsolute extends Command {
-  Robot robot;
+  DriveSubsystem drive;
   
-  public ToggleFieldAbsolute(Robot robot) {
+  public ToggleFieldAbsolute(DriveSubsystem drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.robot = robot;
+    this.drive = drive;
   }
 
 // Called just before this Command runs the first time
@@ -28,7 +27,7 @@ public class ToggleFieldAbsolute extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    this.robot.toggleFieldAbsolute();
+    this.drive.toggleFieldAbsolute();
   }
 
   // Make this return true when this Command no longer needs to run execute()

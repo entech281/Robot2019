@@ -8,10 +8,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.JoystickJitterFilter;
 import frc.robot.drive.NudgeLeftFilter;
 import frc.robot.drive.NudgeRightFilter;
+import frc.robot.drive.RobotRelativeDriveFilter;
 import frc.robot.drive.TwistFilter;
 import frc.robot.RobotMap;
 
@@ -31,6 +33,7 @@ public class DriveSubsystem extends BaseSubsystem {
   
   private TwistFilter twistFilter = new TwistFilter();
   private JoystickJitterFilter joystickJitterFilter = new JoystickJitterFilter();
+  private RobotRelativeDriveFilter robotRelativeDriveFilter = new RobotRelativeDriveFilter();
 
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
@@ -41,6 +44,13 @@ public class DriveSubsystem extends BaseSubsystem {
     m_rearLeft.setInverted(true);
     m_frontRight.setInverted(true);
     m_rearRight.setInverted(true);
+    robotRelativeDriveFilter.disable();
+    joystickJitterFilter.enable();
+  }
+
+  @Override
+  public void periodic() {
+      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());   
   }
 
   public void drive(DriveInput di) {
@@ -51,12 +61,21 @@ public class DriveSubsystem extends BaseSubsystem {
     // Add filters in here, be mindful of order!
     di = twistFilter.filter(di);
     di = joystickJitterFilter.filter(di);
+    di = robotRelativeDriveFilter.filter(di);
 
     // Override filters go last
     di = nudgeRightFilter.filter(di);
     di = nudgeLeftFilter.filter(di);
 
     return di;
+  }
+
+  public void toggleFieldAbsolute() {
+    if (robotRelativeDriveFilter.isEnabled()) {
+      robotRelativeDriveFilter.disable();
+    } else {
+      robotRelativeDriveFilter.enable();
+    }
   }
 
   public void twistOn(boolean enabled) {
