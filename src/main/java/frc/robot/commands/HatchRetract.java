@@ -8,36 +8,38 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 
-public class ThumbsUp extends Command {
-  // Use requires() here to declare subsystem dependencies
-  private ThumbsSubsystem thumbs;
-  
-  public ThumbsUp(ThumbsSubsystem thumbs) {
-    this.thumbs=thumbs;
-    requires(thumbs);
-}
+public class HatchRetract extends Command {
+  private HatchSubsystem hatch;
+  private int counter = 0;
 
-  public ThumbsUp(Object thumbs2) {
-}
+  public HatchRetract(HatchSubsystem hatch) {
+    this.hatch=hatch;
+    requires(hatch);
+  }
 
-// Called just before this Command runs the first time
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    thumbs.up();
+    hatch.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    thumbs.up();
+    hatch.retract();
+    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if ( counter > 10 ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true

@@ -7,39 +7,34 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class RetractCommand extends Command {
-  private ShooterSubsystem shooter;
-  private int counter = 0;
-
-  public RetractCommand(ShooterSubsystem shooter) {
-    this.shooter=shooter;
-    requires(shooter);
+public class ToggleFieldAbsolute extends Command {
+  Robot robot;
+  
+  public ToggleFieldAbsolute(Robot robot) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    this.robot = robot;
   }
 
-  // Called just before this Command runs the first time
+// Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    shooter.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    shooter.retract();
-    counter++;
+    this.robot.toggleFieldAbsolute();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 10 ) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -51,6 +46,5 @@ public class RetractCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

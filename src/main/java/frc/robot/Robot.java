@@ -13,17 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.FlipSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
+import frc.robot.subsystems.ArmsSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -36,9 +37,10 @@ public class Robot extends TimedRobot {
 
   private DriveSubsystem robotDrive;
   private NavXSubsystem navX;
-  private ShooterSubsystem shooter;
-  private ThumbsSubsystem thumbs;
-  private GrabberSubsystem grabber;
+  private ArmsSubsystem arms;
+  private FlipSubsystem flip;
+  private HatchSubsystem hatch;
+
   private VisionSubsystem vision;
   private SensorSubsystem sensors;
   private boolean inFieldAbsolute = false;
@@ -53,24 +55,24 @@ public class Robot extends TimedRobot {
     return robotDrive;
   }
 
-  public SensorSubsystem getSensorSubsystem(){
-    return sensors;
+  public HatchSubsystem getHatchSubsystem() {
+    return hatch;
   }
 
-  public GrabberSubsystem getGrabberSubsystem() {
-    return grabber;
+  public SensorSubsystem getSensorSubsystem(){
+    return sensors;
   }
 
   public NavXSubsystem getNavXSubsystem() {
     return navX;
   }
 
-  public ShooterSubsystem getShooterSubsystem() {
-    return shooter;
+  public ArmsSubsystem getArmsSubsystem() {
+    return arms;
   }
 
-  public ThumbsSubsystem getThumbsSubsystem() {
-    return thumbs;
+  public FlipSubsystem getFlipSubsystem() {
+    return flip;
   }
 
   public VisionSubsystem getVisionSubsystem(){
@@ -86,10 +88,10 @@ public class Robot extends TimedRobot {
 
     sensors = new SensorSubsystem();
     robotDrive = new DriveSubsystem();
-    shooter = new ShooterSubsystem();
+    arms = new ArmsSubsystem();
     navX = new NavXSubsystem();
-    thumbs = new ThumbsSubsystem();
-    grabber = new GrabberSubsystem();
+    flip = new FlipSubsystem();
+    hatch = new HatchSubsystem();
     vision = new VisionSubsystem();
 
     BaseSubsystem.initializeList();

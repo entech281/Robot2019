@@ -7,28 +7,29 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.FlipSubsystem;;
 
-public class ToggleFieldAbsoluteCommand extends Command {
-  Robot robot;
-  public ToggleFieldAbsoluteCommand(Robot robot) {
+public class FlipStop extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.robot = robot;
+    private FlipSubsystem flip;
+    
+    public FlipStop(FlipSubsystem flip) {
+      this.flip=flip;
+      requires(flip);
   }
 
-// Called just before this Command runs the first time
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    flip.stop();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    this.robot.toggleFieldAbsolute();
-
+    flip.stop();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -46,5 +47,6 @@ public class ToggleFieldAbsoluteCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
