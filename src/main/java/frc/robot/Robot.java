@@ -15,6 +15,7 @@ import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.drive.DriveInput;
@@ -37,7 +38,7 @@ public class Robot extends TimedRobot {
   private ShooterSubsystem shooter;
   private ThumbsSubsystem thumbs;
   private GrabberSubsystem grabber;
-
+  private SensorSubsystem sensors;
   private boolean inFieldAbsolute = false;
 
   private OperatorInterface oi;
@@ -48,6 +49,10 @@ public class Robot extends TimedRobot {
 
   public DriveSubsystem getDriveSubsystem() {
     return robotDrive;
+  }
+
+  public SensorSubsystem getSensorSubsystem(){
+    return sensors;
   }
 
   public GrabberSubsystem getGrabberSubsystem() {
@@ -71,6 +76,9 @@ public class Robot extends TimedRobot {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
+    
+
+    sensors = new SensorSubsystem();
     robotDrive = new DriveSubsystem();
     shooter = new ShooterSubsystem();
     navX = new NavXSubsystem();
@@ -85,17 +93,16 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic(){
-
     DriveInput di = mergeOIandNavDriveInput(this.oi.getDriveInput(), navX.getDriveInput());
+    di = robotDrive.applyActiveFilters(di);
     robotDrive.drive(di);
+
     SmartDashboard.putNumber("Joystick X", di.getX());
     SmartDashboard.putNumber("Joystick Y", di.getY());
     SmartDashboard.putNumber("Joystick Z", di.getZ());
     SmartDashboard.putNumber("Gyro Angle", di.getFieldAngle());
 
     Scheduler.getInstance().run();
-
-    SmartDashboard.putNumber("Thumb Speed", thumbs.getDesiredSpeed());
   }
 
   private DriveInput mergeOIandNavDriveInput(DriveInput oi_di, DriveInput nav_di) {

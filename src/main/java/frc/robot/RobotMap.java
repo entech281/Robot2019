@@ -27,7 +27,7 @@ public class RobotMap {
   public interface DriveJoystick {
     public static final int PORT = 0;
     public interface Button {
-      public static final int ALLOW_TURN = 1;
+      public static final int ALLOW_TWIST = 1;
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
       public static final int FIELD_ABSOLUTE = 6;
