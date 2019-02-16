@@ -39,4 +39,11 @@ public class RobotMap {
       public static final int RETRACT = 12;
     }
   }
- }
+ 
+  public interface OperatorPanel {
+    public static final int PORT = 1;
+    public interface Button {
+      public static final int HOLD_LATERAL = 1;
+    }
+  }
+}

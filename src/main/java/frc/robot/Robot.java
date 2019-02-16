@@ -15,6 +15,7 @@ import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -39,7 +40,7 @@ public class Robot extends TimedRobot {
   private ThumbsSubsystem thumbs;
   private GrabberSubsystem grabber;
   private VisionSubsystem vision;
-
+  private SensorSubsystem sensors;
   private boolean inFieldAbsolute = false;
 
   private OperatorInterface oi;
@@ -50,6 +51,10 @@ public class Robot extends TimedRobot {
 
   public DriveSubsystem getDriveSubsystem() {
     return robotDrive;
+  }
+
+  public SensorSubsystem getSensorSubsystem(){
+    return sensors;
   }
 
   public GrabberSubsystem getGrabberSubsystem() {
@@ -77,6 +82,9 @@ public class Robot extends TimedRobot {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
+    
+
+    sensors = new SensorSubsystem();
     robotDrive = new DriveSubsystem();
     shooter = new ShooterSubsystem();
     navX = new NavXSubsystem();
