@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
@@ -29,7 +30,12 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
 
     @Override
     public void initialize() {
+        DriverStation.reportWarning("NavX Initialize Start", false);
+        while (navX.isCalibrating()) {
+            ;
+        }
         navX.zeroYaw();
+        DriverStation.reportWarning("NavX Initialize Complete", false);
     }
     
     @Override
