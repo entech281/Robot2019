@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.ArmsSubsystem;
 
-public class Squeeze extends Command {
+public class ArmsSqueeze extends Command {
   private ArmsSubsystem arms;
   private int counter = 0;
 
-  public Squeeze(ArmsSubsystem arms) {
+  public ArmsSqueeze(ArmsSubsystem arms) {
     this.arms=arms;
     requires(arms);
   }

@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FlipSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ArmsSubsystem;
-import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   private DriveSubsystem robotDrive;
   private NavXSubsystem navX;
   private ArmsSubsystem arms;
-  private ThumbsSubsystem thumbs;
+  private FlipSubsystem flip;
   private HatchSubsystem hatch;
 
   private boolean inFieldAbsolute = false;
@@ -61,8 +61,8 @@ public class Robot extends TimedRobot {
     return arms;
   }
 
-  public ThumbsSubsystem getThumbsSubsystem() {
-    return thumbs;
+  public FlipSubsystem getFlipSubsystem() {
+    return flip;
   }
 
   @Override
@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
     robotDrive = new DriveSubsystem();
     arms = new ArmsSubsystem();
     navX = new NavXSubsystem();
-    thumbs = new ThumbsSubsystem();
+    flip = new FlipSubsystem();
     hatch = new HatchSubsystem();
 
     BaseSubsystem.initializeList();

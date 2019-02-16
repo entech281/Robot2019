@@ -8,38 +8,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.HatchSubsystem;
+import frc.robot.subsystems.FlipSubsystem;;
 
-public class Extend extends Command {
-  private HatchSubsystem hatch;
-  private int counter = 0;
-
-  public Extend(HatchSubsystem hatch) {
-    this.hatch=hatch;
-    requires(hatch);
+public class FlipStop extends Command {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    private FlipSubsystem flip;
+    
+    public FlipStop(FlipSubsystem flip) {
+      this.flip=flip;
+      requires(flip);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    hatch.extend();
+    flip.stop();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    hatch.extend();
-    counter++;
+    flip.stop();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 10 ) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 
   // Called once after isFinished returns true

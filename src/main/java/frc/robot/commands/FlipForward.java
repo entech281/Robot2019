@@ -8,38 +8,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.HatchSubsystem;
+import frc.robot.subsystems.FlipSubsystem;;
 
-public class Retract extends Command {
-  private HatchSubsystem hatch;
-  private int counter = 0;
+public class FlipForward extends Command {
+  // Use requires() here to declare subsystem dependencies
+  private FlipSubsystem flip;
+  
+  public FlipForward(FlipSubsystem flip) {
+    this.flip=flip;
+    requires(flip);
+}
 
-  public Retract(HatchSubsystem hatch) {
-    this.hatch=hatch;
-    requires(hatch);
-  }
-
-  // Called just before this Command runs the first time
+// Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    hatch.retract();
+    flip.forward();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    hatch.retract();
-    counter++;
+    flip.forward();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 10 ) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 
   // Called once after isFinished returns true

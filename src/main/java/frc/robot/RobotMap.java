@@ -31,9 +31,9 @@ public class RobotMap {
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
       public static final int FIELD_ABSOLUTE = 6;
-      public static final int THUMB_UP = 7;
+      public static final int FLIP_FORWARD = 7;
       public static final int HATCH_RETRACT = 8;
-      public static final int THUMB_DOWN = 9;
+      public static final int FLIP_BACKWARD = 9;
       public static final int HATCH_EXTEND = 10;
       public static final int ARMS_SQUEEZE = 11;
       public static final int ARMS_RELEASE = 12;

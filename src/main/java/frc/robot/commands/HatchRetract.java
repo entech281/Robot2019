@@ -8,27 +8,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ArmsSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 
-public class Release extends Command {
-  private ArmsSubsystem arms;
+public class HatchRetract extends Command {
+  private HatchSubsystem hatch;
   private int counter = 0;
 
-  public Release(ArmsSubsystem arms) {
-    this.arms=arms;
-    requires(arms);
+  public HatchRetract(HatchSubsystem hatch) {
+    this.hatch=hatch;
+    requires(hatch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    arms.retract();
+    hatch.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    arms.retract();
+    hatch.retract();
     counter++;
   }
 

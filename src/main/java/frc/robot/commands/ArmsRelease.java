@@ -7,34 +7,39 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.ArmsSubsystem;
 
-public class ToggleFieldAbsoluteCommand extends Command {
-  Robot robot;
-  
-  public ToggleFieldAbsoluteCommand(Robot robot) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    this.robot = robot;
+public class ArmsRelease extends Command {
+  private ArmsSubsystem arms;
+  private int counter = 0;
+
+  public ArmsRelease(ArmsSubsystem arms) {
+    this.arms=arms;
+    requires(arms);
   }
 
-// Called just before this Command runs the first time
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    arms.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    this.robot.toggleFieldAbsolute();
+    arms.retract();
+    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if ( counter > 10 ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true
@@ -46,5 +51,6 @@ public class ToggleFieldAbsoluteCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

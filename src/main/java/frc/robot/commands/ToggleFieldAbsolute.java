@@ -7,29 +7,28 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.Robot;
 
-public class ThumbsStop extends Command {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class ToggleFieldAbsolute extends Command {
+  Robot robot;
+  
+  public ToggleFieldAbsolute(Robot robot) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    private ThumbsSubsystem thumbs;
-    
-    public ThumbsStop(ThumbsSubsystem thumbs) {
-      this.thumbs=thumbs;
-      requires(thumbs);
+    this.robot = robot;
   }
 
-  // Called just before this Command runs the first time
+// Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    thumbs.stop();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    thumbs.stop();
+    this.robot.toggleFieldAbsolute();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -47,6 +46,5 @@ public class ThumbsStop extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

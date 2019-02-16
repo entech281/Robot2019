@@ -9,20 +9,21 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.robot.RobotMap;
-import frc.robot.drive.DriveInput;
-import frc.robot.drive.GetDriveInput;
-import frc.robot.commands.Extend;
+import frc.robot.commands.ArmsRelease;
+import frc.robot.commands.ArmsSqueeze;
+import frc.robot.commands.FlipBackward;
+import frc.robot.commands.FlipForward;
+import frc.robot.commands.FlipStop;
+import frc.robot.commands.HatchExtend;
+import frc.robot.commands.HatchRetract;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
-import frc.robot.commands.Release;
-import frc.robot.commands.Retract;
-import frc.robot.commands.Squeeze;
-import frc.robot.commands.ThumbsDown;
-import frc.robot.commands.ThumbsStop;
-import frc.robot.commands.ThumbsUp;
-import frc.robot.commands.ToggleFieldAbsoluteCommand;
+import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
+import frc.robot.drive.DriveInput;
+import frc.robot.drive.GetDriveInput;
+
 
 /**
  * Has all the code for operator controls
@@ -43,8 +44,8 @@ public class OperatorInterface implements GetDriveInput {
     private JoystickButton hatchRetractButton;
 
     // Thumbs Subsystem
-    private JoystickButton thumbsUpButton;
-    private JoystickButton thumbsDownButton;
+    private JoystickButton flipForwardButton;
+    private JoystickButton flipBackwardButton;
     
     // Nudge Commands
     private JoystickButton nudgeLeftButton;
@@ -82,8 +83,8 @@ public class OperatorInterface implements GetDriveInput {
         hatchExtendButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_EXTEND);
 
         // Thumbs Subsystem
-        thumbsUpButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.THUMB_UP);
-        thumbsDownButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.THUMB_DOWN);       
+        flipForwardButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FLIP_FORWARD);
+        flipBackwardButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.FLIP_BACKWARD);       
          
         // Nudge Commands
         nudgeLeftButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
@@ -101,18 +102,18 @@ public class OperatorInterface implements GetDriveInput {
     protected void createCommands() {
         
         // Arms Subsystem
-        armsSqueezeButton.whenPressed(new Squeeze(this.robot.getArmsSubsystem()));
-        armsReleaseButton.whenPressed(new Release(this.robot.getArmsSubsystem()));
+        armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
+        armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
 
         // Hatch Subsystem
-        hatchRetractButton.whenPressed(new Retract(this.robot.getHatchSubsystem()));
-        hatchExtendButton.whenPressed(new Extend(this.robot.getHatchSubsystem()));
+        hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
+        hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
         
         // Thumbs Subsystem
-        thumbsUpButton.whileHeld(new ThumbsUp(this.robot.getThumbsSubsystem()));
-        thumbsUpButton.whenReleased(new ThumbsStop(this.robot.getThumbsSubsystem()));
-        thumbsDownButton.whileHeld(new ThumbsDown(this.robot.getThumbsSubsystem()));
-        thumbsDownButton.whenReleased(new ThumbsStop(this.robot.getThumbsSubsystem()));
+        flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
+        flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
+        flipBackwardButton.whileHeld(new FlipBackward(this.robot.getFlipSubsystem()));
+        flipBackwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
 
         // Nudge Commands
         nudgeRightButton.whenPressed(new NudgeRight(this.robot.getDriveSubsystem()));
@@ -123,6 +124,6 @@ public class OperatorInterface implements GetDriveInput {
         twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
 
         // Field Absolute Toggle
-        fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsoluteCommand(robot));
+        fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsolute(robot));
     } 
 }
