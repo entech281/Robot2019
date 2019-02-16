@@ -92,4 +92,19 @@ public class DriveInput {
   public double getTargetY() {
     return targetY;
   }
+
+  public void mergeAllSensorData(DriveInput sensor_di) {
+    setFieldAngle(sensor_di.getFieldAngle());
+    setTargetX(sensor_di.getTargetX());
+    setTargetY(sensor_di.getTargetY());
+  }
+
+  public void mergeNavXSensorData(DriveInput navx_di) {
+    setFieldAngle(navx_di.getFieldAngle());
+  }
+
+  public void mergeVisionSensorData(DriveInput vision_di) {
+    setTargetX(vision_di.getTargetX());
+    setTargetY(vision_di.getTargetY());
+  }
 }
