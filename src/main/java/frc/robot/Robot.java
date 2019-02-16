@@ -79,8 +79,6 @@ public class Robot extends TimedRobot {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
-    
-
     sensors = new SensorSubsystem();
     robotDrive = new DriveSubsystem();
     arms = new ArmsSubsystem();
@@ -99,7 +97,8 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic(){
-    DriveInput di = mergeOIandNavDriveInput(this.oi.getDriveInput(), navX.getDriveInput());
+    DriveInput di = this.oi.getDriveInput();
+    di.mergeNavXSensorData(navX.getDriveInput());
     di = robotDrive.applyActiveFilters(di);
     robotDrive.drive(di);
 
@@ -109,9 +108,5 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Gyro Angle", di.getFieldAngle());
 
     Scheduler.getInstance().run();
-  }
-
-  private DriveInput mergeOIandNavDriveInput(DriveInput oi_di, DriveInput nav_di) {
-    return new DriveInput(oi_di.getX(), oi_di.getY(), oi_di.getZ(), nav_di.getFieldAngle());
   }
 }
