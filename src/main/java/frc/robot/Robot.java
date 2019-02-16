@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
     this.oi = new OperatorInterface(this);
 
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-    camera.setResolution(640, 480);
+    camera.setResolution(320, 240);
     camera.setFPS(60);
   }
 
