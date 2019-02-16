@@ -12,19 +12,21 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * Add your docs here.
  */
-public class GrabberSubsystem extends BaseSubsystem {
+public class ArmsSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public GrabberSubsystem() {
+  public ArmsSubsystem() {
     super();
   }
 
   private DoubleSolenoid solenoid;
-
+  private DoubleSolenoid solenoid2;
+  
   @Override
   public void initialize() {
-    solenoid = new DoubleSolenoid(10, 2, 3);
+    solenoid = new DoubleSolenoid(10, 0, 1);
+    solenoid2 = new DoubleSolenoid (10, 4, 5);
   }
 
   @Override
@@ -39,5 +41,9 @@ public class GrabberSubsystem extends BaseSubsystem {
 
   public void retract() {
     solenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void deploy() {
+    solenoid2.set(DoubleSolenoid.Value.kForward);
   }
 }

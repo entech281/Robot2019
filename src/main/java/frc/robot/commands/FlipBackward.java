@@ -8,28 +8,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.subsystems.FlipSubsystem;;
 
-public class ThumbsStop extends Command {
+public class FlipBackward extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    private ThumbsSubsystem thumbs;
+    private FlipSubsystem flip;
     
-    public ThumbsStop(ThumbsSubsystem thumbs) {
-      this.thumbs=thumbs;
-      requires(thumbs);
+    public FlipBackward(FlipSubsystem flip) {
+      this.flip=flip;
+      requires(flip);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    thumbs.stop();
+    flip.backward();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    thumbs.stop();
+    flip.backward();
   }
 
   // Make this return true when this Command no longer needs to run execute()

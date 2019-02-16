@@ -26,18 +26,13 @@ public class RobotMap {
 
   public interface DriveJoystick {
     public static final int PORT = 0;
+
     public interface Button {
       public static final int ALLOW_TWIST = 1;
-      public static final int ZERO_YAW = 2;
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
       public static final int FIELD_ABSOLUTE = 6;
-      public static final int THUMB_UP = 7;
-      public static final int GRAB_IN = 8;
-      public static final int THUMB_DOWN = 9;
-      public static final int GRAB_OUT = 10;
-      public static final int SHOOT = 11;
-      public static final int RETRACT = 12;
+      public static final int ZERO_YAW = 7;
     }
   }
  
@@ -45,6 +40,13 @@ public class RobotMap {
     public static final int PORT = 1;
     public interface Button {
       public static final int HOLD_LATERAL = 1;
+      public static final int HATCH_RETRACT = 2;
+      public static final int HATCH_EXTEND = 3;
+      public static final int ARMS_DEPLOY = 4;
+      public static final int ARMS_SQUEEZE = 5;
+      public static final int ARMS_RELEASE = 6;
+      public static final int FLIP_FORWARD = 7;
+      public static final int FLIP_BACKWARD = 8;
     }
   }
 }

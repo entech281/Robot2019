@@ -12,19 +12,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * Add your docs here.
  */
-public class ShooterSubsystem extends BaseSubsystem {
+public class HatchSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public ShooterSubsystem() {
+  public HatchSubsystem() {
     super();
   }
 
   private DoubleSolenoid solenoid;
-  
+
   @Override
   public void initialize() {
-    solenoid = new DoubleSolenoid(10, 0, 1);
+    solenoid = new DoubleSolenoid(10, 2, 3);
   }
 
   @Override

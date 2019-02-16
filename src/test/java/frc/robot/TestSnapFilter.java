@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-import frc.robot.subsystems.SnapController;
+import frc.robot.drive.SnapFilter;
 
-public class TestSnapController {
+public class TestSnapFilter {
     @Test
     public void testThatRounderWorks(){
         double delta = 1e-15;
 
-        SnapController snap = new SnapController();
+        SnapFilter snap = new SnapFilter();
         assertEquals(0.0, snap.findNearestQuadrant(337.5), delta);
         assertEquals(0.0, snap.findNearestQuadrant(22.5), delta);
 

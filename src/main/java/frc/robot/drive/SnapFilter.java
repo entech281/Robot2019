@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.drive;
 
 /**
  * Add your docs here.
  */
-public class SnapController {
+public class SnapFilter {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -43,5 +43,8 @@ public class SnapController {
     }
 
     return nearest;
+
+    // Too advanced for our time!
+    // return (Math.round(((angle+22.5)%360)/45)*45);
   }
 }
