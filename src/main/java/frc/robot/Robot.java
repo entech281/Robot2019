@@ -43,13 +43,8 @@ public class Robot extends TimedRobot {
 
   private VisionSubsystem vision;
   private SensorSubsystem sensors;
-  private boolean inFieldAbsolute = false;
 
   private OperatorInterface oi;
-
-  public void toggleFieldAbsolute() {
-    inFieldAbsolute = !inFieldAbsolute;
-  }
 
   public DriveSubsystem getDriveSubsystem() {
     return robotDrive;
