@@ -30,6 +30,7 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
         //while (navX.isCalibrating()) {
         //    sleep(1);
         //}
+        navX.zeroYaw();
     }
     
     @Override
@@ -47,6 +48,10 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
         } else {
             return 720.0;
         }
+    }
+
+    public void zeroYaw() {
+        navX.zeroYaw();
     }
 
     @Override
