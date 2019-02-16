@@ -18,9 +18,10 @@ import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
-
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 /**
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
   private ShooterSubsystem shooter;
   private ThumbsSubsystem thumbs;
   private GrabberSubsystem grabber;
+  private VisionSubsystem vision;
   private SensorSubsystem sensors;
   private boolean inFieldAbsolute = false;
 
@@ -71,6 +73,10 @@ public class Robot extends TimedRobot {
     return thumbs;
   }
 
+  public VisionSubsystem getVisionSubsystem(){
+    return vision;
+  }
+
   @Override
   public void robotInit() {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
@@ -84,12 +90,15 @@ public class Robot extends TimedRobot {
     navX = new NavXSubsystem();
     thumbs = new ThumbsSubsystem();
     grabber = new GrabberSubsystem();
+    vision = new VisionSubsystem();
 
     BaseSubsystem.initializeList();
 
     this.oi = new OperatorInterface(this);
 
-    CameraServer.getInstance().startAutomaticCapture();
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(320, 240);
+    camera.setFPS(60);
   }
 
   public void teleopPeriodic(){
