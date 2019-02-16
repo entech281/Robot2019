@@ -12,11 +12,11 @@ import frc.robot.RobotMap;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 import frc.robot.commands.Extend;
-import frc.robot.commands.ExtendCommand;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
+import frc.robot.commands.Release;
 import frc.robot.commands.Retract;
-import frc.robot.commands.RetractCommand;
+import frc.robot.commands.Squeeze;
 import frc.robot.commands.ThumbsDown;
 import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
@@ -35,8 +35,8 @@ public class OperatorInterface implements GetDriveInput {
     private Joystick driveStick;
     
     // Arms Subsystem
-    private JoystickButton shootButton ;
-    private JoystickButton retractButton;
+    private JoystickButton armsSqueezeButton ;
+    private JoystickButton armsReleaseButton;
 
     // Hatch Subsystem
     private JoystickButton hatchExtendButton;
@@ -74,8 +74,8 @@ public class OperatorInterface implements GetDriveInput {
         driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
 
         // Arms Subsystem
-        shootButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.SHOOT);
-        retractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.RETRACT);
+        armsSqueezeButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ARMS_SQUEEZE);
+        armsReleaseButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ARMS_RELEASE);
 
         // Hatch Subsystem
         hatchRetractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_RETRACT);
@@ -101,8 +101,8 @@ public class OperatorInterface implements GetDriveInput {
     protected void createCommands() {
         
         // Arms Subsystem
-        shootButton.whenPressed(new ExtendCommand(this.robot.getShooterSubsystem()));
-        retractButton.whenPressed(new RetractCommand(this.robot.getShooterSubsystem()));
+        armsSqueezeButton.whenPressed(new Squeeze(this.robot.getArmsSubsystem()));
+        armsReleaseButton.whenPressed(new Release(this.robot.getArmsSubsystem()));
 
         // Hatch Subsystem
         hatchRetractButton.whenPressed(new Retract(this.robot.getHatchSubsystem()));

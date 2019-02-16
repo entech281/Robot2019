@@ -15,7 +15,7 @@ import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmsSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 
   private DriveSubsystem robotDrive;
   private NavXSubsystem navX;
-  private ShooterSubsystem shooter;
+  private ArmsSubsystem arms;
   private ThumbsSubsystem thumbs;
   private HatchSubsystem hatch;
 
@@ -57,8 +57,8 @@ public class Robot extends TimedRobot {
     return navX;
   }
 
-  public ShooterSubsystem getShooterSubsystem() {
-    return shooter;
+  public ArmsSubsystem getArmsSubsystem() {
+    return arms;
   }
 
   public ThumbsSubsystem getThumbsSubsystem() {
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     compressor.start();
 
     robotDrive = new DriveSubsystem();
-    shooter = new ShooterSubsystem();
+    arms = new ArmsSubsystem();
     navX = new NavXSubsystem();
     thumbs = new ThumbsSubsystem();
     hatch = new HatchSubsystem();

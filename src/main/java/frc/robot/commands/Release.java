@@ -8,27 +8,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmsSubsystem;
 
-public class RetractCommand extends Command {
-  private ShooterSubsystem shooter;
+public class Release extends Command {
+  private ArmsSubsystem arms;
   private int counter = 0;
 
-  public RetractCommand(ShooterSubsystem shooter) {
-    this.shooter=shooter;
-    requires(shooter);
+  public Release(ArmsSubsystem arms) {
+    this.arms=arms;
+    requires(arms);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    shooter.retract();
+    arms.retract();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    shooter.retract();
+    arms.retract();
     counter++;
   }
 

@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * Add your docs here.
  */
-public class ShooterSubsystem extends BaseSubsystem {
+public class ArmsSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public ShooterSubsystem() {
+  public ArmsSubsystem() {
     super();
   }
 
