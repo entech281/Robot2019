@@ -23,6 +23,7 @@ import frc.robot.commands.ThumbsStop;
 import frc.robot.commands.ThumbsUp;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
+import frc.robot.commands.ZeroYaw;
 
 /**
  * Has all the code for operator controls
@@ -52,6 +53,7 @@ public class OperatorInterface implements GetDriveInput {
     // Twist Commands
     private JoystickButton twistButton;
 
+    private JoystickButton zeroYawButton;
     //drive related buttons
     //private JoystickButton turnButton;
     //private JoystickButton fieldAbsoluteButton;
@@ -64,7 +66,7 @@ public class OperatorInterface implements GetDriveInput {
     
     @Override
     public DriveInput getDriveInput() {
-        return new DriveInput(driveStick.getX(), driveStick.getY(), -driveStick.getZ());
+        return new DriveInput(-driveStick.getX(), driveStick.getY(), -driveStick.getZ());
     }
     
     protected void createButtons() {
@@ -89,6 +91,7 @@ public class OperatorInterface implements GetDriveInput {
         // Twist Commands
         twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
 
+        zeroYawButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ZERO_YAW);
         //fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
         //turnButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TURN);
     }
@@ -116,5 +119,7 @@ public class OperatorInterface implements GetDriveInput {
         // Twist Commands
         twistButton.whenPressed(new TwistOn(this.robot.getDriveSubsystem()));
         twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
+
+        zeroYawButton.whenPressed(new ZeroYaw(this.robot.getNavXSubsystem()));
     } 
 }
