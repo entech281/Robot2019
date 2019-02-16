@@ -17,6 +17,7 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
 
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
   private ShooterSubsystem shooter;
   private ThumbsSubsystem thumbs;
   private GrabberSubsystem grabber;
+  private VisionSubsystem vision;
 
   private boolean inFieldAbsolute = false;
 
@@ -66,6 +68,10 @@ public class Robot extends TimedRobot {
     return thumbs;
   }
 
+  public VisionSubsystem getVisionSubsystem(){
+    return vision;
+  }
+
   @Override
   public void robotInit() {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
@@ -76,6 +82,7 @@ public class Robot extends TimedRobot {
     navX = new NavXSubsystem();
     thumbs = new ThumbsSubsystem();
     grabber = new GrabberSubsystem();
+    vision = new VisionSubsystem();
 
     BaseSubsystem.initializeList();
 
