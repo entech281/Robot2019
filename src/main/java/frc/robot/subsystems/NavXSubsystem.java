@@ -19,7 +19,7 @@ import frc.robot.drive.GetDriveInput;
  * @author dcowden
  */
 public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSource {
-//
+
     private PIDSourceType pidSourceType = PIDSourceType.kRate;
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
     
