@@ -20,7 +20,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
-
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 /**
@@ -89,7 +89,9 @@ public class Robot extends TimedRobot {
 
     this.oi = new OperatorInterface(this);
 
-    CameraServer.getInstance().startAutomaticCapture();
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(640, 480);
+    camera.setFPS(60);
   }
 
   public void teleopPeriodic(){
