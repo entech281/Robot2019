@@ -40,14 +40,14 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
     public DriveInput getDriveInput() {
         DriveInput di = new DriveInput();
         if (navX != null) {
-            di.setFieldAngle(navX.getAngle());
+            di.setFieldAngle(-navX.getAngle());
         }
         return di;
     }
 
     public double getAngle() {
         if (navX != null) {
-            return navX.getAngle();
+            return -navX.getAngle();
         } else {
             return 720.0;
         }
@@ -60,7 +60,7 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
     @Override
     public void periodic() {
         if (navX != null) {
-            SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
+            SmartDashboard.putNumber("Gyro Angle", -navX.getAngle());
         }
     }    
  
