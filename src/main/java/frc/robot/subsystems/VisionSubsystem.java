@@ -9,29 +9,44 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.navigation.NavigationManager;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drive.DriveInput;
+import frc.robot.drive.GetDriveInput;
 
-public class VisionSubsystem extends BaseSubsystem {
-    
-    private NavigationManager navigation;
-    private double UNKNOWN = 9999999;
+
+public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
+
+    private double UNKNOWN = -5;
     private NetworkTableInstance ntist;
-    NetworkTableEntry vision; 
+    NetworkTableEntry distance;
+    NetworkTableEntry lateral;
+    NetworkTableEntry frameCount;
 
-    public VisionSubsystem(NavigationManager navigationManager){
-        this.navigation = navigationManager;
+    DriveInput driveInput = new DriveInput();
+
+    public VisionSubsystem() {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         ntist = NetworkTableInstance.getDefault();
-        vision = ntist.getEntry("team281.Vision");
+        distance = ntist.getEntry("team281.Vision.distance");
+        lateral = ntist.getEntry("team281.Vision.lateral");
+        frameCount = ntist.getEntry("team281.frameCount");
     }
 
     @Override
-    public void periodic(){
-        double distance_from_target = vision.getDouble(UNKNOWN);
-        navigation.acceptVisionPoseUpdate(distance_from_target);
+    public void periodic() {
+        SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));   
+    }
+
+    @Override
+    public DriveInput getDriveInput() {
+        double distanceFromTarget = distance.getDouble(UNKNOWN);
+        double lateralDistance = lateral.getDouble(UNKNOWN);
+        driveInput.setTargetX(lateralDistance);
+        driveInput.setTargetY(distanceFromTarget);
+        return null;
     }
 
 }

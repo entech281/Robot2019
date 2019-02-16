@@ -17,6 +17,8 @@ import frc.robot.subsystems.FlipSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ArmsSubsystem;
+import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
@@ -39,6 +41,8 @@ public class Robot extends TimedRobot {
   private FlipSubsystem flip;
   private HatchSubsystem hatch;
 
+  private VisionSubsystem vision;
+  private SensorSubsystem sensors;
   private boolean inFieldAbsolute = false;
 
   private OperatorInterface oi;
@@ -55,6 +59,10 @@ public class Robot extends TimedRobot {
     return hatch;
   }
 
+  public SensorSubsystem getSensorSubsystem(){
+    return sensors;
+  }
+
   public NavXSubsystem getNavXSubsystem() {
     return navX;
   }
@@ -67,23 +75,31 @@ public class Robot extends TimedRobot {
     return flip;
   }
 
+  public VisionSubsystem getVisionSubsystem(){
+    return vision;
+  }
+
   @Override
   public void robotInit() {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
+    
+
+    sensors = new SensorSubsystem();
     robotDrive = new DriveSubsystem();
     arms = new ArmsSubsystem();
     navX = new NavXSubsystem();
     flip = new FlipSubsystem();
     hatch = new HatchSubsystem();
+    vision = new VisionSubsystem();
 
     BaseSubsystem.initializeList();
 
     this.oi = new OperatorInterface(this);
 
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-    camera.setResolution(640, 480);
+    camera.setResolution(320, 240);
     camera.setFPS(60);
   }
 

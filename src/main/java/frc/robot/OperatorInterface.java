@@ -24,6 +24,7 @@ import frc.robot.commands.NudgeRight;
 import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
+import frc.robot.commands.ZeroYaw;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
@@ -35,6 +36,7 @@ import frc.robot.drive.GetDriveInput;
 public class OperatorInterface implements GetDriveInput {
   private Robot robot;
   private Joystick driveStick;
+  private Joystick operatorPanel;
   
   // Arms Subsystem
   private JoystickButton armsDeployButton;
@@ -55,9 +57,7 @@ public class OperatorInterface implements GetDriveInput {
   
   // Twist Commands
   private JoystickButton twistButton;
-  
-  //drive related buttons
-  //private JoystickButton turnButton;
+  private JoystickButton zeroYawButton;
   
   // Field Absolute Toggle
   private JoystickButton fieldAbsoluteButton;
@@ -67,27 +67,30 @@ public class OperatorInterface implements GetDriveInput {
     createButtons();
     createCommands();
   }
-  
+    
   @Override
   public DriveInput getDriveInput() {
-    return new DriveInput(driveStick.getX(), driveStick.getY(), driveStick.getZ());
+      return new DriveInput(-driveStick.getX(), driveStick.getY(), -driveStick.getZ());
   }
   
+
   protected void createButtons() {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
+    operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
+
 
     // Arms Subsystem
-    armsDeployButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ARMS_DEPLOY);
-    armsSqueezeButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ARMS_SQUEEZE);
-    armsReleaseButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ARMS_RELEASE);
+    armsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
+    armsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
+    armsReleaseButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_RELEASE);
 
     // Hatch Subsystem
-    hatchRetractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_RETRACT);
-    hatchExtendButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.HATCH_EXTEND);
+    hatchRetractButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_RETRACT);
+    hatchExtendButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_EXTEND);
 
     // Flip Subsystem
-    flipForwardButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FLIP_FORWARD);
-    flipBackwardButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.FLIP_BACKWARD);       
+    flipForwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_FORWARD);
+    flipBackwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_BACKWARD);       
          
     // Nudge Commands
     nudgeLeftButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
@@ -96,7 +99,7 @@ public class OperatorInterface implements GetDriveInput {
     // Twist Commands
     twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
 
-    //turnButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TURN);
+    zeroYawButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ZERO_YAW);
 
     // Field Absolute Toggle
     fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
@@ -111,6 +114,7 @@ public class OperatorInterface implements GetDriveInput {
     // Hatch Subsystem
     hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
     hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+    
         
     // Flip Subsystem
     flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
@@ -125,6 +129,8 @@ public class OperatorInterface implements GetDriveInput {
     // Twist Commands
     twistButton.whenPressed(new TwistOn(this.robot.getDriveSubsystem()));
     twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
+
+    zeroYawButton.whenPressed(new ZeroYaw(this.robot.getNavXSubsystem()));
 
     // Field Absolute Toggle
     fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsolute(robot));

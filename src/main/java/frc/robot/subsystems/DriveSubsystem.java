@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.drive.DriveInput;
+import frc.robot.drive.JoystickJitterFilter;
 import frc.robot.drive.NudgeLeftFilter;
 import frc.robot.drive.NudgeRightFilter;
 import frc.robot.drive.TwistFilter;
@@ -29,6 +30,8 @@ public class DriveSubsystem extends BaseSubsystem {
   private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
   
   private TwistFilter twistFilter = new TwistFilter();
+  private JoystickJitterFilter joystickJitterFilter = new JoystickJitterFilter();
+
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
 
@@ -36,6 +39,8 @@ public class DriveSubsystem extends BaseSubsystem {
   public void initialize() {
     m_frontLeft.setInverted(true);
     m_rearLeft.setInverted(true);
+    m_frontRight.setInverted(true);
+    m_rearRight.setInverted(true);
   }
 
   public void drive(DriveInput di) {
@@ -45,6 +50,7 @@ public class DriveSubsystem extends BaseSubsystem {
   public DriveInput applyActiveFilters(DriveInput di) {
     // Add filters in here, be mindful of order!
     di = twistFilter.filter(di);
+    di = joystickJitterFilter.filter(di);
 
     // Override filters go last
     di = nudgeRightFilter.filter(di);

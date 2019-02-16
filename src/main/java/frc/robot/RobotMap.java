@@ -16,10 +16,10 @@ package frc.robot;
 public class RobotMap {
 
   public interface CAN {
-    public static final int FRONT_LEFT_MOTOR = 2;
-    public static final int FRONT_RIGHT_MOTOR = 16;
-    public static final int REAR_LEFT_MOTOR = 14;
-    public static final int REAR_RIGHT_MOTOR = 8;
+    public static final int FRONT_LEFT_MOTOR = 14;
+    public static final int FRONT_RIGHT_MOTOR = 2;
+    public static final int REAR_LEFT_MOTOR = 8;
+    public static final int REAR_RIGHT_MOTOR = 16;
     public static final int CLIMB = 7;
     public static final int PCM_ID = 10;
   }
@@ -29,16 +29,24 @@ public class RobotMap {
 
     public interface Button {
       public static final int ALLOW_TWIST = 1;
-      public static final int ARMS_DEPLOY = 2;
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
       public static final int FIELD_ABSOLUTE = 6;
+      public static final int ZERO_YAW = 7;
+    }
+  }
+ 
+  public interface OperatorPanel {
+    public static final int PORT = 1;
+    public interface Button {
+      public static final int HOLD_LATERAL = 1;
+      public static final int HATCH_RETRACT = 2;
+      public static final int HATCH_EXTEND = 3;
+      public static final int ARMS_DEPLOY = 4;
+      public static final int ARMS_SQUEEZE = 5;
+      public static final int ARMS_RELEASE = 6;
       public static final int FLIP_FORWARD = 7;
-      public static final int HATCH_RETRACT = 8;
-      public static final int FLIP_BACKWARD = 9;
-      public static final int HATCH_EXTEND = 10;
-      public static final int ARMS_SQUEEZE = 11;
-      public static final int ARMS_RELEASE = 12;
+      public static final int FLIP_BACKWARD = 8;
     }
   }
 }
