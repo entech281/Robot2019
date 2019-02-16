@@ -21,10 +21,12 @@ public class ArmsSubsystem extends BaseSubsystem {
   }
 
   private DoubleSolenoid solenoid;
+  private DoubleSolenoid solenoid2;
   
   @Override
   public void initialize() {
     solenoid = new DoubleSolenoid(10, 0, 1);
+    solenoid2 = new DoubleSolenoid (10, 4, 5);
   }
 
   @Override
@@ -39,5 +41,9 @@ public class ArmsSubsystem extends BaseSubsystem {
 
   public void retract() {
     solenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void deploy() {
+    solenoid2.set(DoubleSolenoid.Value.kForward);
   }
 }
