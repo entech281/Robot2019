@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import frc.robot.RobotMap;
+import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.ArmsDeploy;
 import frc.robot.commands.ArmsRelease;
 import frc.robot.commands.ArmsSqueeze;
@@ -38,6 +39,8 @@ public class OperatorInterface implements GetDriveInput {
   private Joystick driveStick;
   private Joystick operatorPanel;
   
+  // Robot Alignment
+  private JoystickButton targetAlignButton;
   // Arms Subsystem
   private JoystickButton armsDeployButton;
   private JoystickButton armsSqueezeButton;
@@ -78,6 +81,8 @@ public class OperatorInterface implements GetDriveInput {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
 
+    // Target alignment
+    targetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HOLD_LATERAL);
 
     // Arms Subsystem
     armsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
@@ -106,6 +111,8 @@ public class OperatorInterface implements GetDriveInput {
   }
   
   protected void createCommands() { 
+    // Target
+    targetAlignButton.whileHeld(new AlignWithTarget(this.robot));
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));

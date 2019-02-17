@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
     compressor.start();
 
     sensors = new SensorSubsystem();
-    robotDrive = new DriveSubsystem();
+    robotDrive = new DriveSubsystem(this);
     arms = new ArmsSubsystem();
     navX = new NavXSubsystem();
     flip = new FlipSubsystem();

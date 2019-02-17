@@ -10,11 +10,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveInput;
+import frc.robot.drive.HoldYawFilter;
 import frc.robot.drive.JoystickJitterFilter;
 import frc.robot.drive.NudgeLeftFilter;
 import frc.robot.drive.NudgeRightFilter;
 import frc.robot.drive.RobotRelativeDriveFilter;
 import frc.robot.drive.TwistFilter;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -25,6 +27,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class DriveSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private Robot robot;
   private WPI_TalonSRX m_frontLeft  = new WPI_TalonSRX(RobotMap.CAN.FRONT_LEFT_MOTOR);
   private WPI_TalonSRX m_rearLeft   = new WPI_TalonSRX(RobotMap.CAN.REAR_LEFT_MOTOR);
   private WPI_TalonSRX m_frontRight = new WPI_TalonSRX(RobotMap.CAN.FRONT_RIGHT_MOTOR);	
@@ -35,8 +38,15 @@ public class DriveSubsystem extends BaseSubsystem {
   private JoystickJitterFilter joystickJitterFilter = new JoystickJitterFilter();
   private RobotRelativeDriveFilter robotRelativeDriveFilter = new RobotRelativeDriveFilter();
 
+  private HoldYawFilter holdYawFilter = null;
+
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
+
+  public DriveSubsystem(Robot robot) {
+    this.robot = robot;
+    holdYawFilter = new HoldYawFilter(this.robot);
+  }
 
   @Override
   public void initialize() {
@@ -66,6 +76,7 @@ public class DriveSubsystem extends BaseSubsystem {
     // Override filters go last
     di = nudgeRightFilter.filter(di);
     di = nudgeLeftFilter.filter(di);
+    di = holdYawFilter.filter(di);
 
     return di;
   }
@@ -96,5 +107,17 @@ public class DriveSubsystem extends BaseSubsystem {
   public void nudgeLeft() {
     nudgeLeftFilter.enable();
     nudgeRightFilter.disable();
+  }
+
+  public void holdYawAngle(double angle) {
+    holdYawFilter.setRobotYaw(angle);
+  }
+
+  public void holdYawOn() {
+    holdYawFilter.enable();
+  }
+
+  public void holdYawOff() {
+    holdYawFilter.disable();
   }
 }
