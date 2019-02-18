@@ -28,11 +28,11 @@ public class DriveSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private Robot robot;
-  private WPI_TalonSRX m_frontLeft  = new WPI_TalonSRX(RobotMap.CAN.FRONT_LEFT_MOTOR);
-  private WPI_TalonSRX m_rearLeft   = new WPI_TalonSRX(RobotMap.CAN.REAR_LEFT_MOTOR);
-  private WPI_TalonSRX m_frontRight = new WPI_TalonSRX(RobotMap.CAN.FRONT_RIGHT_MOTOR);	
-  private WPI_TalonSRX m_rearRight  = new WPI_TalonSRX(RobotMap.CAN.REAR_RIGHT_MOTOR);
-  private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
+  private WPI_TalonSRX frontLeftTalon  = new WPI_TalonSRX(RobotMap.CAN.FRONT_LEFT_MOTOR);
+  private WPI_TalonSRX rearLeftTalon   = new WPI_TalonSRX(RobotMap.CAN.REAR_LEFT_MOTOR);
+  private WPI_TalonSRX frontRightTalon = new WPI_TalonSRX(RobotMap.CAN.FRONT_RIGHT_MOTOR);	
+  private WPI_TalonSRX rearRightTalon  = new WPI_TalonSRX(RobotMap.CAN.REAR_RIGHT_MOTOR);
+  private MecanumDrive robotDrive = new MecanumDrive(frontLeftTalon,rearLeftTalon,frontRightTalon,rearRightTalon);
   
   private TwistFilter twistFilter = new TwistFilter();
   private JoystickJitterFilter joystickJitterFilter = new JoystickJitterFilter();
@@ -50,12 +50,15 @@ public class DriveSubsystem extends BaseSubsystem {
 
   @Override
   public void initialize() {
-    m_frontLeft.setInverted(false);
-    m_rearLeft.setInverted(false);
-    m_frontRight.setInverted(false);
-    m_rearRight.setInverted(false);
+    frontLeftTalon.setInverted(false);
+    rearLeftTalon.setInverted(false);
+    frontRightTalon.setInverted(false);
+    rearRightTalon.setInverted(false);
     robotRelativeDriveFilter.disable();
-    joystickJitterFilter.enable();
+
+    // Use drive subsystem to filter Joytsick not our own filter
+    robotDrive.setDeadband(0.1);
+    joystickJitterFilter.disable();
   }
 
   @Override
@@ -64,7 +67,7 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void drive(DriveInput di) {
-    m_robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), di.getFieldAngle());
+    robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), di.getFieldAngle());
   }
 
   public DriveInput applyActiveFilters(DriveInput di) {
