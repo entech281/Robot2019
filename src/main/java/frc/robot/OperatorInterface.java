@@ -73,7 +73,7 @@ public class OperatorInterface implements GetDriveInput {
     
   @Override
   public DriveInput getDriveInput() {
-      return new DriveInput(-driveStick.getX(), driveStick.getY(), -driveStick.getZ());
+      return new DriveInput(driveStick.getX(), -driveStick.getY(), driveStick.getZ());
   }
   
 

@@ -24,6 +24,7 @@ import frc.robot.drive.GetDriveInput;
 public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSource {
 
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
+    private double angle_scale = -1.0;
     
     public NavXSubsystem() {
     }
@@ -42,16 +43,16 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
     public DriveInput getDriveInput() {
         DriveInput di = new DriveInput();
         if (navX != null) {
-            di.setFieldAngle(-navX.getAngle());
+            di.setFieldAngle(angle_scale*navX.getYaw());
         }
         return di;
     }
 
     public double getAngle() {
         if (navX != null) {
-            return -navX.getAngle();
+            return angle_scale*navX.getYaw();
         } else {
-            return 720.0;
+            return 360.0;
         }
     }
 
@@ -59,10 +60,18 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
         navX.zeroYaw();
     }
 
+    public void flipOutputAngle(boolean flip) {
+      if (flip) {
+        angle_scale = -1.0;
+      } else {
+        angle_scale = 1.0;
+      }
+    }
+
     @Override
     public void periodic() {
         if (navX != null) {
-            SmartDashboard.putNumber("Gyro Angle", -navX.getAngle());
+            SmartDashboard.putNumber("Yaw Angle", angle_scale*navX.getYaw());
         }
     }    
  
@@ -78,36 +87,30 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
   
     @Override
     public double pidGet() {
-      return -navX.getAngle();
+      return angle_scale*navX.getYaw();
     }
 
     public double findNearestQuadrant() {
-        double angle = -navX.getAngle();
-        while (angle > 360.0) {
-          angle -= 360.0;
-        }
-        while (angle < 0.0) {
-          angle += 360.0;
-        }
-        if (angle < 22.5) {
+        double angle = angle_scale*navX.getYaw();
+        if (angle <= -157.5) {
+          return -180.0;
+        } else if (angle < -112.5) {
+          return -135.0;
+        } else if (angle <= -67.5) {
+          return -90.0;
+        } else if (angle < -22.5) {
+          return -45.0;
+        } else if (angle <= 22.5) {
           return 0.0;
-        } else if ( angle <= 67.5 ) {
+        } else if (angle < 67.5) {
           return 45.0;
-        } else if ( angle <= 112.5 ) {
+        } else if (angle <= 112.5) {
           return 90.0;
-        } else if ( angle < 157.5 ) {
+        } else if (angle < 157.5) {
           return 135.0;
-        } else if ( angle <= 202.5 ) {
-          return 180.0;
-        } else if ( angle < 247.5 ) {
-          return 225.0;
-        } else if ( angle < 292.5 ) {
-          return 270.0;
-        } else if ( angle < 337.5 ) {
-          return 315.0;
         } else {
-          return 360.0;
+          return 180.0;
         }
       }
-         
+
 }

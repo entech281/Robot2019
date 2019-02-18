@@ -35,6 +35,6 @@ public class NudgeRightFilter extends DriveFilter {
             disable();
             return input;
         }
-        return new DriveInput(-nudgePower, 0.0, 0.0, 0.0, 0.0, 0.0);
+        return new DriveInput(nudgePower, 0.0, 0.0, 0.0, input.getTargetX(), input.getTargetY());
     }
 }

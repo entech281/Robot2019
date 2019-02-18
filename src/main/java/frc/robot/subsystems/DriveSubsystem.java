@@ -50,10 +50,10 @@ public class DriveSubsystem extends BaseSubsystem {
 
   @Override
   public void initialize() {
-    m_frontLeft.setInverted(true);
-    m_rearLeft.setInverted(true);
-    m_frontRight.setInverted(true);
-    m_rearRight.setInverted(true);
+    m_frontLeft.setInverted(false);
+    m_rearLeft.setInverted(false);
+    m_frontRight.setInverted(false);
+    m_rearRight.setInverted(false);
     robotRelativeDriveFilter.disable();
     joystickJitterFilter.enable();
   }
