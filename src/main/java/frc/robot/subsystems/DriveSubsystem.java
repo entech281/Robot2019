@@ -97,7 +97,7 @@ public class DriveSubsystem extends BaseSubsystem {
 
   public void twistOn(boolean enabled) {
     // THIS IS NOT BACKWARDS
-    // The twist filter turns off the twist
+    // When enabled, the twist filter turns off the twist
     if ( enabled ) {
       twistFilter.disable();
     } else {
@@ -116,14 +116,14 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void holdYawAngle(double angle) {
-    // holdYawFilter.setRobotYaw(angle);
+    holdYawFilter.setRobotYaw(angle);
   }
 
   public void holdYawOn() {
-    // holdYawFilter.enable();
+    holdYawFilter.enable();
   }
 
   public void holdYawOff() {
-    // holdYawFilter.disable();
+    holdYawFilter.disable();
   }
 }
