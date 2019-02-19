@@ -40,8 +40,8 @@ public class RobotMap {
       public static final int ALLOW_TWIST = 1;
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
-      public static final int FIELD_ABSOLUTE = 6;
-      public static final int ZERO_YAW = 7;
+      public static final int FIELD_ABSOLUTE = 8;
+      public static final int ZERO_YAW = 11;
     }
   }
  
