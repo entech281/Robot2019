@@ -35,9 +35,6 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
 
   @Override
   public void onEnable() {
-    if (isEnabled()) {
-      return;
-    }
     yaw_pid.enable();
     yaw_pid.reset();
   }

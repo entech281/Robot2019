@@ -18,7 +18,7 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
   Robot robot;
   PIDController lateral_pid;
   double pid_lateral;
-  double Kp = -0.1;
+  double Kp =  0.1;
   double Ki =  0.0;
   double Kd = -0.2;
 
@@ -26,8 +26,6 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
     super(false);
     this.robot = robot;
     lateral_pid = new PIDController(Kp, Ki, Kd, this.robot.getVisionSubsystem(), this);
-    lateral_pid.setInputRange(-180.0, 180.0);
-    lateral_pid.setContinuous(true);
     lateral_pid.setOutputRange(-1.0, 1.0);
     lateral_pid.setPercentTolerance(1.0);
     lateral_pid.enable();
@@ -35,9 +33,6 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
 
   @Override
   public void onEnable() {
-    if (isEnabled()) {
-      return;
-    }
     lateral_pid.enable();
     lateral_pid.reset();
   }
