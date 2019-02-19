@@ -28,11 +28,11 @@ public class DriveSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private Robot robot;
-  private WPI_TalonSRX m_frontLeft  = new WPI_TalonSRX(RobotMap.CAN.FRONT_LEFT_MOTOR);
-  private WPI_TalonSRX m_rearLeft   = new WPI_TalonSRX(RobotMap.CAN.REAR_LEFT_MOTOR);
-  private WPI_TalonSRX m_frontRight = new WPI_TalonSRX(RobotMap.CAN.FRONT_RIGHT_MOTOR);	
-  private WPI_TalonSRX m_rearRight  = new WPI_TalonSRX(RobotMap.CAN.REAR_RIGHT_MOTOR);
-  private MecanumDrive m_robotDrive = new MecanumDrive(m_frontLeft,m_rearLeft,m_frontRight,m_rearRight);
+  private WPI_TalonSRX frontLeftTalon  = new WPI_TalonSRX(RobotMap.CAN.FRONT_LEFT_MOTOR);
+  private WPI_TalonSRX rearLeftTalon   = new WPI_TalonSRX(RobotMap.CAN.REAR_LEFT_MOTOR);
+  private WPI_TalonSRX frontRightTalon = new WPI_TalonSRX(RobotMap.CAN.FRONT_RIGHT_MOTOR);	
+  private WPI_TalonSRX rearRightTalon  = new WPI_TalonSRX(RobotMap.CAN.REAR_RIGHT_MOTOR);
+  private MecanumDrive robotDrive = new MecanumDrive(frontLeftTalon,rearLeftTalon,frontRightTalon,rearRightTalon);
   
   private TwistFilter twistFilter = new TwistFilter();
   private JoystickJitterFilter joystickJitterFilter = new JoystickJitterFilter();
@@ -45,17 +45,22 @@ public class DriveSubsystem extends BaseSubsystem {
 
   public DriveSubsystem(Robot robot) {
     this.robot = robot;
-    holdYawFilter = new HoldYawFilter(this.robot);
   }
 
   @Override
   public void initialize() {
-    m_frontLeft.setInverted(true);
-    m_rearLeft.setInverted(true);
-    m_frontRight.setInverted(true);
-    m_rearRight.setInverted(true);
+    frontLeftTalon.setInverted(false);
+    rearLeftTalon.setInverted(false);
+    frontRightTalon.setInverted(false);
+    rearRightTalon.setInverted(false);
+
+    holdYawFilter = new HoldYawFilter(this.robot);
+    holdYawFilter.disable();
     robotRelativeDriveFilter.disable();
-    joystickJitterFilter.enable();
+
+    // Use drive subsystem to filter Joytsick not our own filter
+    robotDrive.setDeadband(0.1);
+    joystickJitterFilter.disable();
   }
 
   @Override
@@ -64,7 +69,8 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void drive(DriveInput di) {
-    m_robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), di.getFieldAngle());
+    SmartDashboard.putNumber("DriveInput FieldAngle", di.getFieldAngle());
+    robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), -di.getFieldAngle());
   }
 
   public DriveInput applyActiveFilters(DriveInput di) {
@@ -76,7 +82,7 @@ public class DriveSubsystem extends BaseSubsystem {
     // Override filters go last
     di = nudgeRightFilter.filter(di);
     di = nudgeLeftFilter.filter(di);
-    di = holdYawFilter.filter(di);
+    // di = holdYawFilter.filter(di);
 
     return di;
   }
@@ -110,14 +116,14 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void holdYawAngle(double angle) {
-    holdYawFilter.setRobotYaw(angle);
+    // holdYawFilter.setRobotYaw(angle);
   }
 
   public void holdYawOn() {
-    holdYawFilter.enable();
+    // holdYawFilter.enable();
   }
 
   public void holdYawOff() {
-    holdYawFilter.disable();
+    // holdYawFilter.disable();
   }
 }

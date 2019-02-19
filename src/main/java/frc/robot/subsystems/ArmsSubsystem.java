@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -25,8 +26,8 @@ public class ArmsSubsystem extends BaseSubsystem {
   
   @Override
   public void initialize() {
-    solenoid = new DoubleSolenoid(10, 0, 1);
-    solenoid2 = new DoubleSolenoid (10, 4, 5);
+    solenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID1_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID1_REVERSE);
+    solenoid2 = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID2_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID2_REVERSE);
   }
 
   @Override

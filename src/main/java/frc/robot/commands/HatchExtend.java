@@ -22,6 +22,7 @@ public class HatchExtend extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    counter = 0;
     hatch.extend();
   }
 
@@ -35,7 +36,7 @@ public class HatchExtend extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 10 ) {
+    if ( counter > 50 ) {
       return true;
     } else {
       return false;
