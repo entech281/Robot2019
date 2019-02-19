@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class NudgeRightFilter extends DriveFilter {
     private Timer m_timer = new Timer();
-    static private double nudgeTime = 0.1;
+    static private double nudgeTime = 0.2;
     static private double nudgePower = 0.5;
 
     public NudgeRightFilter() {
