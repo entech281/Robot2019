@@ -24,7 +24,7 @@ import frc.robot.drive.GetDriveInput;
 public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSource {
 
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
-    private double angle_scale = -1.0;
+    private double angle_scale = 1.0;
     
     public NavXSubsystem() {
     }
@@ -72,6 +72,7 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
     public void periodic() {
         if (navX != null) {
             SmartDashboard.putNumber("Yaw Angle", angle_scale*navX.getYaw());
+            SmartDashboard.putNumber("Field Angle", angle_scale*navX.getAngle());
         }
     }    
  

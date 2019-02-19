@@ -35,8 +35,8 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Robot extends TimedRobot {
   private Compressor compressor;
 
-  private DriveSubsystem robotDrive;
   private NavXSubsystem navX;
+  private DriveSubsystem robotDrive;
   private ArmsSubsystem arms;
   private FlipSubsystem flip;
   private HatchSubsystem hatch;

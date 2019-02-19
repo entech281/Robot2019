@@ -45,7 +45,6 @@ public class DriveSubsystem extends BaseSubsystem {
 
   public DriveSubsystem(Robot robot) {
     this.robot = robot;
-    holdYawFilter = new HoldYawFilter(this.robot);
   }
 
   @Override
@@ -54,6 +53,9 @@ public class DriveSubsystem extends BaseSubsystem {
     rearLeftTalon.setInverted(false);
     frontRightTalon.setInverted(false);
     rearRightTalon.setInverted(false);
+
+    holdYawFilter = new HoldYawFilter(this.robot);
+    holdYawFilter.disable();
     robotRelativeDriveFilter.disable();
 
     // Use drive subsystem to filter Joytsick not our own filter
@@ -67,7 +69,8 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void drive(DriveInput di) {
-    robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), di.getFieldAngle());
+    SmartDashboard.putNumber("DriveInput FieldAngle", di.getFieldAngle());
+    robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), -di.getFieldAngle());
   }
 
   public DriveInput applyActiveFilters(DriveInput di) {
@@ -79,7 +82,7 @@ public class DriveSubsystem extends BaseSubsystem {
     // Override filters go last
     di = nudgeRightFilter.filter(di);
     di = nudgeLeftFilter.filter(di);
-    di = holdYawFilter.filter(di);
+    // di = holdYawFilter.filter(di);
 
     return di;
   }
@@ -113,14 +116,14 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void holdYawAngle(double angle) {
-    holdYawFilter.setRobotYaw(angle);
+    // holdYawFilter.setRobotYaw(angle);
   }
 
   public void holdYawOn() {
-    holdYawFilter.enable();
+    // holdYawFilter.enable();
   }
 
   public void holdYawOff() {
-    holdYawFilter.disable();
+    // holdYawFilter.disable();
   }
 }
