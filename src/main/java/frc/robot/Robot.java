@@ -80,9 +80,9 @@ public class Robot extends TimedRobot {
     compressor.start();
 
     sensors = new SensorSubsystem();
+    navX = new NavXSubsystem();  // NAVX must be created before the robotDrive
     robotDrive = new DriveSubsystem(this);
     arms = new ArmsSubsystem();
-    navX = new NavXSubsystem();
     flip = new FlipSubsystem();
     hatch = new HatchSubsystem();
     vision = new VisionSubsystem();
