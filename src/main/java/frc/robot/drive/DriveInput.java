@@ -117,4 +117,10 @@ public class DriveInput {
       setTargetY(vision_di.getTargetY());
     }
   }
+
+  public void mergeLineSensorData(DriveInput sensor_di) {
+    if (sensor_di.isValid()) {
+      setTargetY(sensor_di.getTargetY());
+    }
+  }
 }
