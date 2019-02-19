@@ -82,7 +82,7 @@ public class OperatorInterface implements GetDriveInput {
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
 
     // Target alignment
-    targetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HOLD_LATERAL);
+    targetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
 
     // Arms Subsystem
     armsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
