@@ -78,7 +78,7 @@ public class FlipSubsystem extends BaseSubsystem {
   /**
    * @param climbTalon the motor to set
    */
-  public void setMotor(WPI_TalonSRX motor) {
-    this.climbTalon = motor;
+  public void setMotor(WPI_TalonSRX climbTalon) {
+    this.climbTalon = climbTalon;
   }
 }
