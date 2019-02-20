@@ -21,13 +21,13 @@ public class ArmsSubsystem extends BaseSubsystem {
     super();
   }
 
-  private DoubleSolenoid solenoid;
-  private DoubleSolenoid solenoid2;
+  private DoubleSolenoid squeezeSolenoid;
+  private DoubleSolenoid deploySolenoid;
   
   @Override
   public void initialize() {
-    solenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID1_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID1_REVERSE);
-    solenoid2 = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID2_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID2_REVERSE);
+    squeezeSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID1_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID1_REVERSE);
+    deploySolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID2_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID2_REVERSE);
   }
 
   @Override
@@ -36,15 +36,15 @@ public class ArmsSubsystem extends BaseSubsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   
-  public void extend() {
-    solenoid.set(DoubleSolenoid.Value.kForward);
+  public void squeeze() {
+    squeezeSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void retract() {
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+  public void release() {
+    squeezeSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void deploy() {
-    solenoid2.set(DoubleSolenoid.Value.kForward);
+    deploySolenoid.set(DoubleSolenoid.Value.kForward);
   }
 }
