@@ -54,16 +54,10 @@ public class FlipSubsystem extends BaseSubsystem {
     climbTalon.set(ControlMode.PercentOutput, 0);
   }
 
-  /**
-   * @return the desiredSpeed
-   */
   public double getDesiredSpeed() {
     return desiredSpeed;
   }
 
-  /**
-   * @param desiredSpeed the desiredSpeed to set
-   */
   public void setDesiredSpeed(double desiredSpeed) {
     this.desiredSpeed = desiredSpeed;
   }
