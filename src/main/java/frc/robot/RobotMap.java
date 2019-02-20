@@ -27,10 +27,10 @@ public class RobotMap {
   public interface PNEUMATICS {
     public static final int HATCH_FORWARD = 1;
     public static final int HATCH_REVERSE = 0;
-    public static final int ARMS_SOLENOID1_FORWARD = 2;
-    public static final int ARMS_SOLENOID1_REVERSE = 3;
-    public static final int ARMS_SOLENOID2_FORWARD = 4;
-    public static final int ARMS_SOLENOID2_REVERSE = 5;
+    public static final int ARMS_SOLENOID1_FORWARD = 5;
+    public static final int ARMS_SOLENOID1_REVERSE = 4;
+    public static final int ARMS_SOLENOID2_FORWARD = 2;
+    public static final int ARMS_SOLENOID2_REVERSE = 3;
   }
 
   public interface DriveJoystick {
