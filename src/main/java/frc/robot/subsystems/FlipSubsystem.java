@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -21,7 +22,7 @@ public class FlipSubsystem extends BaseSubsystem {
 
   private double desiredSpeed = 0;
 
-  private WPI_TalonSRX motor  = new WPI_TalonSRX(2);
+  private WPI_TalonSRX climbTalon  = new WPI_TalonSRX(RobotMap.CAN.CLIMB);
 
   @Override
   public void initialize() {
@@ -41,16 +42,16 @@ public class FlipSubsystem extends BaseSubsystem {
 
   public void forward() {
     desiredSpeed = 1;
-    motor.set(ControlMode.PercentOutput, desiredSpeed);
+    climbTalon.set(ControlMode.PercentOutput, desiredSpeed);
   }
 
   public void backward() {
     desiredSpeed = -1;
-    motor.set(ControlMode.PercentOutput, desiredSpeed);
+    climbTalon.set(ControlMode.PercentOutput, desiredSpeed);
   }
   
   public void stop() {
-    motor.set(ControlMode.PercentOutput, 0);
+    climbTalon.set(ControlMode.PercentOutput, 0);
   }
 
   /**
@@ -71,13 +72,13 @@ public class FlipSubsystem extends BaseSubsystem {
    * @return the motor
    */
   public WPI_TalonSRX getMotor() {
-    return motor;
+    return climbTalon;
   }
 
   /**
-   * @param motor the motor to set
+   * @param climbTalon the motor to set
    */
   public void setMotor(WPI_TalonSRX motor) {
-    this.motor = motor;
+    this.climbTalon = motor;
   }
 }

@@ -43,6 +43,7 @@ public class OperatorInterface implements GetDriveInput {
   
   // Robot Alignment
   private JoystickButton targetAlignButton;
+
   // Arms Subsystem
   private JoystickButton armsDeployButton;
   private JoystickButton armsSqueezeButton;
@@ -62,6 +63,7 @@ public class OperatorInterface implements GetDriveInput {
   
   // Twist Commands
   private JoystickButton twistButton;
+  
   private JoystickButton zeroYawButton;
   
   // Field Absolute Toggle
@@ -81,13 +83,12 @@ public class OperatorInterface implements GetDriveInput {
     SmartDashboard.putNumber("OI JS Raw Z", driveStick.getZ());
     return new DriveInput(driveStick.getX(), -driveStick.getY(), driveStick.getZ());
   }
-  
 
   protected void createButtons() {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
 
-    // Target alignment
+    // Target Alignment
     targetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
 
     // Arms Subsystem
@@ -109,7 +110,7 @@ public class OperatorInterface implements GetDriveInput {
 
     // Twist Commands
     twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
-
+    
     zeroYawButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ZERO_YAW);
 
     // Field Absolute Toggle
@@ -117,8 +118,9 @@ public class OperatorInterface implements GetDriveInput {
   }
   
   protected void createCommands() { 
-    // Target
+    // Target Align
     targetAlignButton.whileHeld(new AlignWithTarget(this.robot));
+
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
@@ -127,8 +129,7 @@ public class OperatorInterface implements GetDriveInput {
     // Hatch Subsystem
     hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
     hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
-    
-        
+     
     // Flip Subsystem
     flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
     flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
