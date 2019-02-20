@@ -26,8 +26,8 @@ public class ArmsSubsystem extends BaseSubsystem {
   
   @Override
   public void initialize() {
-    squeezeSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID1_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID1_REVERSE);
-    deploySolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID2_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID2_REVERSE);
+    squeezeSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_GRAB_FORWARD, RobotMap.PNEUMATICS.ARMS_GRAB_REVERSE);
+    deploySolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_DEPLOY_FORWARD, RobotMap.PNEUMATICS.ARMS_DEPLOY_REVERSE);
   }
 
   @Override
