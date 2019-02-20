@@ -67,18 +67,4 @@ public class FlipSubsystem extends BaseSubsystem {
   public void setDesiredSpeed(double desiredSpeed) {
     this.desiredSpeed = desiredSpeed;
   }
-
-  /**
-   * @return the motor
-   */
-  public WPI_TalonSRX getMotor() {
-    return climbTalon;
-  }
-
-  /**
-   * @param climbTalon the motor to set
-   */
-  public void setMotor(WPI_TalonSRX climbTalon) {
-    this.climbTalon = climbTalon;
-  }
 }
