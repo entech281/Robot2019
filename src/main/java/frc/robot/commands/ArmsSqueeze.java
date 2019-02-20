@@ -22,13 +22,13 @@ public class ArmsSqueeze extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    arms.extend();
+    arms.squeeze();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    arms.extend();
+    arms.squeeze();
     counter++;
   }
 

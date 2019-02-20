@@ -22,13 +22,13 @@ public class ArmsRelease extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    arms.retract();
+    arms.release();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    arms.retract();
+    arms.release();
     counter++;
   }
 
