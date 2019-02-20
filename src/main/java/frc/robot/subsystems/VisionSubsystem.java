@@ -29,6 +29,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
     NetworkTableEntry distance;
     NetworkTableEntry lateral;
     NetworkTableEntry frameCount;
+    NetworkTableEntry targetFound;
 
     public VisionSubsystem() {
     }
@@ -39,6 +40,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
         distance = ntist.getEntry("team281.Vision.distance");
         lateral = ntist.getEntry("team281.Vision.lateral");
         frameCount = ntist.getEntry("team281.frameCount");
+        targetFound = ntist.getEntry("team281.Vision.targetFound");
     }
 
     @Override
@@ -63,20 +65,25 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
 
     @Override
     public DriveInput getDriveInput() {
+        boolean targetAreFound =targetFound.getBoolean(false);
         double currFrameCount = frameCount.getDouble(lastFrameCount);
         DriveInput di = new DriveInput();  // created as invalid
         if (currFrameCount > lastFrameCount) {
           scaleFactor = 1.0;
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
           lastLateralDistance = lateral.getDouble(UNKNOWN);
-          di.setTargetX(lastLateralDistance);
-          di.setTargetY(lastDistanceFromTarget);
+        if(targetAreFound){
+            di.setTargetX(lastLateralDistance);
+            di.setTargetY(lastDistanceFromTarget);
+        }
         } else {
           scaleFactor = 0.75*scaleFactor;
           if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 
               (Math.abs(lastDistanceFromTarget-UNKNOWN) > 0.1)) {
-            di.setTargetX(scaleFactor*lastLateralDistance);
-            di.setTargetY(scaleFactor*lastDistanceFromTarget);
+                if(targetAreFound){
+                    di.setTargetX(scaleFactor*lastLateralDistance);
+                    di.setTargetY(scaleFactor*lastDistanceFromTarget);
+                }
           }
         }
         return di;
