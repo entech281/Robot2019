@@ -14,6 +14,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     NetworkTableEntry distance;
     NetworkTableEntry lateral;
     NetworkTableEntry frameCount;
+    NetworkTableEntry targetFound;
 
     DriveInput driveInput = new DriveInput();
 
@@ -26,6 +27,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
         distance = ntist.getEntry("team281.Vision.distance");
         lateral = ntist.getEntry("team281.Vision.lateral");
         frameCount = ntist.getEntry("team281.frameCount");
+        targetFound = ntist.getEntry("team281.Vision.targetFound");
     }
 
     @Override
@@ -35,10 +37,13 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
 
     @Override
     public DriveInput getDriveInput() {
+        boolean targetAreFound = targetFound.getBoolean(false);
         double distanceFromTarget = distance.getDouble(UNKNOWN);
         double lateralDistance = lateral.getDouble(UNKNOWN);
-        driveInput.setTargetX(lateralDistance);
-        driveInput.setTargetY(distanceFromTarget);
+        if(targetAreFound==true){
+            driveInput.setTargetX(lateralDistance);
+            driveInput.setTargetY(distanceFromTarget);
+        }
         return null;
     }
 
