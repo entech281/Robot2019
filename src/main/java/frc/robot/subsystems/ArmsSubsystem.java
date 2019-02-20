@@ -8,23 +8,26 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class ShooterSubsystem extends BaseSubsystem {
+public class ArmsSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public ShooterSubsystem() {
+  public ArmsSubsystem() {
     super();
   }
 
-  private DoubleSolenoid solenoid;
+  private DoubleSolenoid squeezeSolenoid;
+  private DoubleSolenoid deploySolenoid;
   
   @Override
   public void initialize() {
-    solenoid = new DoubleSolenoid(10, 0, 1);
+    squeezeSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID1_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID1_REVERSE);
+    deploySolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_SOLENOID2_FORWARD, RobotMap.PNEUMATICS.ARMS_SOLENOID2_REVERSE);
   }
 
   @Override
@@ -33,11 +36,15 @@ public class ShooterSubsystem extends BaseSubsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
   
-  public void extend() {
-    solenoid.set(DoubleSolenoid.Value.kForward);
+  public void squeeze() {
+    squeezeSolenoid.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void retract() {
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+  public void release() {
+    squeezeSolenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void deploy() {
+    deploySolenoid.set(DoubleSolenoid.Value.kForward);
   }
 }

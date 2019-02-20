@@ -1,28 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot;
+
+import javax.swing.text.StyleContext.SmallAttributeSet;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.drive.DriveInput;
-import frc.robot.drive.GetDriveInput;
-
-import frc.robot.commands.ExtendCommand;
-import frc.robot.commands.GrabberIn;
-import frc.robot.commands.GrabberOut;
+import frc.robot.commands.AlignWithTarget;
+import frc.robot.commands.ArmsDeploy;
+import frc.robot.commands.ArmsRelease;
+import frc.robot.commands.ArmsSqueeze;
+import frc.robot.commands.FlipBackward;
+import frc.robot.commands.FlipForward;
+import frc.robot.commands.FlipStop;
+import frc.robot.commands.HatchExtend;
+import frc.robot.commands.HatchRetract;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
-import frc.robot.commands.RetractCommand;
-import frc.robot.commands.ThumbsDown;
-import frc.robot.commands.ThumbsStop;
-import frc.robot.commands.ThumbsUp;
+import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
+import frc.robot.commands.ZeroYaw;
+import frc.robot.drive.DriveInput;
+import frc.robot.drive.GetDriveInput;
 
 /**
  * Has all the code for operator controls
@@ -30,91 +37,116 @@ import frc.robot.commands.TwistOn;
  * @author dcowden
  */
 public class OperatorInterface implements GetDriveInput {
-    
-    private Robot robot;
-    private Joystick driveStick;
-    
-    private JoystickButton shootButton ;
-    private JoystickButton retractButton;
+  private Robot robot;
+  private Joystick driveStick;
+  private Joystick operatorPanel;
+  
+  // Robot Alignment
+  private JoystickButton targetAlignButton;
 
-    // Grabber Subsystem
-    private JoystickButton grabInButton;
-    private JoystickButton grabOutButton;
-
-    // Thumbs Subsystem
-    private JoystickButton thumbsUpButton;
-    private JoystickButton thumbsDownButton;
+  // Arms Subsystem
+  private JoystickButton armsDeployButton;
+  private JoystickButton armsSqueezeButton;
+  private JoystickButton armsReleaseButton;
+  
+  // Hatch Subsystem
+  private JoystickButton hatchExtendButton;
+  private JoystickButton hatchRetractButton;
+  
+  // Flip Subsystem
+  private JoystickButton flipForwardButton;
+  private JoystickButton flipBackwardButton;
+  
+  // Nudge Commands
+  private JoystickButton nudgeLeftButton;
+  private JoystickButton nudgeRightButton;
+  
+  // Twist Commands
+  private JoystickButton twistButton;
+  
+  private JoystickButton zeroYawButton;
+  
+  // Field Absolute Toggle
+  private JoystickButton fieldAbsoluteButton;
+  
+  public OperatorInterface(Robot robot){
+    this.robot = robot;
+    createButtons();
+    createCommands();
+  }
     
+  @Override
+  public DriveInput getDriveInput() {
+    SmartDashboard.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
+    SmartDashboard.putNumber("OI JS Raw X", driveStick.getX());
+    SmartDashboard.putNumber("OI JS Raw Y", driveStick.getY());
+    SmartDashboard.putNumber("OI JS Raw Z", driveStick.getZ());
+    return new DriveInput(driveStick.getX(), -driveStick.getY(), driveStick.getZ());
+  }
+
+  protected void createButtons() {
+    driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
+    operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
+
+    // Target Alignment
+    targetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
+
+    // Arms Subsystem
+    armsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
+    armsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
+    armsReleaseButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_RELEASE);
+
+    // Hatch Subsystem
+    hatchRetractButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_RETRACT);
+    hatchExtendButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_EXTEND);
+
+    // Flip Subsystem
+    flipForwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_FORWARD);
+    flipBackwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_BACKWARD);       
+         
     // Nudge Commands
-    private JoystickButton nudgeLeftButton;
-    private JoystickButton nudgeRightButton;
+    nudgeLeftButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
+    nudgeRightButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_RIGHT);
 
     // Twist Commands
-    private JoystickButton twistButton;
-
-    //drive related buttons
-    //private JoystickButton turnButton;
-    //private JoystickButton fieldAbsoluteButton;
-      
-    public OperatorInterface(Robot robot){
-        this.robot = robot;
-        createButtons();
-        createCommands();
-    }
+    twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
     
-    @Override
-    public DriveInput getDriveInput() {
-        return new DriveInput(driveStick.getX(), driveStick.getY(), -driveStick.getZ());
-    }
-    
-    protected void createButtons() {
-        driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
+    zeroYawButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ZERO_YAW);
 
-        // Shooter Subsystem
-        shootButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.SHOOT);
-        retractButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.RETRACT);
+    // Field Absolute Toggle
+    fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
+  }
+  
+  protected void createCommands() { 
+    // Target Align
+    targetAlignButton.whileHeld(new AlignWithTarget(this.robot));
 
-        // Grabber Subsystem
-        grabInButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.GRAB_IN);
-        grabOutButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.GRAB_OUT);
+    // Arms Subsystem
+    armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
+    armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
+    armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
 
-        // Thumbs Subsystem
-        thumbsUpButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.THUMB_UP);
-        thumbsDownButton = new JoystickButton(driveStick,RobotMap.DriveJoystick.Button.THUMB_DOWN);       
-         
-        // Nudge Commands
-        nudgeLeftButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
-        nudgeRightButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_RIGHT);
+    // Hatch Subsystem
+    hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
+    hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+     
+    // Flip Subsystem
+    flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
+    flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
+    flipBackwardButton.whileHeld(new FlipBackward(this.robot.getFlipSubsystem()));
+    flipBackwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
 
-        // Twist Commands
-        twistButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TWIST);
+    // Nudge Commands
+    nudgeRightButton.whenPressed(new NudgeRight(this.robot.getDriveSubsystem()));
+    nudgeLeftButton.whenPressed(new NudgeLeft(this.robot.getDriveSubsystem()));
 
-        //fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
-        //turnButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ALLOW_TURN);
-    }
-    
-    protected void createCommands() {
-        
-        // Shooter Subsystem
-        shootButton.whenPressed(new ExtendCommand(this.robot.getShooterSubsystem()));
-        retractButton.whenPressed(new RetractCommand(this.robot.getShooterSubsystem()));
+    // Twist Commands
+    twistButton.whenPressed(new TwistOn(this.robot.getDriveSubsystem()));
+    twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
 
-        // Grabber Subsystem
-        grabInButton.whenPressed(new GrabberIn(this.robot.getGrabberSubsystem()));
-        grabOutButton.whenPressed(new GrabberOut(this.robot.getGrabberSubsystem()));
-        
-        // Thumbs Subsystem
-        thumbsUpButton.whileHeld(new ThumbsUp(this.robot.getThumbsSubsystem()));
-        thumbsUpButton.whenReleased(new ThumbsStop(this.robot.getThumbsSubsystem()));
-        thumbsDownButton.whileHeld(new ThumbsDown(this.robot.getThumbsSubsystem()));
-        thumbsDownButton.whenReleased(new ThumbsStop(this.robot.getThumbsSubsystem()));
+    zeroYawButton.whenPressed(new ZeroYaw(this.robot.getNavXSubsystem()));
 
-        // Nudge Commands
-        nudgeRightButton.whenPressed(new NudgeRight(this.robot.getDriveSubsystem()));
-        nudgeLeftButton.whenPressed(new NudgeLeft(this.robot.getDriveSubsystem()));
-
-        // Twist Commands
-        twistButton.whenPressed(new TwistOn(this.robot.getDriveSubsystem()));
-        twistButton.whenReleased(new TwistOff(this.robot.getDriveSubsystem()));
-    } 
+    // Field Absolute Toggle
+    fieldAbsoluteButton.toggleWhenPressed(new ToggleFieldAbsolute(this.robot.getDriveSubsystem()));
+  } 
 }

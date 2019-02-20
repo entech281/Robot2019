@@ -8,27 +8,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmsSubsystem;
 
-public class ExtendCommand extends Command {
-  private ShooterSubsystem shooter;
+public class ArmsSqueeze extends Command {
+  private ArmsSubsystem arms;
   private int counter = 0;
 
-  public ExtendCommand(ShooterSubsystem shooter) {
-    this.shooter=shooter;
-    requires(shooter);
+  public ArmsSqueeze(ArmsSubsystem arms) {
+    this.arms=arms;
+    requires(arms);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    shooter.extend();
+    arms.squeeze();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    shooter.extend();
+    arms.squeeze();
     counter++;
   }
 

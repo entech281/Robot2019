@@ -24,26 +24,39 @@ public class RobotMap {
     public static final int PCM_ID = 10;
   }
 
+  public interface PNEUMATICS {
+    public static final int HATCH_FORWARD = 1;
+    public static final int HATCH_REVERSE = 0;
+    public static final int ARMS_SOLENOID1_FORWARD = 2;
+    public static final int ARMS_SOLENOID1_REVERSE = 3;
+    public static final int ARMS_SOLENOID2_FORWARD = 4;
+    public static final int ARMS_SOLENOID2_REVERSE = 5;
+  }
+
   public interface DriveJoystick {
     public static final int PORT = 0;
+
     public interface Button {
       public static final int ALLOW_TWIST = 1;
       public static final int NUDGE_LEFT = 3;
       public static final int NUDGE_RIGHT = 4;
-      public static final int FIELD_ABSOLUTE = 6;
-      public static final int THUMB_UP = 7;
-      public static final int GRAB_IN = 8;
-      public static final int THUMB_DOWN = 9;
-      public static final int GRAB_OUT = 10;
-      public static final int SHOOT = 11;
-      public static final int RETRACT = 12;
+      public static final int FIELD_ABSOLUTE = 8;
+      public static final int ZERO_YAW = 11;
     }
   }
  
   public interface OperatorPanel {
     public static final int PORT = 1;
     public interface Button {
-      public static final int HOLD_LATERAL = 1;
+      // Button definitions for the PS3 controller
+      public static final int TARGET_ALIGN = 8;
+      public static final int HATCH_RETRACT = 3;
+      public static final int HATCH_EXTEND = 1;
+      public static final int ARMS_DEPLOY = 13;
+      public static final int ARMS_SQUEEZE = 14;
+      public static final int ARMS_RELEASE = 16;
+      public static final int FLIP_FORWARD = 5;
+      public static final int FLIP_BACKWARD = 6;
     }
   }
 }

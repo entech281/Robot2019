@@ -8,34 +8,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 
-public class GrabberIn extends Command {
-  private GrabberSubsystem grabber;
+public class HatchExtend extends Command {
+  private HatchSubsystem hatch;
   private int counter = 0;
 
-  public GrabberIn(GrabberSubsystem grabber) {
-    this.grabber=grabber;
-    requires(grabber);
+  public HatchExtend(HatchSubsystem hatch) {
+    this.hatch=hatch;
+    requires(hatch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    grabber.retract();
+    counter = 0;
+    hatch.extend();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    grabber.retract();
+    hatch.extend();
     counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 10 ) {
+    if ( counter > 50 ) {
       return true;
     } else {
       return false;

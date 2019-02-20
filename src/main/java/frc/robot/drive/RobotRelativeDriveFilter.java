@@ -7,34 +7,21 @@
 
 package frc.robot.drive;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  * Override the drive input to a joystick right
  * @author mandrews
  */
-public class NudgeRightFilter extends DriveFilter {
-    private Timer m_timer = new Timer();
-    static private double nudgeTime = 0.2;
-    static private double nudgePower = 0.5;
-
-    public NudgeRightFilter() {
+public class RobotRelativeDriveFilter extends DriveFilter {
+    public RobotRelativeDriveFilter() {
         super(false);
     }
 
     @Override
     protected void onEnable() {
-        m_timer.stop();
-        m_timer.reset();
-        m_timer.start();
     }
     
     @Override
     public DriveInput doFilter(DriveInput input) {
-        if (m_timer.get() > nudgeTime) {
-            disable();
-            return input;
-        }
-        return new DriveInput(nudgePower, 0.0, input.getZ(), 0.0, input.getTargetX(), input.getTargetY());
+        return new DriveInput(input.getX(), input.getY(), input.getZ(), 0.0, input.getTargetX(), input.getTargetY());
     }
 }

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class NudgeLeftFilter extends DriveFilter {
     private Timer m_timer = new Timer();
-    static private double nudgeTime = 0.1;
+    static private double nudgeTime = 0.2;
     static private double nudgePower = 0.5;
 
     public NudgeLeftFilter() {
@@ -35,6 +35,6 @@ public class NudgeLeftFilter extends DriveFilter {
             disable();
             return input;
         }
-        return new DriveInput(0.0, nudgePower, 0.0, 0.0, 0.0, 0.0);
+        return new DriveInput(-nudgePower, 0.0, input.getZ(), 0.0, input.getTargetX(), input.getTargetY());
     }
 }

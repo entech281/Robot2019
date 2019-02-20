@@ -8,23 +8,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
  */
-public class GrabberSubsystem extends BaseSubsystem {
+public class HatchSubsystem extends BaseSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public GrabberSubsystem() {
-    super();
-  }
-
   private DoubleSolenoid solenoid;
+
+  public HatchSubsystem() {
+    super();
+    solenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.HATCH_FORWARD, RobotMap.PNEUMATICS.HATCH_REVERSE);  
+  }
 
   @Override
   public void initialize() {
-    solenoid = new DoubleSolenoid(10, 2, 3);
   }
 
   @Override

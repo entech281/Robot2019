@@ -13,17 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.FlipSubsystem;
+import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
+import frc.robot.subsystems.ArmsSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ThumbsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
-
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -34,43 +35,39 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Robot extends TimedRobot {
   private Compressor compressor;
 
-  private DriveSubsystem robotDrive;
   private NavXSubsystem navX;
-  private ShooterSubsystem shooter;
-  private ThumbsSubsystem thumbs;
-  private GrabberSubsystem grabber;
+  private DriveSubsystem robotDrive;
+  private ArmsSubsystem arms;
+  private FlipSubsystem flip;
+  private HatchSubsystem hatch;
+
   private VisionSubsystem vision;
   private SensorSubsystem sensors;
-  private boolean inFieldAbsolute = false;
 
   private OperatorInterface oi;
 
-  public void toggleFieldAbsolute() {
-    inFieldAbsolute = !inFieldAbsolute;
-  }
-
   public DriveSubsystem getDriveSubsystem() {
     return robotDrive;
+  }
+
+  public HatchSubsystem getHatchSubsystem() {
+    return hatch;
   }
 
   public SensorSubsystem getSensorSubsystem(){
     return sensors;
   }
 
-  public GrabberSubsystem getGrabberSubsystem() {
-    return grabber;
-  }
-
   public NavXSubsystem getNavXSubsystem() {
     return navX;
   }
 
-  public ShooterSubsystem getShooterSubsystem() {
-    return shooter;
+  public ArmsSubsystem getArmsSubsystem() {
+    return arms;
   }
 
-  public ThumbsSubsystem getThumbsSubsystem() {
-    return thumbs;
+  public FlipSubsystem getFlipSubsystem() {
+    return flip;
   }
 
   public VisionSubsystem getVisionSubsystem(){
@@ -82,37 +79,30 @@ public class Robot extends TimedRobot {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
-    
-
     sensors = new SensorSubsystem();
-    robotDrive = new DriveSubsystem();
-    shooter = new ShooterSubsystem();
-    navX = new NavXSubsystem();
-    thumbs = new ThumbsSubsystem();
-    grabber = new GrabberSubsystem();
+    navX = new NavXSubsystem();  // NAVX must be created before the robotDrive
+    robotDrive = new DriveSubsystem(this);
+    arms = new ArmsSubsystem();
+    flip = new FlipSubsystem();
+    hatch = new HatchSubsystem();
     vision = new VisionSubsystem();
 
     BaseSubsystem.initializeList();
 
     this.oi = new OperatorInterface(this);
 
-    CameraServer.getInstance().startAutomaticCapture();
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    camera.setResolution(320, 240);
+    camera.setFPS(60);
   }
 
   public void teleopPeriodic(){
-    DriveInput di = mergeOIandNavDriveInput(this.oi.getDriveInput(), navX.getDriveInput());
+    DriveInput di = this.oi.getDriveInput();
+    di.mergeNavXSensorData(navX.getDriveInput());
+    di.mergeLineSensorData(sensors.getDriveInput());
     di = robotDrive.applyActiveFilters(di);
     robotDrive.drive(di);
 
-    SmartDashboard.putNumber("Joystick X", di.getX());
-    SmartDashboard.putNumber("Joystick Y", di.getY());
-    SmartDashboard.putNumber("Joystick Z", di.getZ());
-    SmartDashboard.putNumber("Gyro Angle", di.getFieldAngle());
-
     Scheduler.getInstance().run();
-  }
-
-  private DriveInput mergeOIandNavDriveInput(DriveInput oi_di, DriveInput nav_di) {
-    return new DriveInput(oi_di.getX(), oi_di.getY(), oi_di.getZ(), nav_di.getFieldAngle());
   }
 }
