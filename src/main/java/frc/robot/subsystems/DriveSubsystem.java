@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drive.AlignLateralFilter;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.HoldYawFilter;
 import frc.robot.drive.JoystickJitterFilter;
@@ -39,6 +40,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private RobotRelativeDriveFilter robotRelativeDriveFilter = new RobotRelativeDriveFilter();
 
   private HoldYawFilter holdYawFilter = null;
+  private AlignLateralFilter alignLateralFilter = null;
 
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
@@ -56,11 +58,14 @@ public class DriveSubsystem extends BaseSubsystem {
 
     holdYawFilter = new HoldYawFilter(this.robot);
     holdYawFilter.disable();
-    robotRelativeDriveFilter.disable();
+
+    alignLateralFilter = new AlignLateralFilter(this.robot);
+    alignLateralFilter.disable();
 
     // Use drive subsystem to filter Joytsick not our own filter
     robotDrive.setDeadband(0.1);
     joystickJitterFilter.disable();
+    robotRelativeDriveFilter.disable();
   }
 
   @Override
@@ -79,11 +84,13 @@ public class DriveSubsystem extends BaseSubsystem {
     di = joystickJitterFilter.filter(di);
     di = robotRelativeDriveFilter.filter(di);
 
-    // Override filters go last
-    di = nudgeRightFilter.filter(di);
-    di = nudgeLeftFilter.filter(di);
-    // di = holdYawFilter.filter(di);
-
+    if (nudgeLeftFilter.isEnabled() || nudgeRightFilter.isEnabled()) {
+      di = nudgeRightFilter.filter(di);
+      di = nudgeLeftFilter.filter(di);
+    } else {
+      di = holdYawFilter.filter(di);
+      di = alignLateralFilter.filter(di);
+    }
     return di;
   }
 
@@ -115,15 +122,23 @@ public class DriveSubsystem extends BaseSubsystem {
     nudgeRightFilter.disable();
   }
 
-  public void holdYawAngle(double angle) {
+  public void setHoldYawAngle(double angle) {
     holdYawFilter.setRobotYaw(angle);
   }
 
-  public void holdYawOn() {
-    holdYawFilter.enable();
+  public void holdYaw(boolean enable) {
+    if (enable) {
+      holdYawFilter.enable();
+    } else {
+      holdYawFilter.disable();
+    }
   }
 
-  public void holdYawOff() {
-    holdYawFilter.disable();
+  public void alignWithTarget(boolean enable) {
+    if (enable) {
+      alignLateralFilter.enable();
+    } else {
+      alignLaterFilter.disable();
+    }
   }
 }

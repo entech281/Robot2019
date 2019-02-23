@@ -79,13 +79,15 @@ public class Robot extends TimedRobot {
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
+    // These must be created in this order since the different sensors are used by the Drive
     sensors = new SensorSubsystem();
-    navX = new NavXSubsystem();  // NAVX must be created before the robotDrive
+    navX = new NavXSubsystem();
+    vision = new VisionSubsystem();
     robotDrive = new DriveSubsystem(this);
+
     arms = new ArmsSubsystem();
     flip = new FlipSubsystem();
     hatch = new HatchSubsystem();
-    vision = new VisionSubsystem();
 
     BaseSubsystem.initializeList();
 
