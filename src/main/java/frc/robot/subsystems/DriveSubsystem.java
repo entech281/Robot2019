@@ -138,7 +138,7 @@ public class DriveSubsystem extends BaseSubsystem {
     if (enable) {
       alignLateralFilter.enable();
     } else {
-      alignLaterFilter.disable();
+      alignLateralFilter.disable();
     }
   }
 }
