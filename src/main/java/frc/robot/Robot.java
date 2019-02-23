@@ -97,8 +97,16 @@ public class Robot extends TimedRobot {
     camera.setFPS(60);
   }
 
+  public void autonomousInit() {
+    robotDrive.setFieldAbsolute(false);
+  }
+
   public void autonomousPeriodic() {
     teleopPeriodic();
+  }
+
+  public void teleInit() {
+    robotDrive.setFieldAbsolute(true);
   }
 
   public void teleopPeriodic(){

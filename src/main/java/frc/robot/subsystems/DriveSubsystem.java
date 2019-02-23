@@ -78,7 +78,10 @@ public class DriveSubsystem extends BaseSubsystem {
     di.mergeVisionSensorData(this.robot.getVisionSubsystem().getDriveInput());
     di.mergeLineSensorData(this.robot.getSensorSubsystem().getDriveInput());
     di = applyActiveFilters(di);
-    SmartDashboard.putNumber("DriveInput FieldAngle", di.getFieldAngle());
+    SmartDashboard.putNumber("DriveInput JS X", di.getX());
+    SmartDashboard.putNumber("DriveInput JS Y", di.getY());
+    SmartDashboard.putNumber("DriveInput JS Z", di.getZ());
+    SmartDashboard.putNumber("DriveInput Angle", di.getFieldAngle());
     robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), -di.getFieldAngle());
   }
 
@@ -100,6 +103,14 @@ public class DriveSubsystem extends BaseSubsystem {
 
   public void toggleFieldAbsolute() {
     if (robotRelativeDriveFilter.isEnabled()) {
+      robotRelativeDriveFilter.disable();
+    } else {
+      robotRelativeDriveFilter.enable();
+    }
+  }
+
+  public void setFieldAbsolute(boolean enable) {
+    if (enable) {
       robotRelativeDriveFilter.disable();
     } else {
       robotRelativeDriveFilter.enable();
