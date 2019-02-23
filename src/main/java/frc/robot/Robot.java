@@ -97,14 +97,17 @@ public class Robot extends TimedRobot {
     camera.setFPS(60);
   }
 
+  public void autonomousPeriodic() {
+    teleopPeriodic();
+  }
+
   public void teleopPeriodic(){
-    DriveInput di = this.oi.getDriveInput();
-    di.mergeNavXSensorData(navX.getDriveInput());
-    di.mergeVisionSensorData(vision.getDriveInput());
-    di.mergeLineSensorData(sensors.getDriveInput());
-    di = robotDrive.applyActiveFilters(di);
-    robotDrive.drive(di);
+    robotDrive.drive(this.oi.getDriveInput());
 
     Scheduler.getInstance().run();
+  }
+
+  public void disabledPeriodic() {
+    robotDrive.drive(new DriveInput(0.0,0.0,0.0));
   }
 }

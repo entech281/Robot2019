@@ -55,30 +55,34 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
 
             //two sensors on
             case 3: current_offset =  - (4 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS) / 2 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 6:  current_offset = - 3 * INSIDE_SENSOR_WIDTH / 2 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 12: current_offset = -INSIDE_SENSOR_WIDTH / 2 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 24: current_offset = INSIDE_SENSOR_WIDTH / 2 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 48: current_offset = 3 * INSIDE_SENSOR_WIDTH / 2 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 96: current_offset = (4 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS) / 2 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             default: 
-            offset_valid = false;
+              offset_valid = false;
               break;
         }
         
         SmartDashboard.putNumber("Arduino Value", current_offset);
         SmartDashboard.putNumber("Byte Value", b[0]);
+    }
+
+    public boolean isSensorDataValid() {
+      return offset_valid;
     }
 
 	@Override

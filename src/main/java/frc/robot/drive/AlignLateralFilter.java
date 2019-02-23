@@ -21,6 +21,7 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
   double Kp =  0.1;
   double Ki =  0.0;
   double Kd = -0.2;
+  boolean lineSensorsActive = true;
 
   public AlignLateralFilter(Robot robot) {
     super(false);
@@ -33,6 +34,7 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
 
   @Override
   public void onEnable() {
+    lateral_pid.setSetpoint(0.0);
     lateral_pid.enable();
     lateral_pid.reset();
   }
@@ -47,14 +49,23 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
     this.pid_lateral = pid_out;
   }
 
-   // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  public void setRobotYaw(double angle) {
-    lateral_pid.setSetpoint(angle);
+  public void useLineSensors(boolean enable) {
+    lineSensorsActive = enable;
   }
 
   @Override
   public DriveInput doFilter(DriveInput input) {
-    return new DriveInput(this.pid_lateral, input.getY(), input.getZ(), 0.0, input.getTargetX(), input.getTargetY());
+    double x_js = this.pid_lateral;
+    // If we have valid line sensor data, use in in place of vision
+    if (lineSensorsActive && this.robot.getSensorSubsystem().isSensorDataValid()) {
+      if (input.getTargetY() > 0.0) {
+        x_js = -0.5;
+      } else if (input.getTargetY() < 0.0) {
+        x_js = 0.5;
+      } else {
+        x_js = 0.0;
+      }
+    }
+    return new DriveInput(x_js, input.getY(), input.getZ(), 0.0, input.getTargetX(), input.getTargetY());
   }
 }

@@ -74,6 +74,10 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void drive(DriveInput di) {
+    di.mergeNavXSensorData(this.robot.getNavXSubsystem().getDriveInput());
+    di.mergeVisionSensorData(this.robot.getVisionSubsystem().getDriveInput());
+    di.mergeLineSensorData(this.robot.getSensorSubsystem().getDriveInput());
+    di = applyActiveFilters(di);
     SmartDashboard.putNumber("DriveInput FieldAngle", di.getFieldAngle());
     robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), -di.getFieldAngle());
   }
