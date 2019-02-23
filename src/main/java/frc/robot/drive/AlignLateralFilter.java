@@ -18,9 +18,9 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
   Robot robot;
   PIDController lateral_pid;
   double pid_lateral;
-  double Kp =  0.1;
+  double Kp =  0.2;
   double Ki =  0.0;
-  double Kd = -0.2;
+  double Kd = 0.0;
   boolean lineSensorsActive = true;
 
   public AlignLateralFilter(Robot robot) {

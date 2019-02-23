@@ -40,12 +40,15 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
         distance = ntist.getEntry("team281.Vision.distance");
         lateral = ntist.getEntry("team281.Vision.lateral");
         frameCount = ntist.getEntry("team281.frameCount");
-        targetFound = ntist.getEntry("team281.Vision.targetFound");
+        targetFound = ntist.getEntry("team281.Vision.foundTarget");
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));   
+        SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
+        SmartDashboard.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
+        SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));
+        SmartDashboard.putBoolean("Found Targets for Vision?:", targetFound.getBoolean(false));   
     }
  
     @Override
