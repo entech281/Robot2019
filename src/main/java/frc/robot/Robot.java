@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
@@ -101,6 +100,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic(){
     DriveInput di = this.oi.getDriveInput();
     di.mergeNavXSensorData(navX.getDriveInput());
+    di.mergeVisionSensorData(vision.getDriveInput());
     di.mergeLineSensorData(sensors.getDriveInput());
     di = robotDrive.applyActiveFilters(di);
     robotDrive.drive(di);

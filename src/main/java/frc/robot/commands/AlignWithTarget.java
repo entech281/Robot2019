@@ -25,6 +25,7 @@ public class AlignWithTarget extends Command {
     double angle = this.robot.getNavXSubsystem().findNearestQuadrant();
     this.robot.getDriveSubsystem().setHoldYawAngle(angle);
     this.robot.getDriveSubsystem().holdYaw(true);
+    this.robot.getDriveSubsystem().alignWithTarget(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,6 +43,7 @@ public class AlignWithTarget extends Command {
   @Override
   protected void end() {
     this.robot.getDriveSubsystem().holdYaw(false);
+    this.robot.getDriveSubsystem().alignWithTarget(false);
   }
 
   // Called when another command which requires one or more of the same
