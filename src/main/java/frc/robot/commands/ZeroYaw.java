@@ -16,6 +16,7 @@ public class ZeroYaw extends Command {
   public ZeroYaw(NavXSubsystem navX) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(navX);
     this.navX = navX;
   }
 

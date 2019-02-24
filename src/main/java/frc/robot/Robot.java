@@ -122,5 +122,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     robotDrive.drive(new DriveInput(0.0,0.0,0.0));
+    Scheduler.getInstance().run();
   }
 }

@@ -93,9 +93,10 @@ public class DriveSubsystem extends BaseSubsystem {
     di = joystickJitterFilter.filter(di);
     di = robotRelativeDriveFilter.filter(di);
 
-    if (nudgeLeftFilter.isEnabled() || nudgeRightFilter.isEnabled()) {
-      di = nudgeRightFilter.filter(di);
+    if (nudgeLeftFilter.isEnabled()) {
       di = nudgeLeftFilter.filter(di);
+    } else if (nudgeRightFilter.isEnabled()) {
+      di = nudgeRightFilter.filter(di);
     } else {
       di = holdYawFilter.filter(di);
       di = alignLateralFilter.filter(di);

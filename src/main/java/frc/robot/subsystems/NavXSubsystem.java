@@ -89,6 +89,7 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
   
     @Override
     public double pidGet() {
+      SmartDashboard.putNumber("NavX pidGet()", angle_scale*navX.getYaw());
       return angle_scale*navX.getYaw();
     }
 

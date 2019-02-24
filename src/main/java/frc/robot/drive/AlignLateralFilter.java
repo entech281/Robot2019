@@ -10,6 +10,7 @@ package frc.robot.drive;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -28,6 +29,7 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
     this.robot = robot;
     lateral_pid = new PIDController(Kp, Ki, Kd, this.robot.getVisionSubsystem(), this);
     lateral_pid.setOutputRange(-1.0, 1.0);
+    lateral_pid.setSetpoint(0.0);
     lateral_pid.setPercentTolerance(1.0);
     lateral_pid.enable();
   }
@@ -41,11 +43,11 @@ public class AlignLateralFilter extends DriveFilter implements PIDOutput {
 
   @Override
   protected void onDisable() {
-    lateral_pid.disable();
   }
 
   @Override
   public void pidWrite(double pid_out) {
+    SmartDashboard.putNumber("AlignLateralFilter pidWrite", pid_out);
     this.pid_lateral = pid_out;
   }
 

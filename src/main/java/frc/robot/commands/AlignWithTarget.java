@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class AlignWithTarget extends Command {
@@ -18,6 +17,7 @@ public class AlignWithTarget extends Command {
     // Use requires() here to declare subsystem dependencies
     this.robot = robot;
     requires(this.robot.getDriveSubsystem());
+    requires(this.robot.getNavXSubsystem());
   }
 
   // Called just before this Command runs the first time

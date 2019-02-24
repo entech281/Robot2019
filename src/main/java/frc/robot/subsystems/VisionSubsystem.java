@@ -63,6 +63,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
   
     @Override
     public double pidGet() {
+      SmartDashboard.putNumber("VisionSubsystem pidGet()", lastLateralDistance);
       return scaleFactor*lastLateralDistance;
     }
 
@@ -75,10 +76,10 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
           scaleFactor = 1.0;
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
           lastLateralDistance = lateral.getDouble(UNKNOWN);
-        if(targetAreFound){
+          if(targetAreFound){
             di.setTargetX(lastLateralDistance);
             di.setTargetY(lastDistanceFromTarget);
-        }
+          }
         } else {
           scaleFactor = 0.75*scaleFactor;
           if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 

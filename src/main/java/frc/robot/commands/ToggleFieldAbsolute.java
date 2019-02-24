@@ -16,6 +16,7 @@ public class ToggleFieldAbsolute extends Command {
   public ToggleFieldAbsolute(DriveSubsystem drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(drive);
     this.drive = drive;
   }
 

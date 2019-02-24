@@ -18,9 +18,9 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
   Robot robot;
   PIDController yaw_pid;
   double pid_twist;
-  double Kp = 0.03;
-  double Ki = 0.0001;
-  double Kd = 0.01;
+  double Kp = 0.1;
+  double Ki = 0.0;
+  double Kd = 0.0;
 
   public HoldYawFilter(Robot robot) {
     super(false);
@@ -41,7 +41,6 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
 
   @Override
   protected void onDisable() {
-    yaw_pid.disable();
   }
 
   @Override

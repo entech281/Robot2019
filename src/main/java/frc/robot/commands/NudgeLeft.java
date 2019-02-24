@@ -16,6 +16,7 @@ public class NudgeLeft extends Command {
   public NudgeLeft(DriveSubsystem drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(drive);
     this.drive = drive;
   }
 

@@ -16,6 +16,7 @@ public class TwistOff extends Command {
   public TwistOff(DriveSubsystem drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(drive);
     this.drive = drive;
   }
 
