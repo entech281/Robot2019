@@ -97,24 +97,29 @@ public class Robot extends TimedRobot {
     camera.setFPS(60);
   }
 
+  @Override
   public void autonomousInit() {
     robotDrive.setFieldAbsolute(false);
   }
 
+  @Override
   public void autonomousPeriodic() {
     teleopPeriodic();
   }
 
-  public void teleInit() {
+  @Override
+  public void teleopInit() {
     robotDrive.setFieldAbsolute(true);
   }
 
+  @Override
   public void teleopPeriodic(){
     robotDrive.drive(this.oi.getDriveInput());
 
     Scheduler.getInstance().run();
   }
 
+  @Override
   public void disabledPeriodic() {
     robotDrive.drive(new DriveInput(0.0,0.0,0.0));
   }

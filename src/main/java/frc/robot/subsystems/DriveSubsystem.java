@@ -78,6 +78,8 @@ public class DriveSubsystem extends BaseSubsystem {
     di.mergeVisionSensorData(this.robot.getVisionSubsystem().getDriveInput());
     di.mergeLineSensorData(this.robot.getSensorSubsystem().getDriveInput());
     di = applyActiveFilters(di);
+    //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
+    //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
     SmartDashboard.putNumber("DriveInput JS X", di.getX());
     SmartDashboard.putNumber("DriveInput JS Y", di.getY());
     SmartDashboard.putNumber("DriveInput JS Z", di.getZ());
