@@ -10,23 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class AlignWithTarget extends Command {
+public class AlignWithTargetOff extends Command {
   private Robot robot;
 
-  public AlignWithTarget(Robot robot) {
+  public AlignWithTargetOff(Robot robot) {
     // Use requires() here to declare subsystem dependencies
     this.robot = robot;
     requires(this.robot.getDriveSubsystem());
-    requires(this.robot.getNavXSubsystem());
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    double angle = this.robot.getNavXSubsystem().findNearestQuadrant();
-    this.robot.getDriveSubsystem().setHoldYawAngle(angle);
-    this.robot.getDriveSubsystem().holdYaw(true);
-    this.robot.getDriveSubsystem().alignWithTarget(true);
+    this.robot.getDriveSubsystem().holdYaw(false);
+    this.robot.getDriveSubsystem().alignWithTarget(false);
   }
 
   // Called repeatedly when this Command is scheduled to run

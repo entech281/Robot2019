@@ -30,6 +30,7 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
     yaw_pid.setContinuous(true);
     yaw_pid.setOutputRange(-1.0, 1.0);
     yaw_pid.setPercentTolerance(1.0);
+    yaw_pid.setSetpoint(0.0);
     yaw_pid.enable();
   }
 
@@ -51,6 +52,7 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
    // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public void setRobotYaw(double angle) {
+    yaw_pid.reset();
     yaw_pid.setSetpoint(angle);
   }
 

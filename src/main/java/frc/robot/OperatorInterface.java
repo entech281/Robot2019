@@ -7,13 +7,12 @@
 
 package frc.robot;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.AlignWithTarget;
+import frc.robot.commands.AlignWithTargetOff;
 import frc.robot.commands.ArmsDeploy;
 import frc.robot.commands.ArmsRelease;
 import frc.robot.commands.ArmsSqueeze;
@@ -119,7 +118,8 @@ public class OperatorInterface implements GetDriveInput {
   
   protected void createCommands() { 
     // Target Align
-    targetAlignButton.whileHeld(new AlignWithTarget(this.robot));
+    targetAlignButton.whenPressed(new AlignWithTarget(this.robot));
+    targetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
 
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));

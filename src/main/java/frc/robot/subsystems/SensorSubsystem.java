@@ -38,20 +38,20 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
               offset_valid = true;
               break;
             case 4:  current_offset = -INSIDE_SENSOR_WIDTH ;
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 8:  current_offset = 0.0 ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 16: current_offset = INSIDE_SENSOR_WIDTH ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 32: current_offset = 2 * INSIDE_SENSOR_WIDTH; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
             case 64: current_offset = 2 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS ; 
-            offset_valid = true;
-            break;
+              offset_valid = true;
+              break;
 
             //two sensors on
             case 3: current_offset =  - (4 * INSIDE_SENSOR_WIDTH + DISTANCE_BETWEEN_OUT_AND_IN_SENSORS) / 2 ; 
