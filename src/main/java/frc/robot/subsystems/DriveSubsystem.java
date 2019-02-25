@@ -75,13 +75,15 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void drive(DriveInput di) {
-    DriveInput telemtryDriveInput = inputAggregator.mergeTelemetry(di, 
+      
+    DriveInput telemetryDriveInput = inputAggregator.mergeTelemetry(di, 
             this.robot.getNavXSubsystem().getDriveInput(),
             this.robot.getVisionSubsystem().getDriveInput(),
             this.robot.getSensorSubsystem().getDriveInput());
     
-
-    DriveInput filteredDriveInput =  applyActiveFilters(telemtryDriveInput);
+    SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetX());
+    
+    DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
     //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
     SmartDashboard.putNumber("DriveInput JS X", filteredDriveInput.getX());
