@@ -146,10 +146,6 @@ public class DriveSubsystem extends BaseSubsystem {
     nudgeRightFilter.disable();
   }
 
-  public void setHoldYawAngle(double angle) {
-    holdYawFilter.setRobotYaw(angle);
-  }
-
   public void holdYaw(boolean enable) {
     if (enable) {
       holdYawFilter.enable();
