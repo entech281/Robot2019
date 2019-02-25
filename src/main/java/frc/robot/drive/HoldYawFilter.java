@@ -10,6 +10,7 @@ package frc.robot.drive;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -18,7 +19,7 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
   Robot robot;
   PIDController yaw_pid;
   double pid_twist;
-  double Kp = 0.1;
+  double Kp = 0.01;
   double Ki = 0.0;
   double Kd = 0.0;
 
@@ -46,6 +47,7 @@ public class HoldYawFilter extends DriveFilter implements PIDOutput {
 
   @Override
   public void pidWrite(double pid_out) {
+    SmartDashboard.putNumber("HoldYaw pidWrite()", pid_out);
     this.pid_twist = pid_out;
   }
 

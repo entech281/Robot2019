@@ -16,6 +16,7 @@ import frc.robot.drive.JoystickJitterFilter;
 import frc.robot.drive.NudgeLeftFilter;
 import frc.robot.drive.NudgeRightFilter;
 import frc.robot.drive.RobotRelativeDriveFilter;
+import frc.robot.drive.ToRobotRelativeFilter;
 import frc.robot.drive.TwistFilter;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -39,6 +40,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private JoystickJitterFilter joystickJitterFilter = new JoystickJitterFilter();
   private RobotRelativeDriveFilter robotRelativeDriveFilter = new RobotRelativeDriveFilter();
 
+  private ToRobotRelativeFilter toRobotRelativeFilter = new ToRobotRelativeFilter();
   private HoldYawFilter holdYawFilter = null;
   private AlignLateralFilter alignLateralFilter = null;
 
@@ -66,6 +68,7 @@ public class DriveSubsystem extends BaseSubsystem {
     robotDrive.setDeadband(0.1);
     joystickJitterFilter.disable();
     robotRelativeDriveFilter.disable();
+    toRobotRelativeFilter.enable();
   }
 
   @Override
@@ -94,10 +97,13 @@ public class DriveSubsystem extends BaseSubsystem {
     di = robotRelativeDriveFilter.filter(di);
 
     if (nudgeLeftFilter.isEnabled()) {
+      di = toRobotRelativeFilter.filter(di);
       di = nudgeLeftFilter.filter(di);
     } else if (nudgeRightFilter.isEnabled()) {
+      di = toRobotRelativeFilter.filter(di);
       di = nudgeRightFilter.filter(di);
-    } else {
+    } else if (alignLateralFilter.isEnabled()) {
+      di = toRobotRelativeFilter.filter(di);
       di = holdYawFilter.filter(di);
       di = alignLateralFilter.filter(di);
     }

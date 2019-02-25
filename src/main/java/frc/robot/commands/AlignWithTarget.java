@@ -17,7 +17,7 @@ public class AlignWithTarget extends Command {
     // Use requires() here to declare subsystem dependencies
     this.robot = robot;
     requires(this.robot.getDriveSubsystem());
-    requires(this.robot.getNavXSubsystem());
+    // requires(this.robot.getNavXSubsystem());
   }
 
   // Called just before this Command runs the first time
