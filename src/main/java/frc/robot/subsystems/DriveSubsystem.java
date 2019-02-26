@@ -21,6 +21,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInputAggregator;
 
 /**
@@ -93,10 +94,9 @@ public class DriveSubsystem extends BaseSubsystem {
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
     //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
-    SmartDashboard.putNumber("DriveInput JS X", filteredDriveInput.getX());
-    SmartDashboard.putNumber("DriveInput JS Y", filteredDriveInput.getY());
-    SmartDashboard.putNumber("DriveInput JS Z", filteredDriveInput.getZ());
-    SmartDashboard.putNumber("DriveInput Angle", filteredDriveInput.getFieldAngle());
+    
+    SmartDashboardLogger.putOnSmartDashboard("DriveInput JS", filteredDriveInput);
+
     robotDrive.driveCartesian(
             filteredDriveInput.getX(), 
             filteredDriveInput.getY(), 

@@ -16,4 +16,5 @@ public class Logging {
     public static Logger getLogger(String name){
         return new Logger(name,Logging.enableDebug);
     }
+    
 }
