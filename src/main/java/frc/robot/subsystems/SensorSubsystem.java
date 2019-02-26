@@ -4,10 +4,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
-    private double current_offset;
+    private double current_offset = NO_OFFSET;
     private boolean offset_valid;
 
     final private static double INSIDE_SENSOR_WIDTH = 1.6;
+    final private static double NO_OFFSET = -99.0;
     final private static double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.8;
     final private static long SENSOR_POLL_INTERVAL_MS = 5;
     private I2C i2c;
@@ -24,7 +25,7 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
     }
 
     public void enableSensorInput() {
-        enableSensorInput = false;
+        enableSensorInput = true;
 
     }
 
@@ -107,14 +108,15 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
         return new Thread() {
             @Override
             public void run() {
-                while (!isInterrupted()) {	
+                this.setDaemon(true);
+                while (true) {	
                     if ( enableSensorInput ){
                         update();
                     }                        
                     try {
                         Thread.sleep(SENSOR_POLL_INTERVAL_MS);    
                     } catch (InterruptedException e) {
-                        return;
+                        System.out.println("Sensor Read Thread: Interrupted!");                       
                     }
                 } 
             }

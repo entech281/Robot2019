@@ -25,6 +25,6 @@ public class DriveInputAggregator {
           result.setTargetY(sensors.getTargetY());
         }
 
-        return input;       
+        return result;       
     }
 }
