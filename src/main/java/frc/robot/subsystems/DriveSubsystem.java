@@ -21,6 +21,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.drive.DriveInputAggregator;
 
 /**
  * Add your docs here.
@@ -44,7 +45,7 @@ public class DriveSubsystem extends BaseSubsystem {
 
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
-
+  private DriveInputAggregator inputAggregator = new DriveInputAggregator();
   public DriveSubsystem(Robot robot) {
     this.robot = robot;
   }
@@ -74,17 +75,26 @@ public class DriveSubsystem extends BaseSubsystem {
   }
 
   public void drive(DriveInput di) {
-    di.mergeNavXSensorData(this.robot.getNavXSubsystem().getDriveInput());
-    di.mergeVisionSensorData(this.robot.getVisionSubsystem().getDriveInput());
-    di.mergeLineSensorData(this.robot.getSensorSubsystem().getDriveInput());
-    di = applyActiveFilters(di);
+      
+    DriveInput telemetryDriveInput = inputAggregator.mergeTelemetry(di, 
+            this.robot.getNavXSubsystem().getDriveInput(),
+            this.robot.getVisionSubsystem().getDriveInput(),
+            this.robot.getSensorSubsystem().getDriveInput());
+    
+    SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetX());
+    
+    DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
     //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
-    SmartDashboard.putNumber("DriveInput JS X", di.getX());
-    SmartDashboard.putNumber("DriveInput JS Y", di.getY());
-    SmartDashboard.putNumber("DriveInput JS Z", di.getZ());
-    SmartDashboard.putNumber("DriveInput Angle", di.getFieldAngle());
-    robotDrive.driveCartesian(di.getX(), di.getY(), di.getZ(), -di.getFieldAngle());
+    SmartDashboard.putNumber("DriveInput JS X", filteredDriveInput.getX());
+    SmartDashboard.putNumber("DriveInput JS Y", filteredDriveInput.getY());
+    SmartDashboard.putNumber("DriveInput JS Z", filteredDriveInput.getZ());
+    SmartDashboard.putNumber("DriveInput Angle", filteredDriveInput.getFieldAngle());
+    robotDrive.driveCartesian(
+            filteredDriveInput.getX(), 
+            filteredDriveInput.getY(), 
+            filteredDriveInput.getZ(), 
+            -filteredDriveInput.getFieldAngle());
   }
 
   public DriveInput applyActiveFilters(DriveInput di) {

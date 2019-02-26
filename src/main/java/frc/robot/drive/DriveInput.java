@@ -97,30 +97,7 @@ public class DriveInput {
     return targetY;
   }
 
-  public void mergeAllSensorData(DriveInput sensor_di) {
-    if (sensor_di.isValid()) {
-      setFieldAngle(sensor_di.getFieldAngle());
-      setTargetX(sensor_di.getTargetX());
-      setTargetY(sensor_di.getTargetY());
-    }
-  }
-
-  public void mergeNavXSensorData(DriveInput navx_di) {
-    if (navx_di.isValid()) {
-      setFieldAngle(navx_di.getFieldAngle());
-    }
-  }
-
-  public void mergeVisionSensorData(DriveInput vision_di) {
-    if (vision_di.isValid()) {
-      setTargetX(vision_di.getTargetX());
-      setTargetY(vision_di.getTargetY());
-    }
-  }
-
-  public void mergeLineSensorData(DriveInput sensor_di) {
-    if (sensor_di.isValid()) {
-      setTargetY(sensor_di.getTargetY());
-    }
+  public DriveInput copy(){
+      return new DriveInput(this.x,this.y,this.z,this.fieldAngle,this.targetX,this.targetY);
   }
 }
