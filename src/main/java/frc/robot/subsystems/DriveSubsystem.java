@@ -95,8 +95,9 @@ public class DriveSubsystem extends BaseSubsystem {
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
     //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
     
+    SmartDashboardLogger.putOnSmartDashboard("Operator Input", di);
     SmartDashboardLogger.putOnSmartDashboard("DriveInput JS", filteredDriveInput);
-
+    
     robotDrive.driveCartesian(
             filteredDriveInput.getX(), 
             filteredDriveInput.getY(), 
