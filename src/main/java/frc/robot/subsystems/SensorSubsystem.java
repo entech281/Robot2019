@@ -116,7 +116,7 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
                         update();
                     }   
                     if(counter%200==1)
-                      Console.WriteLine("Hi");                     
+                      System.out.println("Hi");                    
                     try {
                       
                         Thread.sleep(SENSOR_POLL_INTERVAL_MS);    
