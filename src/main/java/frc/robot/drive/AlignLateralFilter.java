@@ -13,19 +13,13 @@ public class AlignLateralFilter extends DriveFilter  {
   }
 
   @Override
-  public void onEnable() {
-
-  }
-
-  @Override
-  protected void onDisable() {
-  }
-
-  @Override
   public DriveInput doFilter(DriveInput input) {
+           
     double x_js = bangbang.control(0.0,input.getTargetLateral());
-
-
-    return new DriveInput(x_js, input.getY(), input.getZ(), 0.0, input.getTargetDistance(), input.getTargetLateral());
+    return new DriveInput(x_js, input.getY(), 
+            input.getZ(), 
+            0.0, 
+            input.getTargetDistance(), 
+            input.getTargetLateral());
   }
 }

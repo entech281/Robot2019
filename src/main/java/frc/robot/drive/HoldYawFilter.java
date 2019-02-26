@@ -21,16 +21,6 @@ public class HoldYawFilter extends DriveFilter {
     super(false);
   }
 
-  @Override
-  public void onEnable() {
-
-  }
-
-  @Override
-  protected void onDisable() {
-  }
-
-
   public void setDesiredYaw(double angle) {
        desiredAngle = angle;
   }
@@ -39,6 +29,11 @@ public class HoldYawFilter extends DriveFilter {
   public DriveInput doFilter(DriveInput input) {
     double twist = bangbang.control(desiredAngle,input.getFieldAngle());
     
-    return new DriveInput(input.getX(), input.getY(), twist, input.getFieldAngle(), input.getTargetDistance(), input.getTargetLateral());
+    return new DriveInput(input.getX(), 
+            input.getY(), 
+            twist, 
+            input.getFieldAngle(), 
+            input.getTargetDistance(), 
+            input.getTargetLateral());
   }
 }
