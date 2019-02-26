@@ -17,10 +17,10 @@ public class BangBangController implements Controller{
     public double getOutput( double actual, double desired){
         double delta = (actual - desired);
         if ( delta > threshold){
-            return -onOutput;
+            return onOutput;
         }
         else if ( delta < -threshold){
-            return onOutput;
+            return -onOutput;
         }
         return 0.0;
     }

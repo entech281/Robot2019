@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
   private SensorSubsystem sensors;
 
   private OperatorInterface oi;
-  private RobotPreferences prefs;
+  //private RobotPreferences prefs = new RobotPreferences();
   public DriveSubsystem getDriveSubsystem() {
     return robotDrive;
   }
@@ -74,9 +74,9 @@ public class Robot extends TimedRobot {
     return vision;
   }
 
-  public RobotPreferences getPreferences(){
-      return prefs;
-  }
+//  public RobotPreferences getPreferences(){
+//      return prefs;
+//  }
   
   @Override
   public void robotInit() {

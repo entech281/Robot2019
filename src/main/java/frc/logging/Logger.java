@@ -29,7 +29,7 @@ public class Logger {
     
     protected void logMessage(String level, Object message){   
         System.out.println(
-                String.format("%s  [%s] %s",df.format(new Date() ), level, message+"")
+            String.format("%s %s [%s] %s",df.format(new Date() ),this.name, level, message+"")
         );
     }
 }
