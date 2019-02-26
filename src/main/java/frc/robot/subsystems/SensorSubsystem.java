@@ -1,4 +1,6 @@
 package frc.robot.subsystems;
+import java.io.Console;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveInput;
@@ -89,7 +91,7 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
         
         SmartDashboard.putNumber("Arduino Value", current_offset);
         SmartDashboard.putNumber("Byte Value", b[0]);
-        
+    
     }
     
     @Override
@@ -107,11 +109,16 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
         return new Thread() {
             @Override
             public void run() {
+                int counter = 0;
                 while (!isInterrupted()) {	
+                    counter++;
                     if ( enableSensorInput ){
                         update();
-                    }                        
+                    }   
+                    if(counter%200==1)
+                      Console.WriteLine("Hi");                     
                     try {
+                      
                         Thread.sleep(SENSOR_POLL_INTERVAL_MS);    
                     } catch (InterruptedException e) {
                         return;
@@ -123,11 +130,11 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
 
     @Override
     public DriveInput getDriveInput() {
-    DriveInput di = new DriveInput();
-    if (offset_valid) {
+      DriveInput di = new DriveInput();
+      if (offset_valid) {
         di.setTargetY(current_offset);
-    }
-            return di;
+      }
+    return di;
     }
 
     @Override
