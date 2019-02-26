@@ -9,24 +9,34 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
 
     final private static double INSIDE_SENSOR_WIDTH = 1.6;
     final private static double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.8;
+    final private static long SENSOR_POLL_INTERVAL_MS = 5;
     private I2C i2c;
-
+    private Thread sensorThread;
+    private boolean enableSensorInput = false;
+    
     public SensorSubsystem() {}
 
     @Override                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     public void initialize(){
         i2c = new I2C( I2C.Port.kOnboard, 1);
+        sensorThread = createSensorThread();
+        sensorThread.start();
     }
 
-    @Override
-    public void periodic(){
+    public void enableSensorInput() {
+        enableSensorInput = false;
+
+    }
+
+    public void disableSensorInput() {
+        enableSensorInput = false;        
+    }    
+    
+    protected void update(){
 
         byte[] b = new byte[1];
         b[0] = 0;
         i2c.readOnly(b, 1);
-        
-            
-        
         
         switch(b[0]){    
             case 1:
@@ -79,19 +89,53 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
         
         SmartDashboard.putNumber("Arduino Value", current_offset);
         SmartDashboard.putNumber("Byte Value", b[0]);
+        
+    }
+    
+    @Override
+    public void periodic(){
+        //if you want read updates on the main thread, uncomment
+        //update();
+
     }
 
     public boolean isSensorDataValid() {
       return offset_valid;
     }
 
-	@Override
-	public DriveInput getDriveInput() {
-        DriveInput di = new DriveInput();
-        if (offset_valid) {
-            di.setTargetY(current_offset);
+    private Thread createSensorThread() {
+        return new Thread() {
+            @Override
+            public void run() {
+                while (!isInterrupted()) {	
+                    if ( enableSensorInput ){
+                        update();
+                    }                        
+                    try {
+                        Thread.sleep(SENSOR_POLL_INTERVAL_MS);    
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                } 
+            }
+        };
+    }    
+
+    @Override
+    public DriveInput getDriveInput() {
+    DriveInput di = new DriveInput();
+    if (offset_valid) {
+        di.setTargetY(current_offset);
+    }
+            return di;
+    }
+
+    @Override
+    public void close() {
+        if ( sensorThread != null){
+            sensorThread.interrupt();
         }
-		return di;
-	}
+        super.close();
+    }
 
 }
