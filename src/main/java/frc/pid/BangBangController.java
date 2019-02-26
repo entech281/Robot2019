@@ -1,20 +1,20 @@
-package frc.robot.drive;
+package frc.pid;
 
 /**
  *
  * @author dcowden
  */
-public class BangBangControl {
+public class BangBangController implements Controller{
     
     private double threshold;
     private double onOutput;
     
-    public BangBangControl( double threshold, double onOutput){
+    public BangBangController( double threshold, double onOutput){
         this.threshold = threshold;
         this.onOutput = onOutput;
     }
     
-    public double control(double desired, double actual){
+    public double getOutput( double actual, double desired){
         double delta = (actual - desired);
         if ( delta > threshold){
             return -onOutput;
@@ -24,4 +24,5 @@ public class BangBangControl {
         }
         return 0.0;
     }
+
 }

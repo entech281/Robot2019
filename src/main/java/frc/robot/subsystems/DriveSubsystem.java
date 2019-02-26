@@ -47,7 +47,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
   
   //enable line sensors and vision sensors
-  private DriveInputAggregator inputAggregator = new DriveInputAggregator(true,true);
+  private DriveInputAggregator inputAggregator = new DriveInputAggregator(false,true);
   
   public DriveSubsystem(Robot robot) {
     this.robot = robot;

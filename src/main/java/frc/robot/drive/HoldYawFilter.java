@@ -7,6 +7,9 @@
 
 package frc.robot.drive;
 
+import frc.pid.BangBangController;
+import frc.pid.Controller;
+
 
 /**
  * Add your docs here.
@@ -14,7 +17,7 @@ package frc.robot.drive;
 public class HoldYawFilter extends DriveFilter {
 
   public static final double ANGLE_THRESHOLD_DEGREES=5;
-  private BangBangControl bangbang = new BangBangControl(ANGLE_THRESHOLD_DEGREES,0.5);
+  private Controller bangbang = new BangBangController(ANGLE_THRESHOLD_DEGREES,0.5);
   double desiredAngle = 0.0;
 
   public HoldYawFilter() {
@@ -27,7 +30,7 @@ public class HoldYawFilter extends DriveFilter {
 
   @Override
   public DriveInput doFilter(DriveInput input) {
-    double twist = bangbang.control(desiredAngle,input.getFieldAngle());
+    double twist = bangbang.getOutput(input.getFieldAngle(),desiredAngle);
     
     return new DriveInput(input.getX(), 
             input.getY(), 
