@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import frc.logging.Logger;
+import frc.logging.Logging;
 import frc.pid.BangBangController;
 import frc.pid.Controller;
 
@@ -19,6 +21,7 @@ public class AlignLateralFilter extends DriveFilter  {
   public DriveInput doFilter(DriveInput input) {
            
     double x_js = bangbang.getOutput(input.getTargetLateral(),0.0);
+
     return new DriveInput(x_js, input.getY(), 
             input.getZ(), 
             0.0, 

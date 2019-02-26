@@ -23,6 +23,7 @@ import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import frc.logging.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -44,7 +45,7 @@ public class Robot extends TimedRobot {
   private SensorSubsystem sensors;
 
   private OperatorInterface oi;
-
+  private RobotPreferences prefs;
   public DriveSubsystem getDriveSubsystem() {
     return robotDrive;
   }
@@ -73,8 +74,17 @@ public class Robot extends TimedRobot {
     return vision;
   }
 
+  public RobotPreferences getPreferences(){
+      return prefs;
+  }
+  
   @Override
   public void robotInit() {
+    //prefs = RobotPreferences.loadPreferences();
+    
+    //would be really nice to put this into the mian loop
+    //Logging.setEnableDebug(prefs.isDebug());
+    
     compressor = new Compressor(RobotMap.CAN.PCM_ID);
     compressor.start();
 
@@ -109,13 +119,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    //Logging.setEnableDebug(prefs.isDebug());
     robotDrive.setFieldAbsolute(true);
   }
 
   @Override
   public void teleopPeriodic(){
     robotDrive.drive(this.oi.getDriveInput());
-
     Scheduler.getInstance().run();
   }
 
