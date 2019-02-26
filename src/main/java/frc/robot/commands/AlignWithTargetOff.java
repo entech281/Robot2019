@@ -22,7 +22,7 @@ public class AlignWithTargetOff extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    this.robot.getDriveSubsystem().holdYaw(false);
+    this.robot.getDriveSubsystem().disableHoldYaw();
     this.robot.getDriveSubsystem().alignWithTarget(false);
   }
 

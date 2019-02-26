@@ -22,6 +22,6 @@ public class RobotRelativeDriveFilter extends DriveFilter {
     
     @Override
     public DriveInput doFilter(DriveInput input) {
-        return new DriveInput(input.getX(), input.getY(), input.getZ(), 0.0, input.getTargetX(), input.getTargetY());
+        return new DriveInput(input.getX(), input.getY(), input.getZ(), 0.0, input.getTargetDistance(), input.getTargetLateral());
     }
 }

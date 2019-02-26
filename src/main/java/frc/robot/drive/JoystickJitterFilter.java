@@ -36,6 +36,6 @@ public class JoystickJitterFilter extends DriveFilter {
             z = 0.0;
         }
 
-        return new DriveInput(x, y, z, input.getFieldAngle(), input.getTargetX(), input.getTargetY());
+        return new DriveInput(x, y, z, input.getFieldAngle(), input.getTargetDistance(), input.getTargetLateral());
     }
 }

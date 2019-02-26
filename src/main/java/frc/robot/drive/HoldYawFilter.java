@@ -7,57 +7,38 @@
 
 package frc.robot.drive;
 
-import frc.robot.Robot;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 
 /**
  * Add your docs here.
  */
-public class HoldYawFilter extends DriveFilter implements PIDOutput {
-  Robot robot;
-  PIDController yaw_pid;
-  double pid_twist;
-  double Kp = 0.1;
-  double Ki = 0.0;
-  double Kd = 0.0;
+public class HoldYawFilter extends DriveFilter {
 
-  public HoldYawFilter(Robot robot) {
+  public static final double ANGLE_THRESHOLD_DEGREES=5;
+  private BangBangControl bangbang = new BangBangControl(ANGLE_THRESHOLD_DEGREES,0.5);
+  double desiredAngle = 0.0;
+
+  public HoldYawFilter() {
     super(false);
-    this.robot = robot;
-    yaw_pid = new PIDController(Kp, Ki, Kd, this.robot.getNavXSubsystem(), this);
-    yaw_pid.setInputRange(-180.0, 180.0);
-    yaw_pid.setContinuous(true);
-    yaw_pid.setOutputRange(-1.0, 1.0);
-    yaw_pid.setPercentTolerance(1.0);
-    yaw_pid.setSetpoint(0.0);
-    yaw_pid.enable();
   }
 
   @Override
   public void onEnable() {
-    yaw_pid.enable();
-    yaw_pid.reset();
+
   }
 
   @Override
   protected void onDisable() {
   }
 
-  @Override
-  public void pidWrite(double pid_out) {
-    this.pid_twist = pid_out;
-  }
 
-   // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  public void setRobotYaw(double angle) {
-    yaw_pid.reset();
-    yaw_pid.setSetpoint(angle);
+  public void setDesiredYaw(double angle) {
+       desiredAngle = angle;
   }
 
   @Override
   public DriveInput doFilter(DriveInput input) {
-    return new DriveInput(input.getX(), input.getY(), this.pid_twist, input.getFieldAngle(), input.getTargetX(), input.getTargetY());
+    double twist = bangbang.control(desiredAngle,input.getFieldAngle());
+    
+    return new DriveInput(input.getX(), input.getY(), twist, input.getFieldAngle(), input.getTargetDistance(), input.getTargetLateral());
   }
 }

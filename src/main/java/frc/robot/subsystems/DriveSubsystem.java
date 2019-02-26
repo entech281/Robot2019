@@ -45,7 +45,10 @@ public class DriveSubsystem extends BaseSubsystem {
 
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
-  private DriveInputAggregator inputAggregator = new DriveInputAggregator();
+  
+  //enable line sensors and vision sensors
+  private DriveInputAggregator inputAggregator = new DriveInputAggregator(true,true);
+  
   public DriveSubsystem(Robot robot) {
     this.robot = robot;
   }
@@ -57,10 +60,10 @@ public class DriveSubsystem extends BaseSubsystem {
     frontRightTalon.setInverted(false);
     rearRightTalon.setInverted(false);
 
-    holdYawFilter = new HoldYawFilter(this.robot);
+    holdYawFilter = new HoldYawFilter();
     holdYawFilter.disable();
 
-    alignLateralFilter = new AlignLateralFilter(this.robot);
+    alignLateralFilter = new AlignLateralFilter();
     alignLateralFilter.disable();
 
     // Use drive subsystem to filter Joytsick not our own filter
@@ -81,7 +84,8 @@ public class DriveSubsystem extends BaseSubsystem {
             this.robot.getVisionSubsystem().getDriveInput(),
             this.robot.getSensorSubsystem().getDriveInput());
     
-    SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetX());
+    SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
+    SmartDashboard.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
     
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
@@ -150,16 +154,12 @@ public class DriveSubsystem extends BaseSubsystem {
     nudgeRightFilter.disable();
   }
 
-  public void setHoldYawAngle(double angle) {
-    holdYawFilter.setRobotYaw(angle);
-  }
-
-  public void holdYaw(boolean enable) {
-    if (enable) {
+  public void enableHoldYaw(double angle){
+      holdYawFilter.setDesiredYaw(angle);
       holdYawFilter.enable();
-    } else {
+  }
+  public void disableHoldYaw(){
       holdYawFilter.disable();
-    }
   }
 
   public void alignWithTarget(boolean enable) {

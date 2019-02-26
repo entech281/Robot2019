@@ -9,13 +9,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
-public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDSource {
+public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
 
     private double UNKNOWN = 99999999;
     private double lastFrameCount = 0;
@@ -23,7 +21,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
     private double lastLateralDistance = UNKNOWN;
 
     private double scaleFactor = 1.0;
-    private PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
+
 
     private NetworkTableInstance ntist;
     NetworkTableEntry distance;
@@ -50,22 +48,6 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
         SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));
         SmartDashboard.putBoolean("Found Targets for Vision?:", targetFound.getBoolean(false));   
     }
- 
-    @Override
-    public PIDSourceType getPIDSourceType() {
-      return pidSourceType;
-    }
-  
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-      pidSourceType = pidSource;
-    }
-  
-    @Override
-    public double pidGet() {
-      SmartDashboard.putNumber("VisionSubsystem pidGet()", lastLateralDistance);
-      return scaleFactor*lastLateralDistance;
-    }
 
     @Override
     public DriveInput getDriveInput() {
@@ -77,16 +59,16 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput,PIDS
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
           lastLateralDistance = lateral.getDouble(UNKNOWN);
           if(targetAreFound){
-            di.setTargetX(lastLateralDistance);
-            di.setTargetY(lastDistanceFromTarget);
+            di.setTargetDistance(lastDistanceFromTarget);
+            di.setTargetLateral(lastLateralDistance);
           }
         } else {
           scaleFactor = 0.75*scaleFactor;
           if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 
               (Math.abs(lastDistanceFromTarget-UNKNOWN) > 0.1)) {
                 if(targetAreFound){
-                    di.setTargetX(scaleFactor*lastLateralDistance);
-                    di.setTargetY(scaleFactor*lastDistanceFromTarget);
+                    di.setTargetDistance(scaleFactor*lastDistanceFromTarget);
+                    di.setTargetLateral(scaleFactor*lastLateralDistance);
                 }
           }
         }

@@ -88,8 +88,8 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
               break;
         }
         
-        SmartDashboard.putNumber("Arduino Value", current_offset);
-        SmartDashboard.putNumber("Byte Value", b[0]);
+        SmartDashboard.putNumber("Arduino Offset", current_offset);
+        SmartDashboard.putNumber("Sensor Bytes", b[0]);
         
     }
     
@@ -126,10 +126,10 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
     @Override
     public DriveInput getDriveInput() {
     DriveInput di = new DriveInput();
-    if (offset_valid) {
-        di.setTargetY(current_offset);
-    }
-            return di;
+        if (offset_valid) {
+            di.setTargetLateral(current_offset);
+        }
+        return di;
     }
 
     @Override

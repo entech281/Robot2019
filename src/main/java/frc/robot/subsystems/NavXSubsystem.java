@@ -21,10 +21,12 @@ import frc.robot.drive.GetDriveInput;
  *
  * @author dcowden
  */
-public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSource {
+public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
 
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
     private double angle_scale = 1.0;
+    private double latestYawAngle = 0.0;
+    
     
     public NavXSubsystem() {
     }
@@ -43,17 +45,13 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
     public DriveInput getDriveInput() {
         DriveInput di = new DriveInput();
         if (navX != null) {
-            di.setFieldAngle(angle_scale*navX.getYaw());
+            di.setFieldAngle(latestYawAngle);
         }
         return di;
     }
 
     public double getAngle() {
-        if (navX != null) {
-            return angle_scale*navX.getYaw();
-        } else {
-            return 360.0;
-        }
+        return latestYawAngle;
     }
 
     public void zeroYaw() {
@@ -70,28 +68,11 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput,PIDSou
 
     @Override
     public void periodic() {
-        if (navX != null) {
-          SmartDashboard.putData(navX);
-          SmartDashboard.putNumber("Yaw Angle", angle_scale*navX.getYaw());
-          SmartDashboard.putNumber("Field Angle", angle_scale*navX.getAngle());
-        }
+        latestYawAngle = angle_scale*navX.getYaw();
+        SmartDashboard.putData(navX);
+        SmartDashboard.putNumber("Yaw Angle", latestYawAngle);
+        SmartDashboard.putNumber("Field Angle", angle_scale*navX.getAngle());
     }    
- 
-    @Override
-    public PIDSourceType getPIDSourceType() {
-      return navX.getPIDSourceType();
-    }
-  
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-      navX.setPIDSourceType(pidSource);
-    }
-  
-    @Override
-    public double pidGet() {
-      SmartDashboard.putNumber("NavX pidGet()", angle_scale*navX.getYaw());
-      return angle_scale*navX.getYaw();
-    }
 
     public double findNearestQuadrant() {
         double angle = angle_scale*navX.getYaw();
