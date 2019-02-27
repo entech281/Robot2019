@@ -54,7 +54,7 @@ public class RobotMap {
     }
   }
  
-  public interface OperatorPanel {
+  public interface GamePad {
     public static final int PORT = 1;
     public interface Button {
       // Button definitions for the PS3 controller
@@ -66,6 +66,19 @@ public class RobotMap {
       public static final int ARMS_RELEASE = 16;
       public static final int FLIP_FORWARD = 5;
       public static final int FLIP_BACKWARD = 6;
+    }
+  }
+
+  public interface OperatorPanel {
+    public static final int PORT = 2;
+    public interface Button {
+      // Button definitions for the PS3 controller
+      public static final int TARGET_ALIGN = 1;
+      public static final int HATCH_EXTEND = 6;
+      public static final int ARMS_DEPLOY = 2;
+      public static final int ARMS_SQUEEZE = 5;
+      public static final int ARMS_RELEASE = 3;
+      public static final int FLIP_FORWARD = 4;
     }
   }
 }
