@@ -41,7 +41,6 @@ public class Robot extends TimedRobot {
   private ArmsSubsystem arms;
   private FlipSubsystem flip;
   private HatchSubsystem hatch;
-  private PushPlateHatchSubsystem pushPlateHatch;
 
   private VisionSubsystem vision;
   private SensorSubsystem sensors;
@@ -54,10 +53,6 @@ public class Robot extends TimedRobot {
 
   public HatchSubsystem getHatchSubsystem() {
     return hatch;
-  }
-
-  public PushPlateHatchSubsystem getPushPlateHatchSubsystem() {
-    return pushPlateHatch;
   }
 
   public SensorSubsystem getSensorSubsystem(){
@@ -103,8 +98,7 @@ public class Robot extends TimedRobot {
     arms = new ArmsSubsystem();
     flip = new FlipSubsystem();
     hatch = new HatchSubsystem();
-    pushPlateHatch = new PushPlateHatchSubsystem();
-
+    
     BaseSubsystem.initializeList();
 
     this.oi = new OperatorInterface(this);

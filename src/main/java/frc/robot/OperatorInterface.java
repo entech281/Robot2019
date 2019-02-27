@@ -131,9 +131,7 @@ public class OperatorInterface implements GetDriveInput {
 
     // Hatch Subsystem
     if(USING_PUSH_PLATE_DEPLOYMENT_SYSTEM){
-      hatchRetractButton.whenPressed(new PushPlateHatchRelease(this.robot.getPushPlateHatchSubsystem()));
-      hatchExtendButton.whenPressed(new PushPlateHatchGrabHold(this.robot.getPushPlateHatchSubsystem()));
-    }
+      }
     else{
       hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
       hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));

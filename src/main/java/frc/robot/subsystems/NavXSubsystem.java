@@ -76,19 +76,19 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
 
     public double findNearestQuadrant() {
         double angle = angle_scale*navX.getYaw();
-        if (angle <= -157.5) {
+        if (angle <= -135.0) {
           return -180.0;
         //} else if (angle < -112.5) {
         //  return -135.0;
-        } else if (angle <= -67.5) {
+        } else if (angle <= -45.0) {
           return -90.0;
         //} else if (angle < -22.5) {
         //  return -45.0;
-        } else if (angle <= 22.5) {
+        } else if (angle <= 45.0) {
           return 0.0;
         //} else if (angle < 67.5) {
         //  return 45.0;
-        } else if (angle <= 112.5) {
+        } else if (angle <= 135.0) {
           return 90.0;
         //} else if (angle < 157.5) {
         //  return 135.0;

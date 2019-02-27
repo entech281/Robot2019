@@ -19,7 +19,7 @@ public class HoldYawFilter extends DriveFilter {
 
   public static final double ANGLE_THRESHOLD_DEGREES=5;
   private CappedLinearControl cappedLinear = new CappedLinearControl(ANGLE_THRESHOLD_DEGREES,
-                    10, 0.1, 0.5);
+                    15.0, 0.1, 0.4);
   double desiredAngle = 0.0;
 
   public HoldYawFilter() {
