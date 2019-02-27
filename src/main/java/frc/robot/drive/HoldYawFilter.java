@@ -7,6 +7,7 @@
 
 package frc.robot.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.pid.BangBangController;
 import frc.pid.Controller;
 
@@ -17,7 +18,8 @@ import frc.pid.Controller;
 public class HoldYawFilter extends DriveFilter {
 
   public static final double ANGLE_THRESHOLD_DEGREES=5;
-  private Controller bangbang = new BangBangController(ANGLE_THRESHOLD_DEGREES,0.5);
+  private Controller cappedLinear = new CappedLinearControl(ANGLE_THRESHOLD_DEGREES,
+                    10, 0.1, 0.5);
   double desiredAngle = 0.0;
 
   public HoldYawFilter() {
@@ -30,7 +32,8 @@ public class HoldYawFilter extends DriveFilter {
 
   @Override
   public DriveInput doFilter(DriveInput input) {
-    double twist = bangbang.getOutput(input.getFieldAngle(),desiredAngle);
+    SmartDashboard.putNumber("DesiredYawAngle", desiredAngle);
+    double twist = cappedLinear.getOutput(input.getFieldAngle(),desiredAngle);
     
     return new DriveInput(input.getX(), 
             input.getY(), 

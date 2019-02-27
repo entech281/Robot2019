@@ -11,7 +11,8 @@ import frc.pid.Controller;
 public class AlignLateralFilter extends DriveFilter  {
 
   public static final double ALIGN_THRESHOLD_INCHES=1.5;
-  private Controller bangbang = new BangBangController(ALIGN_THRESHOLD_INCHES,0.5);
+  private Controller cappedLinear = new CappedLinearControl(
+          ALIGN_THRESHOLD_INCHES,10, 0.1, 0.5);
   
   public AlignLateralFilter() {
     super(false);
@@ -20,7 +21,7 @@ public class AlignLateralFilter extends DriveFilter  {
   @Override
   public DriveInput doFilter(DriveInput input) {
            
-    double x_js = bangbang.getOutput(input.getTargetLateral(),0.0);
+    double x_js = cappedLinear.getOutput(input.getTargetLateral(),0.0);
 
     return new DriveInput(x_js, input.getY(), 
             input.getZ(), 

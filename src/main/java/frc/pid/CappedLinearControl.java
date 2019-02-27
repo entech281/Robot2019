@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import frc.pid.Controller;
+
 /**
  *
  *          |
@@ -12,7 +14,7 @@ package frc.robot.drive;
  *            tol  thres
  * @author mandrews
  */
-public class CappedLinearControl {
+public class CappedLinearControl implements Controller{
     
     private double tolerance, threshold;
     private double minOutput, maxOutput;
@@ -24,7 +26,7 @@ public class CappedLinearControl {
         this.maxOutput = maxOutput;
     }
     
-    public double control(double desired, double actual){
+    public double getOutput(double actual, double desired){
         double delta = (actual - desired);
         double scaledOut = ((maxOutput - minOutput)*((Math.abs(delta) - tolerance)/(threshold-tolerance))) + minOutput;
         if ( delta > threshold){
