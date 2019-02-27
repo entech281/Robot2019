@@ -23,6 +23,8 @@ import frc.robot.commands.HatchExtend;
 import frc.robot.commands.HatchRetract;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
+import frc.robot.commands.PushPlateHatchGrabHold;
+import frc.robot.commands.PushPlateHatchRelease;
 import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
@@ -51,6 +53,7 @@ public class OperatorInterface implements GetDriveInput {
   // Hatch Subsystem
   private JoystickButton hatchExtendButton;
   private JoystickButton hatchRetractButton;
+  boolean USING_PUSH_PLATE_DEPLOYMENT_SYSTEM = false;
   
   // Flip Subsystem
   private JoystickButton flipForwardButton;
@@ -96,9 +99,9 @@ public class OperatorInterface implements GetDriveInput {
     armsReleaseButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_RELEASE);
 
     // Hatch Subsystem
-    hatchRetractButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_RETRACT);
-    hatchExtendButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_EXTEND);
-
+      hatchRetractButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_RETRACT);
+      hatchExtendButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_EXTEND);
+  
     // Flip Subsystem
     flipForwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_FORWARD);
     flipBackwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_BACKWARD);       
@@ -127,9 +130,14 @@ public class OperatorInterface implements GetDriveInput {
     armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
 
     // Hatch Subsystem
-    hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
-    hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
-     
+    if(USING_PUSH_PLATE_DEPLOYMENT_SYSTEM){
+      hatchRetractButton.whenPressed(new PushPlateHatchRelease(this.robot.getPushPlateHatchSubsystem()));
+      hatchExtendButton.whenPressed(new PushPlateHatchGrabHold(this.robot.getPushPlateHatchSubsystem()));
+    }
+    else{
+      hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
+      hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+    }
     // Flip Subsystem
     flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
     flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
