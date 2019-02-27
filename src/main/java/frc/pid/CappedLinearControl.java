@@ -35,7 +35,7 @@ public class CappedLinearControl implements Controller{
         // This works by seeing if the actual angle is negative or positive
         // this is what comes from getYaw().  If the angle is negative, we change
         // the desired to -180.0.  If positive, desired goes to +git 180. 
-        if ((Math.abs(desired) - 180.0) < tolerance) {
+        if (Math.abs(Math.abs(desired) - 180.0) < tolerance) {
             if (actual < 0.0) {
                 desired = -180.0;
             } else {
@@ -47,7 +47,7 @@ public class CappedLinearControl implements Controller{
    
     public double getOutput(double actual, double desired){
         if (manage180) {
-            desired = adjustDesiredFor180(desired, actual);
+            desired = adjustDesiredFor180(actual, desired);
         }
         double delta = (actual - desired);
         double scaledOut = ((maxOutput - minOutput)*((Math.abs(delta) - tolerance)/(threshold-tolerance))) + minOutput;
