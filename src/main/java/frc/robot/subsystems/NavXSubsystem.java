@@ -78,20 +78,20 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
         double angle = angle_scale*navX.getYaw();
         if (angle <= -157.5) {
           return -180.0;
-        } else if (angle < -112.5) {
-          return -135.0;
+        //} else if (angle < -112.5) {
+        //  return -135.0;
         } else if (angle <= -67.5) {
           return -90.0;
-        } else if (angle < -22.5) {
-          return -45.0;
+        //} else if (angle < -22.5) {
+        //  return -45.0;
         } else if (angle <= 22.5) {
           return 0.0;
-        } else if (angle < 67.5) {
-          return 45.0;
+        //} else if (angle < 67.5) {
+        //  return 45.0;
         } else if (angle <= 112.5) {
           return 90.0;
-        } else if (angle < 157.5) {
-          return 135.0;
+        //} else if (angle < 157.5) {
+        //  return 135.0;
         } else {
           return 180.0;
         }

@@ -27,7 +27,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     NetworkTableEntry distance;
     NetworkTableEntry lateral;
     NetworkTableEntry frameCount;
-    NetworkTableEntry targetFound;
+
 
     public VisionSubsystem() {
     }
@@ -38,40 +38,35 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
         distance = ntist.getEntry("team281.Vision.distance");
         lateral = ntist.getEntry("team281.Vision.lateral");
         frameCount = ntist.getEntry("team281.frameCount");
-        targetFound = ntist.getEntry("team281.Vision.foundTarget");
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
         SmartDashboard.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
-        SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));
-        SmartDashboard.putBoolean("Found Targets for Vision?:", targetFound.getBoolean(false));   
+        SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
     }
 
     @Override
     public DriveInput getDriveInput() {
-        boolean targetAreFound =targetFound.getBoolean(false);
         double currFrameCount = frameCount.getDouble(lastFrameCount);
         DriveInput di = new DriveInput();  // created as invalid
         if (currFrameCount > lastFrameCount) {
           scaleFactor = 1.0;
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
-          lastLateralDistance = lateral.getDouble(UNKNOWN);
-          if(targetAreFound){
-            di.setTargetDistance(lastDistanceFromTarget);
-            di.setTargetLateral(lastLateralDistance);
-          }
+          lastLateralDistance = (-1)*lateral.getDouble(UNKNOWN);
+          di.setTargetDistance(lastDistanceFromTarget);
+          di.setTargetLateral(lastLateralDistance);
+          
         } else {
           scaleFactor = 0.75*scaleFactor;
           if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 
               (Math.abs(lastDistanceFromTarget-UNKNOWN) > 0.1)) {
-                if(targetAreFound){
-                    di.setTargetDistance(scaleFactor*lastDistanceFromTarget);
-                    di.setTargetLateral(scaleFactor*lastLateralDistance);
+                di.setTargetDistance(scaleFactor*lastDistanceFromTarget);
+                di.setTargetLateral(scaleFactor*lastLateralDistance);
                 }
           }
-        }
+        
         return di;
     }
 

@@ -10,9 +10,9 @@ import frc.pid.Controller;
  */
 public class AlignLateralFilter extends DriveFilter  {
 
-  public static final double ALIGN_THRESHOLD_INCHES=1.5;
+  public static final double ALIGN_THRESHOLD_INCHES=0.5;
   private Controller cappedLinear = new CappedLinearControl(
-          ALIGN_THRESHOLD_INCHES,10, 0.1, 0.5);
+          ALIGN_THRESHOLD_INCHES,10, 0.1, 0.8);
   
   public AlignLateralFilter() {
     super(false);
