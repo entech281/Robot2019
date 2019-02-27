@@ -40,25 +40,36 @@ import frc.robot.drive.GetDriveInput;
 public class OperatorInterface implements GetDriveInput {
   private Robot robot;
   private Joystick driveStick;
+  private Joystick gamePad;
   private Joystick operatorPanel;
   
   // Robot Alignment
   private JoystickButton targetAlignButton;
+  private JoystickButton panelTargetAlignButton;
 
   // Arms Subsystem
   private JoystickButton armsDeployButton;
   private JoystickButton armsSqueezeButton;
   private JoystickButton armsReleaseButton;
+
+  private JoystickButton panelArmsDeployButton;
+  private JoystickButton panelArmsSqueezeButton;
+  private JoystickButton panelArmsReleaseButton;
   
   // Hatch Subsystem
   private JoystickButton hatchExtendButton;
   private JoystickButton hatchRetractButton;
+
+  private JoystickButton panelHatchExtendButton;
   boolean USING_PUSH_PLATE_DEPLOYMENT_SYSTEM = false;
   
   // Flip Subsystem
   private JoystickButton flipForwardButton;
   private JoystickButton flipBackwardButton;
   
+  private JoystickButton panelFlipForwardButton;
+  
+
   // Nudge Commands
   private JoystickButton nudgeLeftButton;
   private JoystickButton nudgeRightButton;
@@ -88,24 +99,39 @@ public class OperatorInterface implements GetDriveInput {
 
   protected void createButtons() {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
+    gamePad = new Joystick(RobotMap.GamePad.PORT);
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
-
     // Target Alignment
-    targetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
+    targetAlignButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN);
 
     // Arms Subsystem
-    armsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
-    armsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
-    armsReleaseButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_RELEASE);
+    armsDeployButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_DEPLOY);
+    armsSqueezeButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_SQUEEZE);
+    armsReleaseButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_RELEASE);
 
     // Hatch Subsystem
-      hatchRetractButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_RETRACT);
-      hatchExtendButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_EXTEND);
+      hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
+      hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
   
     // Flip Subsystem
-    flipForwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_FORWARD);
-    flipBackwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_BACKWARD);       
-         
+    flipForwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_FORWARD);
+    flipBackwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_BACKWARD);       
+    
+    
+    panelTargetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
+
+    // Arms Subsystem
+    panelArmsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
+    panelArmsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
+    panelArmsReleaseButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_RELEASE);
+
+    // Hatch Subsystem
+ 
+    panelHatchExtendButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.HATCH_EXTEND);
+  
+    // Flip Subsystem
+    panelFlipForwardButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.FLIP_FORWARD);
+
     // Nudge Commands
     nudgeLeftButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_LEFT);   
     nudgeRightButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.NUDGE_RIGHT);
@@ -116,31 +142,43 @@ public class OperatorInterface implements GetDriveInput {
     zeroYawButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.ZERO_YAW);
 
     // Field Absolute Toggle
-    fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE);  
+    fieldAbsoluteButton = new JoystickButton(driveStick, RobotMap.DriveJoystick.Button.FIELD_ABSOLUTE); 
+    
+    
   }
   
   protected void createCommands() { 
     // Target Align
     targetAlignButton.whenPressed(new AlignWithTarget(this.robot));
     targetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
+    panelTargetAlignButton.whenPressed(new AlignWithTarget(this.robot));
+    panelTargetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
 
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
     armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
-
+    panelArmsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
+    panelArmsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
+    panelArmsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
+    
     // Hatch Subsystem
     if(USING_PUSH_PLATE_DEPLOYMENT_SYSTEM){
       }
     else{
       hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
       hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+      panelHatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+      panelHatchExtendButton.whenReleased(new HatchRetract(this.robot.getHatchSubsystem()));
     }
     // Flip Subsystem
     flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
     flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
     flipBackwardButton.whileHeld(new FlipBackward(this.robot.getFlipSubsystem()));
     flipBackwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
+
+    panelFlipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
+    panelFlipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
 
     // Nudge Commands
     nudgeRightButton.whenPressed(new NudgeRight(this.robot.getDriveSubsystem()));
