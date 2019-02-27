@@ -31,7 +31,7 @@ public class CappedLinearControl implements Controller{
         manage180 = enable;
     }
 
-    private double adjustDesiredFor180(double desired, double actual) {
+    private double adjustDesiredFor180(double actual, double desired) {
         // This works by seeing if the actual angle is negative or positive
         // this is what comes from getYaw().  If the angle is negative, we change
         // the desired to -180.0.  If positive, desired goes to +git 180. 
