@@ -62,6 +62,7 @@ public class RobotMap {
       public static final int HATCH_RETRACT = 3;
       public static final int HATCH_EXTEND = 1;
       public static final int ARMS_DEPLOY = 13;
+      public static final int ARMS_REVERSE_DEPLOY = 15;
       public static final int ARMS_SQUEEZE = 14;
       public static final int ARMS_RELEASE = 16;
       public static final int FLIP_FORWARD = 5;

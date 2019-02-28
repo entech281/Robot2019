@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /**
@@ -23,6 +25,9 @@ public class ArmsSubsystem extends BaseSubsystem {
 
   private DoubleSolenoid squeezeSolenoid;
   private DoubleSolenoid deploySolenoid;
+  private Timer timer;
+
+  private boolean isDeploying = false;
   
   @Override
   public void initialize() {
@@ -35,7 +40,27 @@ public class ArmsSubsystem extends BaseSubsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-  
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putBoolean("Deploying", isDeploying);
+    if(isDeploying){
+      updateDeploy();
+    }
+  }
+public void updateDeploy(){
+  if(timer.get() <=1000){
+    deploySolenoid.set(DoubleSolenoid.Value.kForward);
+  }else if(timer.get() <=2000){
+    deploySolenoid.set(DoubleSolenoid.Value.kReverse);
+  }else if(timer.get() <=3000){
+    deploySolenoid.set(DoubleSolenoid.Value.kForward);
+  }
+  else{
+    isDeploying = false;
+    timer.stop();
+  }
+}
   public void squeeze() {
     squeezeSolenoid.set(DoubleSolenoid.Value.kForward);
   }
@@ -45,6 +70,12 @@ public class ArmsSubsystem extends BaseSubsystem {
   }
 
   public void deploy() {
-    deploySolenoid.set(DoubleSolenoid.Value.kForward);
+    isDeploying = true;
+    timer.reset();
+    timer.start();
+  }
+
+  public void reverse(){
+    deploySolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 }

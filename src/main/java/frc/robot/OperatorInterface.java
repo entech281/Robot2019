@@ -16,6 +16,7 @@ import frc.robot.commands.AlignWithTargetOff;
 import frc.robot.commands.ArmsDeploy;
 import frc.robot.commands.ArmsRelease;
 import frc.robot.commands.ArmsSqueeze;
+import frc.robot.commands.ReverseDeploy;;
 import frc.robot.commands.FlipBackward;
 import frc.robot.commands.FlipForward;
 import frc.robot.commands.FlipStop;
@@ -49,6 +50,7 @@ public class OperatorInterface implements GetDriveInput {
 
   // Arms Subsystem
   private JoystickButton armsDeployButton;
+  private JoystickButton armsReverseButton;
   private JoystickButton armsSqueezeButton;
   private JoystickButton armsReleaseButton;
 
@@ -108,6 +110,7 @@ public class OperatorInterface implements GetDriveInput {
     armsDeployButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_DEPLOY);
     armsSqueezeButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_SQUEEZE);
     armsReleaseButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_RELEASE);
+    armsReverseButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_REVERSE_DEPLOY);
 
     // Hatch Subsystem
       hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
@@ -158,6 +161,7 @@ public class OperatorInterface implements GetDriveInput {
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
     armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
+    armsReverseButton.whenPressed(new ReverseDeploy(this.robot.getArmsSubsystem()));
     panelArmsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     panelArmsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
     panelArmsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
