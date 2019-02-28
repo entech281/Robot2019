@@ -25,7 +25,7 @@ public class ArmsSubsystem extends BaseSubsystem {
 
   private DoubleSolenoid squeezeSolenoid;
   private DoubleSolenoid deploySolenoid;
-  private Timer timer;
+  private Timer timer = new Timer();
 
   private boolean isDeploying = false;
   
@@ -46,14 +46,15 @@ public class ArmsSubsystem extends BaseSubsystem {
     SmartDashboard.putBoolean("Deploying", isDeploying);
     if(isDeploying){
       updateDeploy();
+      System.out.println("Timer" + timer.get());
     }
   }
 public void updateDeploy(){
-  if(timer.get() <=1000){
+  if(timer.get() <=1.5){
     deploySolenoid.set(DoubleSolenoid.Value.kForward);
-  }else if(timer.get() <=2000){
+  }else if(timer.get() <=3){
     deploySolenoid.set(DoubleSolenoid.Value.kReverse);
-  }else if(timer.get() <=3000){
+  }else if(timer.get() <=4.5){
     deploySolenoid.set(DoubleSolenoid.Value.kForward);
   }
   else{
