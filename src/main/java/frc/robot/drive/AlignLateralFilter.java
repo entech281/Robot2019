@@ -13,7 +13,7 @@ public class AlignLateralFilter extends DriveFilter  {
 
   public static final double ALIGN_THRESHOLD_INCHES=0.2;
   private Controller cappedLinear = new CappedLinearControl(
-          ALIGN_THRESHOLD_INCHES,10, 0.1, 0.8);
+          ALIGN_THRESHOLD_INCHES,10, 0.1, 0.9);
   
   public AlignLateralFilter() {
     super(false);
