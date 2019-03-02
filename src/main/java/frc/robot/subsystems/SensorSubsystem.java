@@ -19,9 +19,9 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
 
     @Override                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     public void initialize(){
-        i2c = new I2C( I2C.Port.kOnboard, 1);
-        sensorThread = createSensorThread();
-        sensorThread.start();
+        //i2c = new I2C( I2C.Port.kOnboard, 1);
+        //sensorThread = createSensorThread();
+        //sensorThread.start();
     }
 
     public void enableSensorInput() {

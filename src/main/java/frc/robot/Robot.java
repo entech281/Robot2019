@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //Logging.setEnableDebug(prefs.isDebug());
-    robotDrive.setFieldAbsolute(true);
+    robotDrive.setFieldAbsolute(false);
   }
 
   @Override

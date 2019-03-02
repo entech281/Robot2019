@@ -1,7 +1,7 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.3.2"
-    id "com.github.spotbugs" version "1.6.9"
+    id "edu.wpi.first.GradleRIO" version "2019.4.1"
+    //id "com.github.spotbugs" version "1.6.9"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -66,9 +66,9 @@ jar {
 }
 
 // To generate an HTML report instead of XML
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
+/*tasks.withType(com.github.spotbugs.SpotBugsTask) {
   reports {
     xml.enabled = false
     html.enabled = true
   }
-}
+}*/

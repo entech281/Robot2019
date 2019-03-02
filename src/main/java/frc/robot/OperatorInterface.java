@@ -182,7 +182,7 @@ public class OperatorInterface implements GetDriveInput {
     flipBackwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
 
     panelFlipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
-    panelFlipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
+    panelFlipForwardButton.whileHeld(new FlipBackward(this.robot.getFlipSubsystem()));
 
     // Nudge Commands
     nudgeRightButton.whenPressed(new NudgeRight(this.robot.getDriveSubsystem()));
