@@ -16,7 +16,7 @@ import frc.robot.commands.AlignWithTargetOff;
 import frc.robot.commands.ArmsDeploy;
 import frc.robot.commands.ArmsRelease;
 import frc.robot.commands.ArmsSqueeze;
-import frc.robot.commands.ReverseDeploy;;
+import frc.robot.commands.ReverseDeploy;
 import frc.robot.commands.FlipBackward;
 import frc.robot.commands.FlipForward;
 import frc.robot.commands.FlipStop;

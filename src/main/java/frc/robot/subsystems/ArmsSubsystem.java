@@ -49,6 +49,7 @@ public class ArmsSubsystem extends BaseSubsystem {
       System.out.println("Timer" + timer.get());
     }
   }
+
 public void updateDeploy(){
   if(timer.get() <=1.5){
     deploySolenoid.set(DoubleSolenoid.Value.kForward);
@@ -62,6 +63,7 @@ public void updateDeploy(){
     timer.stop();
   }
 }
+
   public void squeeze() {
     squeezeSolenoid.set(DoubleSolenoid.Value.kForward);
   }
