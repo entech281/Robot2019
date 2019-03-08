@@ -68,10 +68,12 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
 
     @Override
     public void periodic() {
+        periodicStopWatch.start("NAVX subsystem");
         latestYawAngle = angle_scale*navX.getYaw();
         SmartDashboard.putData(navX);
         SmartDashboard.putNumber("Yaw Angle", latestYawAngle);
         SmartDashboard.putNumber("Field Angle", angle_scale*navX.getAngle());
+        periodicStopWatch.end("NAVX subsystem");
     }    
 
     public double findNearestQuadrant() {

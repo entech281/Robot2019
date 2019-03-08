@@ -42,9 +42,11 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
 
     @Override
     public void periodic() {
+        periodicStopWatch.start("Vision subsystem");
         SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
         SmartDashboard.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
         SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
+        periodicStopWatch.end("Vision subsystem");
     }
 
     @Override

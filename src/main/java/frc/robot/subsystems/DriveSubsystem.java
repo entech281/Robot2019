@@ -78,7 +78,9 @@ public class DriveSubsystem extends BaseSubsystem {
 
   @Override
   public void periodic() {
-      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());   
+      periodicStopWatch.start("Drive Subsystem");
+      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
+      periodicStopWatch.end("Drive Subsystem");   
   }
 
   public void drive(DriveInput di) {

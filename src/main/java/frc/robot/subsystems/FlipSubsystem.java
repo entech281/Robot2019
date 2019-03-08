@@ -37,7 +37,9 @@ public class FlipSubsystem extends BaseSubsystem {
 
   @Override
   public void periodic() {
+    periodicStopWatch.start("Flip subsystem");
     SmartDashboard.putNumber("Flip Motor Speed", getDesiredSpeed());
+    periodicStopWatch.end("Flip subsystem");
   }
 
   public void forward() {

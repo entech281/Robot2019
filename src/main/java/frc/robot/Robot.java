@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
     
     BaseSubsystem.initializeList();
 
-    this.oi = new OperatorInterface(this);
+    oi = new OperatorInterface(this);
 
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
     camera.setResolution(320, 240);
@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
-    robotDrive.drive(this.oi.getDriveInput());
+    robotDrive.drive(oi.getDriveInput());
     Scheduler.getInstance().run();
   }
 
