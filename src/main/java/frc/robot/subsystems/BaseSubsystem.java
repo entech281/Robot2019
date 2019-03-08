@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import frc.robot.timer.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,13 +22,18 @@ public abstract class BaseSubsystem extends Subsystem {
 
   // Creates a list of all the subsystems extending BaseSubsystem
   private static List <BaseSubsystem> initialize_these_list = new ArrayList <BaseSubsystem>();
+  
+  protected static final TimeTracker periodicStopWatch = new TimeTracker();
+
 
   public BaseSubsystem() {
+    
     initialize_these_list.add(this);
   }
 
   public static void initializeList() {
     // Loop through all the Subsystems and initialize them
+   
     for ( BaseSubsystem subsystem: initialize_these_list ) {
       subsystem.initialize();
       SmartDashboard.putData(subsystem);

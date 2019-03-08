@@ -20,7 +20,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     private double lastDistanceFromTarget = UNKNOWN;
     private double lastLateralDistance = UNKNOWN;
 
-    private double scaleFactor = 1.0;
+    //private double scaleFactor = 1.0;
 
 
     private NetworkTableInstance ntist;
@@ -42,9 +42,11 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
 
     @Override
     public void periodic() {
+        periodicStopWatch.start("Vision subsystem");
         SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
         SmartDashboard.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
         SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
+        periodicStopWatch.end("Vision subsystem");
     }
 
     @Override
@@ -52,20 +54,23 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
         double currFrameCount = frameCount.getDouble(lastFrameCount);
         DriveInput di = new DriveInput();  // created as invalid
         if (currFrameCount > lastFrameCount) {
-          scaleFactor = 1.0;
+          //scaleFactor = 1.0;
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
           lastLateralDistance = (-1)*lateral.getDouble(UNKNOWN);
           di.setTargetDistance(lastDistanceFromTarget);
+          if(lastLateralDistance <= (UNKNOWN-1)){
           di.setTargetLateral(lastLateralDistance);
-          
-        } else {
+          }
+        } 
+        /*else {
           scaleFactor = 0.75*scaleFactor;
           if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 
               (Math.abs(lastDistanceFromTarget-UNKNOWN) > 0.1)) {
                 di.setTargetDistance(scaleFactor*lastDistanceFromTarget);
                 di.setTargetLateral(scaleFactor*lastLateralDistance);
                 }
-          }
+          
+        }*/
         
         return di;
     }

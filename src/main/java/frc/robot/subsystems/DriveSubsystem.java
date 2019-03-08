@@ -20,9 +20,13 @@ import frc.robot.drive.TwistFilter;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInputAggregator;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Add your docs here.
@@ -46,6 +50,11 @@ public class DriveSubsystem extends BaseSubsystem {
 
   private NudgeRightFilter nudgeRightFilter = new NudgeRightFilter();
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
+
+  private boolean targetLock = false;
+
+  private final NetworkTableInstance ntist = NetworkTableInstance.getDefault();
+  private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.Vision.targetLock");
   
   //enable line sensors and vision sensors
   //private DriveInputAggregator inputAggregator = new DriveInputAggregator(
@@ -63,6 +72,7 @@ public class DriveSubsystem extends BaseSubsystem {
     rearLeftTalon.setInverted(false);
     frontRightTalon.setInverted(false);
     rearRightTalon.setInverted(false);
+    
 
     holdYawFilter = new HoldYawFilter();
     holdYawFilter.disable();
@@ -78,7 +88,9 @@ public class DriveSubsystem extends BaseSubsystem {
 
   @Override
   public void periodic() {
-      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());   
+      periodicStopWatch.start("Drive Subsystem");
+      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
+      periodicStopWatch.end("Drive Subsystem");   
   }
 
   public void drive(DriveInput di) {
@@ -170,8 +182,13 @@ public class DriveSubsystem extends BaseSubsystem {
   public void alignWithTarget(boolean enable) {
     if (enable) {
       alignLateralFilter.enable();
+      targetLock = true;
     } else {
       alignLateralFilter.disable();
+      targetLock = false;
     }
+    targetLockReporter.forceSetBoolean(targetLock);
   }
+
+
 }

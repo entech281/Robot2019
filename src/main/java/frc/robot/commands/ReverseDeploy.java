@@ -8,34 +8,38 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import frc.robot.subsystems.ArmsSubsystem;
 
-public class AlignWithTargetOff extends Command {
-  private Robot robot;
+public class ReverseDeploy extends Command {
+  private ArmsSubsystem arms;
+  private int counter = 0;
 
-  public AlignWithTargetOff(Robot robot) {
-    // Use requires() here to declare subsystem dependencies
-    this.robot = robot;
-    requires(this.robot.getDriveSubsystem());
+  public ReverseDeploy(ArmsSubsystem arms) {
+    this.arms=arms;
+    requires(arms);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    this.robot.getDriveSubsystem().disableHoldYaw();
-    this.robot.getDriveSubsystem().alignWithTarget(false);
+    arms.reverse();
   }
-
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    arms.reverse();
+    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    if ( counter > 10 ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true
