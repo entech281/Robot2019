@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package frc.robot.timer;
 
+package frc.robot.timer;
+import frc.robot.timer.*;
 /**
  *
  * @author dcowden

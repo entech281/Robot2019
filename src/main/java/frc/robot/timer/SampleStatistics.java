@@ -11,6 +11,7 @@ package frc.robot.timer;
  */
 import java.util.ArrayDeque;
 import java.util.Queue;
+import frc.robot.timer.*;
 
 public class SampleStatistics {
 
