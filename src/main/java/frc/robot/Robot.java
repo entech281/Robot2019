@@ -15,7 +15,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlipSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
-import frc.robot.subsystems.PushPlateHatchSubsystem;
 import frc.robot.subsystems.ArmsSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -25,7 +24,8 @@ import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import frc.logging.*;
+import edu.wpi.first.wpilibj.IterativeRobot;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +34,7 @@ import frc.logging.*;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends IterativeRobot {
 
 
   private Compressor compressor;

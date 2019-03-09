@@ -24,8 +24,6 @@ import frc.robot.commands.HatchExtend;
 import frc.robot.commands.HatchRetract;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
-import frc.robot.commands.PushPlateHatchGrabHold;
-import frc.robot.commands.PushPlateHatchRelease;
 import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
@@ -63,7 +61,6 @@ public class OperatorInterface implements GetDriveInput {
   private JoystickButton hatchRetractButton;
 
   private JoystickButton panelHatchExtendButton;
-  boolean USING_PUSH_PLATE_DEPLOYMENT_SYSTEM = false;
   
   // Flip Subsystem
   private JoystickButton flipForwardButton;
@@ -167,14 +164,13 @@ public class OperatorInterface implements GetDriveInput {
     panelArmsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
     
     // Hatch Subsystem
-    if(USING_PUSH_PLATE_DEPLOYMENT_SYSTEM){
-      }
-    else{
-      hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
-      hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
-      panelHatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
-      panelHatchExtendButton.whenReleased(new HatchRetract(this.robot.getHatchSubsystem()));
-    }
+    
+    
+    hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
+    hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+    panelHatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+    panelHatchExtendButton.whenReleased(new HatchRetract(this.robot.getHatchSubsystem()));
+    
     // Flip Subsystem
     flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
     flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));
