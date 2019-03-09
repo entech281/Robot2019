@@ -12,7 +12,7 @@ import frc.robot.subsystems.HatchSubsystem;
 
 public class HatchExtend extends Command {
   private HatchSubsystem hatch;
-  private int counter = 0;
+  
 
   public HatchExtend(HatchSubsystem hatch) {
     this.hatch=hatch;
@@ -22,26 +22,18 @@ public class HatchExtend extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    counter = 0;
     hatch.extend();
-    hatch.deploy();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    hatch.extend();
-    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 50 ) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 
   // Called once after isFinished returns true

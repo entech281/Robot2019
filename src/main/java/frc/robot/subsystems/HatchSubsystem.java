@@ -26,8 +26,10 @@ public class HatchSubsystem extends BaseSubsystem {
   private Solenoid bottomReleaseSolonoid;
 
   private Timer timer = new Timer();
-  private boolean isDeploying = false;
+  private boolean isExtending = false;
 
+  public static final double RELESE_PULSE_DURATION_SECS=0.1;
+  public static final double RELEASE_PULSE_DELAY_SECS = 0.14;
   public HatchSubsystem() {
     super();
     pusherSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.HATCH_FORWARD,
@@ -43,8 +45,10 @@ public class HatchSubsystem extends BaseSubsystem {
   @Override
   public void initialize() {
     pusherSolenoid.set(Value.kReverse);
-    topReleaseSolonoid.set(true);
-    bottomReleaseSolonoid.set(true);
+    topReleaseSolonoid.set(false);
+    bottomReleaseSolonoid.set(false);
+    topReleaseSolonoid.setPulseDuration(RELESE_PULSE_DURATION_SECS);
+    bottomReleaseSolonoid.setPulseDuration(RELESE_PULSE_DURATION_SECS);
   }
 
   @Override
@@ -56,39 +60,31 @@ public class HatchSubsystem extends BaseSubsystem {
   @Override
   public void periodic() {
     periodicStopWatch.start("hatch Subsystem");
-    SmartDashboard.putBoolean("Unsuctioning Hatch", isDeploying);
-    if(isDeploying){
-      release();
-      System.out.println("Hatch Unsuctioning Timer" + timer.get());
+    
+    if ( isExtending){
+        if ( timer.get() > RELEASE_PULSE_DELAY_SECS){
+            topReleaseSolonoid.startPulse();
+            bottomReleaseSolonoid.startPulse();            
+            isExtending = false;
+        }
+    }
+    else{
+        topReleaseSolonoid.set(false);
+        bottomReleaseSolonoid.set(false);         
     }
     periodicStopWatch.end("hatch Subsystem");
   }
 
   public void extend() {
     pusherSolenoid.set(DoubleSolenoid.Value.kForward);
+    isExtending = true;
+    timer.reset();
+    timer.start();
+
   }
 
   public void retract() {
     pusherSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void release() {
-    if(timer.get() <=0.1) {
-      topReleaseSolonoid.set(true);
-      bottomReleaseSolonoid.set(true);
-    } else if(timer.get() <=0.2) {
-      topReleaseSolonoid.set(false);
-      bottomReleaseSolonoid.set(false);
-    }
-    else {
-      isDeploying = false;
-      timer.stop();
-    }
-  }
-
-  public void deploy() {
-    isDeploying = true;
-    timer.reset();
-    timer.start();
-  }
 }

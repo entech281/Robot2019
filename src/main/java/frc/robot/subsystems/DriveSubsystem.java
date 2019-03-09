@@ -54,7 +54,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private boolean targetLock = false;
 
   private final NetworkTableInstance ntist = NetworkTableInstance.getDefault();
-  private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.Vision.targetLock");
+  private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.targetLock.buttonPressed");
   
   //enable line sensors and vision sensors
   //private DriveInputAggregator inputAggregator = new DriveInputAggregator(
@@ -73,7 +73,11 @@ public class DriveSubsystem extends BaseSubsystem {
     frontRightTalon.setInverted(false);
     rearRightTalon.setInverted(false);
     
-
+    frontLeftTalon.enableCurrentLimit(false);
+    rearLeftTalon.enableCurrentLimit(false);
+    frontRightTalon.enableCurrentLimit(false);
+    rearRightTalon.enableCurrentLimit(false);
+    
     holdYawFilter = new HoldYawFilter();
     holdYawFilter.disable();
 
@@ -90,6 +94,9 @@ public class DriveSubsystem extends BaseSubsystem {
   public void periodic() {
       periodicStopWatch.start("Drive Subsystem");
       SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
+      SmartDashboard.putBoolean("Target Lock Enabled", targetLock);
+      
+      targetLockReporter.forceSetBoolean(targetLock);
       periodicStopWatch.end("Drive Subsystem");   
   }
 
@@ -187,7 +194,7 @@ public class DriveSubsystem extends BaseSubsystem {
       alignLateralFilter.disable();
       targetLock = false;
     }
-    targetLockReporter.forceSetBoolean(targetLock);
+    
   }
 
 

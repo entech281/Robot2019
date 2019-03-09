@@ -52,26 +52,28 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     @Override
     public DriveInput getDriveInput() {
         double currFrameCount = frameCount.getDouble(lastFrameCount);
+        double lateralDistance = lateral.getDouble(UNKNOWN);
+        double targetDistance = distance.getDouble(UNKNOWN);
+        
+        boolean valid = true;
+        if ( currFrameCount <= lastFrameCount){
+            valid = false;
+        }
+        if ( lateralDistance > 500 ){
+            valid = false;
+        }
+        if ( targetDistance > 2000 ){
+            valid = false;
+        }
         DriveInput di = new DriveInput();  // created as invalid
-        if (currFrameCount > lastFrameCount) {
+        if (valid) {
           //scaleFactor = 1.0;
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
           lastLateralDistance = (-1)*lateral.getDouble(UNKNOWN);
           di.setTargetDistance(lastDistanceFromTarget);
-          if(lastLateralDistance <= (UNKNOWN-1)){
           di.setTargetLateral(lastLateralDistance);
-          }
         } 
-        /*else {
-          scaleFactor = 0.75*scaleFactor;
-          if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 
-              (Math.abs(lastDistanceFromTarget-UNKNOWN) > 0.1)) {
-                di.setTargetDistance(scaleFactor*lastDistanceFromTarget);
-                di.setTargetLateral(scaleFactor*lastLateralDistance);
-                }
-          
-        }*/
-        
+        SmartDashboard.putBoolean("Vision Input Valid", valid);
         return di;
     }
 
