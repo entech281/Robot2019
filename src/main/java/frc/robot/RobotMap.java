@@ -30,6 +30,8 @@ public class RobotMap {
   public interface PNEUMATICS {
     public static final int HATCH_FORWARD = 1;
     public static final int HATCH_REVERSE = 0;
+    public static final int HATCH_RELEASE_TOP = 6;
+    public static final int HATCH_RELEASE_BOTTOM = 7;
 
     public static final int PUSH_PLATE_HORIZONTAL_OUT = 1;
     public static final int PUSH_PLATE_HORIZONTAL_IN = 0;
