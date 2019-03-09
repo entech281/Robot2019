@@ -130,13 +130,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic(){
+    BaseSubsystem.periodicStopWatch.start("MAIN LOOP");
+
     robotDrive.drive(oi.getDriveInput());
     Scheduler.getInstance().run();
 
     if(RobotMap.IS_LOGGING_ENABLED){
       System.out.println(BaseSubsystem.periodicStopWatch.toString());
     }
-
+    BaseSubsystem.periodicStopWatch.end("MAIN LOOP");
   }
 
   @Override

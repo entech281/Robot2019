@@ -43,11 +43,13 @@ public class ArmsSubsystem extends BaseSubsystem {
 
   @Override
   public void periodic() {
+    periodicStopWatch.start("Arms Subsystem");
     SmartDashboard.putBoolean("Deploying", isDeploying);
     if(isDeploying){
       updateDeploy();
       System.out.println("Timer" + timer.get());
     }
+    periodicStopWatch.end("Arms Subsystem");
   }
 
 public void updateDeploy(){

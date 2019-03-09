@@ -24,7 +24,8 @@ public class RobotMap {
     public static final int REAR_RIGHT_MOTOR = 16;
     public static final int CLIMB = 7;
     public static final int PCM_ID = 10;
-
+    public static final int PCM_ID_2 = 6;
+    public static final int PCM_ID_3 = 7;
     public static final int HORI_PCM_ID = 10;
     public static final int VERT_PCM_ID = 10;
   }

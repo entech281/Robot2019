@@ -7,9 +7,9 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
     private double current_offset = NO_OFFSET;
     private boolean offset_valid;
 
-    final private static double INSIDE_SENSOR_WIDTH = 1.6;
+    final private static double INSIDE_SENSOR_WIDTH = 1.5;
     final private static double NO_OFFSET = -99.0;
-    final private static double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.8;
+    final private static double DISTANCE_BETWEEN_OUT_AND_IN_SENSORS = 1.5;
     final private static long SENSOR_POLL_INTERVAL_MS = 5;
     private I2C i2c;
     private Thread sensorThread;
