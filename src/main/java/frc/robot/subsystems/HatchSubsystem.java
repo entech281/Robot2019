@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
@@ -41,6 +42,9 @@ public class HatchSubsystem extends BaseSubsystem {
 
   @Override
   public void initialize() {
+    pusherSolenoid.set(Value.kReverse);
+    topReleaseSolonoid.set(false);
+    bottomReleaseSolonoid.set(false);
   }
 
   @Override
@@ -69,10 +73,10 @@ public class HatchSubsystem extends BaseSubsystem {
   }
 
   public void release() {
-    if(timer.get() <=0.01) {
+    if(timer.get() <=0.1) {
       topReleaseSolonoid.set(true);
       bottomReleaseSolonoid.set(true);
-    } else if(timer.get() <=0.02) {
+    } else if(timer.get() <=0.2) {
       topReleaseSolonoid.set(false);
       bottomReleaseSolonoid.set(false);
     }

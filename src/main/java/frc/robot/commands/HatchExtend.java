@@ -24,6 +24,7 @@ public class HatchExtend extends Command {
   protected void initialize() {
     counter = 0;
     hatch.extend();
+    hatch.deploy();
   }
 
   // Called repeatedly when this Command is scheduled to run
