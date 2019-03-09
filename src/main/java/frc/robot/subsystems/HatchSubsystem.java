@@ -43,8 +43,8 @@ public class HatchSubsystem extends BaseSubsystem {
   @Override
   public void initialize() {
     pusherSolenoid.set(Value.kReverse);
-    topReleaseSolonoid.set(false);
-    bottomReleaseSolonoid.set(false);
+    topReleaseSolonoid.set(true);
+    bottomReleaseSolonoid.set(true);
   }
 
   @Override
