@@ -35,6 +35,8 @@ import frc.logging.*;
  * project.
  */
 public class Robot extends TimedRobot {
+
+
   private Compressor compressor;
 
   private NavXSubsystem navX;
@@ -129,8 +131,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic(){
     robotDrive.drive(oi.getDriveInput());
-    System.out.println(BaseSubsystem.periodicStopWatch.toString());
     Scheduler.getInstance().run();
+
+    if(RobotMap.IS_LOGGING_ENABLED){
+      System.out.println(BaseSubsystem.periodicStopWatch.toString());
+    }
+
   }
 
   @Override

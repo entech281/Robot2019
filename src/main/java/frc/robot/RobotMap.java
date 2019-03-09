@@ -15,6 +15,8 @@ package frc.robot;
  */
 public class RobotMap {
 
+  public static final boolean IS_LOGGING_ENABLED = true;
+
   public interface CAN {
     public static final int FRONT_LEFT_MOTOR = 14;
     public static final int FRONT_RIGHT_MOTOR = 2;
