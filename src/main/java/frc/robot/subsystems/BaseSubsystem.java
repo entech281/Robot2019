@@ -23,7 +23,7 @@ public abstract class BaseSubsystem extends Subsystem {
   // Creates a list of all the subsystems extending BaseSubsystem
   private static List <BaseSubsystem> initialize_these_list = new ArrayList <BaseSubsystem>();
   
-  protected static final TimeTracker periodicStopWatch = new TimeTracker();
+  public static final TimeTracker periodicStopWatch = new TimeTracker();
 
 
   public BaseSubsystem() {

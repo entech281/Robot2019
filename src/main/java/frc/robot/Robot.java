@@ -19,6 +19,7 @@ import frc.robot.subsystems.PushPlateHatchSubsystem;
 import frc.robot.subsystems.ArmsSubsystem;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.drive.DriveInput;
 import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
@@ -128,6 +129,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic(){
     robotDrive.drive(oi.getDriveInput());
+    System.out.println(BaseSubsystem.periodicStopWatch.toString());
     Scheduler.getInstance().run();
   }
 
