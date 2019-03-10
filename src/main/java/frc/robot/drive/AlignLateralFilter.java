@@ -1,8 +1,5 @@
 package frc.robot.drive;
 
-import frc.logging.Logger;
-import frc.logging.Logging;
-import frc.pid.BangBangController;
 import frc.pid.Controller;
 import frc.pid.CappedLinearControl;;
 

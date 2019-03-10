@@ -14,7 +14,7 @@ public class AlignWithTargetOff extends Command {
   private Robot robot;
 
   public AlignWithTargetOff(Robot robot) {
-    // Use requires() here to declare subsystem dependencies
+
     this.robot = robot;
     requires(this.robot.getDriveSubsystem());
   }

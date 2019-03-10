@@ -51,7 +51,8 @@ public class OperatorInterface implements GetDriveInput {
   // Robot Alignment
   private JoystickButton targetAlignButton;
   private JoystickButton panelTargetAlignButton;
-
+  private JoystickButton targetAlignNoYawButton;
+  private JoystickButton panelTargetAlignNoYawButton;
   // Arms Subsystem
   private JoystickButton armsDeployButton;
   private JoystickButton armsReverseButton;
@@ -112,6 +113,7 @@ public class OperatorInterface implements GetDriveInput {
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
     // Target Alignment
     targetAlignButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN);
+    targetAlignNoYawButton = new JoystickButton(gamePad,RobotMap.GamePad.Button.TARGET_ALIGN_NOYAW);
     
     // Arms Subsystem
     armsDeployButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_DEPLOY);
@@ -120,16 +122,19 @@ public class OperatorInterface implements GetDriveInput {
     armsReverseButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_REVERSE_DEPLOY);
 
     // Hatch Subsystem
-      hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
-      hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
+    hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
+    hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
   
     // Flip Subsystem
     flipForwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_FORWARD);
     flipBackwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_BACKWARD);       
     
     
-    panelTargetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
-
+    panelTargetAlignButton = new JoystickButton(
+            operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
+    panelTargetAlignNoYawButton = new JoystickButton(
+            operatorPanel,RobotMap.OperatorPanel.Button.TARGET_ALIGN_NOYAW);
+    
     // Arms Subsystem
     panelArmsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
     panelArmsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
@@ -159,11 +164,18 @@ public class OperatorInterface implements GetDriveInput {
   
   protected void createCommands() { 
     // Target Align
-    targetAlignButton.whenPressed(new AlignWithTarget(this.robot));
+    targetAlignButton.whenPressed(new AlignWithTarget(this.robot,true));
     targetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
-    panelTargetAlignButton.whenPressed(new AlignWithTarget(this.robot));
+    
+    panelTargetAlignButton.whenPressed(new AlignWithTarget(this.robot,true));
     panelTargetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
-
+    
+    targetAlignNoYawButton.whenPressed(new AlignWithTarget(this.robot,false));
+    targetAlignNoYawButton.whenReleased(new AlignWithTargetOff(this.robot));
+    
+    panelTargetAlignNoYawButton.whenPressed(new AlignWithTarget(this.robot,false));
+    panelTargetAlignNoYawButton.whenReleased(new AlignWithTargetOff(this.robot));
+    
     povButton.whenPressed(
             new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
             SquareUpCommand.LockOption.STRAIGHT));

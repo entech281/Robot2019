@@ -12,18 +12,22 @@ import frc.robot.Robot;
 
 public class AlignWithTarget extends Command {
   private Robot robot;
-
-  public AlignWithTarget(Robot robot) {
+  private boolean holdYaw = false;
+  public AlignWithTarget(Robot robot, boolean holdYaw) {
     // Use requires() here to declare subsystem dependencies
     this.robot = robot;
+    this.holdYaw = holdYaw;
     requires(this.robot.getDriveSubsystem());
+    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     double angle = this.robot.getNavXSubsystem().findNearestQuadrant();
-    this.robot.getDriveSubsystem().enableHoldYaw(angle);
+    if ( holdYaw){
+        this.robot.getDriveSubsystem().enableHoldYaw(angle);
+    }    
     this.robot.getDriveSubsystem().alignWithTarget(true);
   }
 
