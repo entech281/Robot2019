@@ -7,10 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.BaseSubsystem;
-import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlipSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
@@ -20,11 +17,10 @@ import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.drive.DriveInput;
-import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 
 
 /**
@@ -34,7 +30,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 
 
   private Compressor compressor;
@@ -127,6 +123,11 @@ public class Robot extends IterativeRobot {
     //Logging.setEnableDebug(prefs.isDebug());
     robotDrive.setFieldAbsolute(false);
   }
+
+    @Override
+    public void disabledInit() {
+        
+    }
 
   @Override
   public void teleopPeriodic(){
