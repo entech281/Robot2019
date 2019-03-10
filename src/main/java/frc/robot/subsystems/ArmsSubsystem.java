@@ -49,7 +49,6 @@ public class ArmsSubsystem extends BaseSubsystem {
     SmartDashboard.putBoolean("Deploying", isDeploying);
     if(isDeploying){
       updateDeploy();
-      System.out.println("Timer" + timer.get());
     }
     periodicStopWatch.end("Arms Subsystem");
   }
