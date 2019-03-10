@@ -65,6 +65,13 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
         if ( targetDistance > 2000 ){
             valid = false;
         }
+        if ( Double.isNaN(lateralDistance) || Double.isInfinite(lateralDistance)){
+            valid = false;
+        }
+        if ( Double.isNaN(targetDistance) || Double.isInfinite(targetDistance)){
+            valid = false;
+        }
+        
         DriveInput di = new DriveInput();  // created as invalid
         if (valid) {
           //scaleFactor = 1.0;

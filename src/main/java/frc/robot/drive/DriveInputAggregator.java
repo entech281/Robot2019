@@ -40,7 +40,11 @@ public class DriveInputAggregator {
              double dist = vision.getTargetDistance()*Math.cos(deltaAngleRads);
              double offsetDueToAngle = vision.getTargetDistance()*Math.sin(deltaAngleRads);
              double projectedLateralOffset = vision.getTargetLateral()*Math.cos(deltaAngleRads);
-             
+             //System.out.println("visionDistance" + vision.getTargetDistance());
+             //System.out.println("visionTargetLateral" + vision.getTargetLateral());
+             //System.out.println("deltaRads=" + deltaAngleRads);
+             //System.out.println("offestDueToAngle=" + offsetDueToAngle);
+             //System.out.println("projectedLateralOffset=" + projectedLateralOffset);
              result.setTargetDistance(dist);
              result.setTargetLateral(offsetDueToAngle+projectedLateralOffset);
           }
@@ -50,8 +54,6 @@ public class DriveInputAggregator {
             result.setTargetDistance(vision.getTargetDistance());
             result.setTargetLateral(vision.getTargetLateral());  
           }
-          
-          
         }
 
         if (sensors.isValid() && enableLineSensors) {
@@ -59,7 +61,20 @@ public class DriveInputAggregator {
           result.setTargetDistance(sensors.getTargetDistance());
           result.setTargetLateral(sensors.getTargetLateral());
         }
-
+        
+        if ( ! canDisplay(result.getTargetLateral())){
+            result.setTargetLateral(8888.8);
+        }
         return result;       
+    }
+    
+    public static boolean canDisplay(double d){
+        if ( Double.isNaN(d) ){
+            return false;
+        }
+        if ( Double.isInfinite(d)){
+            return false;
+        }
+        return true;
     }
 }

@@ -15,16 +15,28 @@ import frc.robot.subsystems.NavXSubsystem;
  */
 public class SquareUpCommand extends Command{
 
+    public enum LockOption{
+        STRAIGHT,
+        ANGLED
+    }
     private DriveSubsystem drive;
     private NavXSubsystem navx;
-    public SquareUpCommand(NavXSubsystem navx, DriveSubsystem drive){
+    private LockOption lockOption;
+    public SquareUpCommand(NavXSubsystem navx, DriveSubsystem drive,LockOption lockOption){
         this.drive = drive;
         this.navx = navx;
+        this.lockOption = lockOption;
     }
 
     @Override
     protected void initialize() {
-        double angle = navx.findNearestQuadrant();
+        double angle = 0;
+        if ( lockOption == LockOption.STRAIGHT){
+            angle = navx.findNearestQuadrant();
+        }
+        else{
+            angle = navx.findNearestAngledQuadrant();
+        }
         drive.enableHoldYaw(angle);        
     }
     

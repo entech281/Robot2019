@@ -46,7 +46,7 @@ public class OperatorInterface implements GetDriveInput {
   private Joystick operatorPanel;
   
   private POVButton povButton;
-  
+  private POVButton povButtonDown;
   // Robot Alignment
   private JoystickButton targetAlignButton;
   private JoystickButton panelTargetAlignButton;
@@ -105,6 +105,8 @@ public class OperatorInterface implements GetDriveInput {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
     
     povButton = new POVButton(driveStick,0);
+    povButtonDown = new POVButton(driveStick,180);
+    
     gamePad = new Joystick(RobotMap.GamePad.PORT);
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
     // Target Alignment
@@ -161,8 +163,17 @@ public class OperatorInterface implements GetDriveInput {
     panelTargetAlignButton.whenPressed(new AlignWithTarget(this.robot));
     panelTargetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
 
-    povButton.whenPressed(new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem()));
+    povButton.whenPressed(
+            new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
+            SquareUpCommand.LockOption.STRAIGHT));
     povButton.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
+    
+    povButtonDown.whenPressed(
+            new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
+            SquareUpCommand.LockOption.STRAIGHT));
+    
+    povButton.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
+    
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));

@@ -108,6 +108,7 @@ public class DriveSubsystem extends BaseSubsystem {
     
     SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
     SmartDashboard.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
+    SmartDashboard.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
     
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
