@@ -87,6 +87,7 @@ public class DriveSubsystem extends BaseSubsystem {
     robotDrive.setDeadband(0.1);
     joystickJitterFilter.disable();
     robotRelativeDriveFilter.disable();
+    twistFilter.enable();
   }
 
   @Override
@@ -136,7 +137,9 @@ public class DriveSubsystem extends BaseSubsystem {
       di = nudgeRightFilter.filter(di);
     } else {
       di = holdYawFilter.filter(di);
-      di = alignLateralFilter.filter(di);
+      if ( alignLateralFilter.isEnabled()){
+          di = alignLateralFilter.filter(di);
+      }      
     }
     di = robotRelativeDriveFilter.filter(di);    
     return di;

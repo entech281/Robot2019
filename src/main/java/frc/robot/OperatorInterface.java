@@ -47,6 +47,7 @@ public class OperatorInterface implements GetDriveInput {
   
   private POVButton povButton;
   private POVButton povButtonDown;
+  
   // Robot Alignment
   private JoystickButton targetAlignButton;
   private JoystickButton panelTargetAlignButton;
@@ -170,9 +171,9 @@ public class OperatorInterface implements GetDriveInput {
     
     povButtonDown.whenPressed(
             new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
-            SquareUpCommand.LockOption.STRAIGHT));
+            SquareUpCommand.LockOption.ANGLED));
     
-    povButton.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
+    povButtonDown.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
     
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));

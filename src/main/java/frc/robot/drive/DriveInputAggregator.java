@@ -40,11 +40,6 @@ public class DriveInputAggregator {
              double dist = vision.getTargetDistance()*Math.cos(deltaAngleRads);
              double offsetDueToAngle = vision.getTargetDistance()*Math.sin(deltaAngleRads);
              double projectedLateralOffset = vision.getTargetLateral()*Math.cos(deltaAngleRads);
-             //System.out.println("visionDistance" + vision.getTargetDistance());
-             //System.out.println("visionTargetLateral" + vision.getTargetLateral());
-             //System.out.println("deltaRads=" + deltaAngleRads);
-             //System.out.println("offestDueToAngle=" + offsetDueToAngle);
-             //System.out.println("projectedLateralOffset=" + projectedLateralOffset);
              result.setTargetDistance(dist);
              result.setTargetLateral(offsetDueToAngle+projectedLateralOffset);
           }

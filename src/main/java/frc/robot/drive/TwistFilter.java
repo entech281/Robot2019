@@ -22,6 +22,7 @@ public class TwistFilter extends DriveFilter {
     
     @Override
     public DriveInput doFilter(DriveInput input) {
-        return new DriveInput(input.getX(), input.getY(), 0.0, input.getFieldAngle(), input.getTargetDistance(), input.getTargetLateral());
+        return new DriveInput(input.getX(), input.getY(), 0.0, 
+                input.getFieldAngle(), input.getTargetDistance(), input.getTargetLateral());
     }
 }
