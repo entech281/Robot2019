@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.AlignWithTarget;
@@ -16,6 +17,7 @@ import frc.robot.commands.AlignWithTargetOff;
 import frc.robot.commands.ArmsDeploy;
 import frc.robot.commands.ArmsRelease;
 import frc.robot.commands.ArmsSqueeze;
+import frc.robot.commands.CancelSquareUpCommand;
 import frc.robot.commands.ReverseDeploy;
 import frc.robot.commands.FlipBackward;
 import frc.robot.commands.FlipForward;
@@ -24,6 +26,7 @@ import frc.robot.commands.HatchExtend;
 import frc.robot.commands.HatchRetract;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
+import frc.robot.commands.SquareUpCommand;
 import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
@@ -41,6 +44,8 @@ public class OperatorInterface implements GetDriveInput {
   private Joystick driveStick;
   private Joystick gamePad;
   private Joystick operatorPanel;
+  
+  private POVButton povButton;
   
   // Robot Alignment
   private JoystickButton targetAlignButton;
@@ -98,11 +103,13 @@ public class OperatorInterface implements GetDriveInput {
 
   protected void createButtons() {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
+    
+    povButton = new POVButton(driveStick,0);
     gamePad = new Joystick(RobotMap.GamePad.PORT);
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
     // Target Alignment
     targetAlignButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN);
-
+    
     // Arms Subsystem
     armsDeployButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_DEPLOY);
     armsSqueezeButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_SQUEEZE);
@@ -154,6 +161,8 @@ public class OperatorInterface implements GetDriveInput {
     panelTargetAlignButton.whenPressed(new AlignWithTarget(this.robot));
     panelTargetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
 
+    povButton.whenPressed(new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem()));
+    povButton.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));

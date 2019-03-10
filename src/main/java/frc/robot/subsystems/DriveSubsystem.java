@@ -20,7 +20,6 @@ import frc.robot.drive.TwistFilter;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInputAggregator;
@@ -60,7 +59,7 @@ public class DriveSubsystem extends BaseSubsystem {
   //private DriveInputAggregator inputAggregator = new DriveInputAggregator(
   //        robot.getPreferences().isEnableLineSensors(),
   //        robot.getPreferences().isEnableVision());
-  private DriveInputAggregator inputAggregator = new DriveInputAggregator(false,true);
+  private DriveInputAggregator inputAggregator = new DriveInputAggregator(false,true,true);
   
   public DriveSubsystem(Robot robot) {
     this.robot = robot;

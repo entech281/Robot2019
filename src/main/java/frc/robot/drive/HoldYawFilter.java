@@ -17,7 +17,7 @@ import frc.pid.CappedLinearControl;
  */
 public class HoldYawFilter extends DriveFilter {
 
-  public static final double ANGLE_THRESHOLD_DEGREES = 2;
+  public static final double ANGLE_THRESHOLD_DEGREES = 1;
   private CappedLinearControl cappedLinear = new CappedLinearControl(ANGLE_THRESHOLD_DEGREES,
                     15.0, 0.1, 0.4);
   double desiredAngle = 0.0;
