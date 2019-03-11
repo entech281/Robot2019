@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardVerifier;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
@@ -71,8 +72,8 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
         periodicStopWatch.start("NAVX subsystem");
         latestYawAngle = angle_scale*navX.getYaw();
         SmartDashboard.putData(navX);
-        SmartDashboard.putNumber("Yaw Angle", latestYawAngle);
-        SmartDashboard.putNumber("Field Angle", angle_scale*navX.getAngle());
+        SmartDashboardVerifier.putNumber("Yaw Angle", latestYawAngle);
+        SmartDashboardVerifier.putNumber("Field Angle", angle_scale*navX.getAngle());
         periodicStopWatch.end("NAVX subsystem");
     }    
 

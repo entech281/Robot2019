@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardVerifier;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
@@ -89,8 +90,8 @@ public class SensorSubsystem extends BaseSubsystem implements GetDriveInput {
               break;
         }
         
-        SmartDashboard.putNumber("Arduino Offset", current_offset);
-        SmartDashboard.putNumber("Sensor Bytes", b[0]);
+        SmartDashboardVerifier.putNumber("Arduino Offset", current_offset);
+        SmartDashboardVerifier.putNumber("Sensor Bytes", b[0]);
         
     }
     
