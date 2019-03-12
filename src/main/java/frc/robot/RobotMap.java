@@ -71,8 +71,9 @@ public class RobotMap {
   public interface OperatorPanel {
     public static final int PORT = 2;
     public interface Button {
-      // Button definitions for the PS3 controller
-      public static final int TARGET_ALIGN = 1;
+      // Button Definitions for Operator panel
+      public static final int TARGET_ALIGN_CARGO = 1;
+      public static final int TARGET_ALIGN_ROCKET = 7;
       public static final int HATCH_EXTEND = 6;
       public static final int ARMS_DEPLOY = 2;
       public static final int ARMS_SQUEEZE = 3;
