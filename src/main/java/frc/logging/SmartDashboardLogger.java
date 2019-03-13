@@ -6,6 +6,7 @@
 package frc.logging;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardVerifier;
 import frc.robot.drive.DriveInput;
 
 /**
@@ -15,9 +16,9 @@ import frc.robot.drive.DriveInput;
 public class SmartDashboardLogger {
     
     public static void putOnSmartDashboard(String name, DriveInput input){
-    SmartDashboard.putNumber(name + " X", input.getX());
-    SmartDashboard.putNumber(name +" Y", input.getY());
-    SmartDashboard.putNumber(name +" Z", input.getZ());
-    SmartDashboard.putNumber(name +" Angle", input.getFieldAngle());        
+    SmartDashboardVerifier.putNumber(name + " X", input.getX());
+    SmartDashboardVerifier.putNumber(name +" Y", input.getY());
+    SmartDashboardVerifier.putNumber(name +" Z", input.getZ());
+    SmartDashboardVerifier.putNumber(name +" Angle", input.getFieldAngle());        
     }
 }

@@ -22,6 +22,7 @@ import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.logging.SmartDashboardLogger;
+import frc.logging.SmartDashboardVerifier;
 import frc.robot.drive.DriveInputAggregator;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -107,9 +108,9 @@ public class DriveSubsystem extends BaseSubsystem {
             this.robot.getVisionSubsystem().getDriveInput(),
             this.robot.getSensorSubsystem().getDriveInput());
     
-    SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
-    SmartDashboard.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
-    SmartDashboard.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
+    SmartDashboardVerifier.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
+    SmartDashboardVerifier.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
+    SmartDashboardVerifier.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
     
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
     //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
