@@ -57,6 +57,7 @@ public class RobotMap {
     public interface Button {
       // Button definitions for the PS3 controller
       public static final int TARGET_ALIGN = 8;
+      public static final int TARGET_ALIGN_ROCKET = 7;
       public static final int HATCH_RETRACT = 3;
       public static final int HATCH_EXTEND = 1;
       public static final int ARMS_DEPLOY = 13;

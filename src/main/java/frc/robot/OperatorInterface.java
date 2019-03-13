@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.AlignWithRocket;
+import frc.robot.commands.AlignWithRocketOff;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.AlignWithTargetOff;
 import frc.robot.commands.ArmsDeploy;
@@ -50,6 +52,7 @@ public class OperatorInterface implements GetDriveInput {
   
   // Robot Alignment
   private JoystickButton targetAlignCargoButton;
+  private JoystickButton targetAlignRocketButton;
   private JoystickButton panelTargetAlignCargoButton;
   private JoystickButton panelTargetAlignRocketButton;
 
@@ -113,7 +116,10 @@ public class OperatorInterface implements GetDriveInput {
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
     // Target Alignment
     targetAlignCargoButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN);
-    
+    targetAlignRocketButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN_ROCKET);
+  
+    panelTargetAlignCargoButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN_CARGO);
+    panelTargetAlignRocketButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN_ROCKET);
     // Arms Subsystem
     armsDeployButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_DEPLOY);
     armsSqueezeButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_SQUEEZE);
@@ -128,9 +134,7 @@ public class OperatorInterface implements GetDriveInput {
     flipForwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_FORWARD);
     flipBackwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_BACKWARD);       
     
-    
-    panelTargetAlignCargoButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN_CARGO);
-    panelTargetAlignRocketButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN_ROCKET);
+  
     // Arms Subsystem
     panelArmsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
     panelArmsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
@@ -162,10 +166,15 @@ public class OperatorInterface implements GetDriveInput {
     // Target Align
     targetAlignCargoButton.whenPressed(new AlignWithTarget(this.robot));
     targetAlignCargoButton.whenReleased(new AlignWithTargetOff(this.robot));
+
+    targetAlignRocketButton.whenPressed(new AlignWithRocket(this.robot));
+    targetAlignRocketButton.whenReleased(new AlignWithRocketOff(this.robot));
+
     panelTargetAlignCargoButton.whenPressed(new AlignWithTarget(this.robot));
     panelTargetAlignCargoButton.whenReleased(new AlignWithTargetOff(this.robot));
 
-
+    panelTargetAlignRocketButton.whenPressed(new AlignWithRocket(this.robot));
+    panelTargetAlignRocketButton.whenReleased(new AlignWithRocketOff(this.robot));
 
     povButton.whenPressed(
             new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
