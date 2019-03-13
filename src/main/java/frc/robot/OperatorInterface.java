@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardVerifier;
 import frc.robot.RobotMap;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.AlignWithTargetOff;
@@ -95,10 +96,10 @@ public class OperatorInterface implements GetDriveInput {
     
   @Override
   public DriveInput getDriveInput() {
-    SmartDashboard.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
-    SmartDashboard.putNumber("OI JS Raw X", driveStick.getX());
-    SmartDashboard.putNumber("OI JS Raw Y", driveStick.getY());
-    SmartDashboard.putNumber("OI JS Raw Z", driveStick.getZ());
+    SmartDashboardVerifier.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
+    SmartDashboardVerifier.putNumber("OI JS Raw X", driveStick.getX());
+    SmartDashboardVerifier.putNumber("OI JS Raw Y", driveStick.getY());
+    SmartDashboardVerifier.putNumber("OI JS Raw Z", driveStick.getZ());
     return new DriveInput(driveStick.getX(), -driveStick.getY(), driveStick.getZ());
   }
 
