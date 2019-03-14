@@ -100,13 +100,13 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
     }
     
     public static double findNearestRocketSide(double angle){
-        if (angle < -90) {
-           return -151.75;
+        if (angle < -81.25) {
+           return -140.25;
         }
         else if (angle < 0) {
-            return -28.75;
-        } else if (angle < 90) {
-            return 28.75;
+            return -22.25;
+        } else if (angle < 81.25) {
+            return 22.25;
         } 
         else{
             return 151.25;
