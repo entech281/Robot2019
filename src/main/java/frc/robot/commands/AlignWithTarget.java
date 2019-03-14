@@ -24,6 +24,7 @@ public class AlignWithTarget extends Command {
   protected void initialize() {
     double angle = this.robot.getNavXSubsystem().findNearestQuadrant();
     this.robot.getDriveSubsystem().enableHoldYaw(angle);
+    this.robot.getDriveSubsystem().setAlignCargoBoolean(true);
     this.robot.getDriveSubsystem().alignWithTarget(true);
   }
 

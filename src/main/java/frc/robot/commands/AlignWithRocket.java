@@ -24,9 +24,9 @@ public class AlignWithRocket extends Command {
   protected void initialize() {
     double angle = this.robot.getNavXSubsystem().findNearestAngledQuadrant();
     this.robot.getDriveSubsystem().enableHoldYaw(angle);
+    this.robot.getDriveSubsystem().setAlignCargoBoolean(false);
     this.robot.getDriveSubsystem().alignWithTarget(true);
   }
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {

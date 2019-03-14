@@ -52,6 +52,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
 
   private boolean targetLock = false;
+  private boolean alignCargo;
 
   private final NetworkTableInstance ntist = NetworkTableInstance.getDefault();
   private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.targetLock.buttonPressed");
@@ -101,12 +102,16 @@ public class DriveSubsystem extends BaseSubsystem {
       periodicStopWatch.end("Drive Subsystem");   
   }
 
+  public void setAlignCargoBoolean(boolean alignCargo){
+    this.alignCargo = alignCargo;
+  }
+
   public void drive(DriveInput di) {
       
     DriveInput telemetryDriveInput = inputAggregator.mergeTelemetry(di, 
             this.robot.getNavXSubsystem().getDriveInput(),
             this.robot.getVisionSubsystem().getDriveInput(),
-            this.robot.getSensorSubsystem().getDriveInput());
+            this.robot.getSensorSubsystem().getDriveInput(), alignCargo);
     
     SmartDashboardVerifier.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
     SmartDashboardVerifier.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
