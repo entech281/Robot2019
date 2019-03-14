@@ -20,7 +20,7 @@ public class DriveInputAggregator {
     }
 
     
-    public DriveInput mergeTelemetry(DriveInput input, DriveInput navx, DriveInput vision, DriveInput sensors){
+    public DriveInput mergeTelemetry(DriveInput input, DriveInput navx, DriveInput vision, DriveInput sensors, boolean alignCargo){
         DriveInput result = input.copy();
        
         if (navx.isValid()) {
@@ -33,9 +33,19 @@ public class DriveInputAggregator {
           //to the target
           //if we're looking askew at the targets, we have to adjust 
           //for our perspective when calculating alignment
-          if ( navx.isValid() && includeAngleOffset ){
+          if ( navx.isValid() && includeAngleOffset && alignCargo){
              double nearestQuadrantAngle = NavXSubsystem.findNearestQuadrant(navx.getFieldAngle());
              double deltaAngle = nearestQuadrantAngle - navx.getFieldAngle();
+             double deltaAngleRads = Math.toRadians(deltaAngle);
+             double dist = vision.getTargetDistance()*Math.cos(deltaAngleRads);
+             double offsetDueToAngle = vision.getTargetDistance()*Math.sin(deltaAngleRads);
+             double projectedLateralOffset = vision.getTargetLateral()*Math.cos(deltaAngleRads);
+             result.setTargetDistance(dist);
+             result.setTargetLateral(offsetDueToAngle+projectedLateralOffset);
+          }
+          else if(navx.isValid() && includeAngleOffset && alignCargo== false){
+            double nearestRocketSide = NavXSubsystem.findNearestRocketSide(navx.getFieldAngle());
+             double deltaAngle = nearestRocketSide - navx.getFieldAngle();
              double deltaAngleRads = Math.toRadians(deltaAngle);
              double dist = vision.getTargetDistance()*Math.cos(deltaAngleRads);
              double offsetDueToAngle = vision.getTargetDistance()*Math.sin(deltaAngleRads);

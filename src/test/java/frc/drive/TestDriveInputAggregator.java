@@ -34,7 +34,7 @@ public class TestDriveInputAggregator {
         
         DriveInputAggregator d = new DriveInputAggregator(true,true,true);
         
-        DriveInput r = d.mergeTelemetry(driver,navx,vision,sensors);
+        DriveInput r = d.mergeTelemetry(driver,navx,vision,sensors, true);
         assertEquals(r.getTargetDistance(),86.6,1.0);
         assertEquals(r.getTargetLateral(),-58.6,1.0);
         
@@ -57,7 +57,7 @@ public class TestDriveInputAggregator {
         
         DriveInputAggregator d = new DriveInputAggregator(true,true,true);
         
-        DriveInput r = d.mergeTelemetry(driver,navx,vision,sensors);
+        DriveInput r = d.mergeTelemetry(driver,navx,vision,sensors, true);
         assertEquals(r.getTargetDistance(),40,1);
         assertEquals(r.getTargetLateral(),5,1);
         
@@ -80,7 +80,7 @@ public class TestDriveInputAggregator {
         
         DriveInputAggregator d = new DriveInputAggregator(true,true,true);
         
-        DriveInput r = d.mergeTelemetry(driver,navx,vision,sensors);
+        DriveInput r = d.mergeTelemetry(driver,navx,vision,sensors, true);
         assertEquals(r.getTargetDistance(),28,1);
         assertEquals(r.getTargetLateral(),-21,1);
         
@@ -103,23 +103,23 @@ public class TestDriveInputAggregator {
         
         DriveInputAggregator dia = new DriveInputAggregator(true,true,true);
         assertEquals(S_LAT,
-                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors).getTargetLateral(),
+                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors, true).getTargetLateral(),
                 0.001);
         
         dia = new DriveInputAggregator(false,true,true);
         assertEquals(V_LAT,
-                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors).getTargetLateral(),
+                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors, true).getTargetLateral(),
                 0.001);
         
         dia = new DriveInputAggregator(true,false,true);
         assertEquals(S_LAT,
-                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors).getTargetLateral(),
+                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors, true).getTargetLateral(),
                 0.001);
         
         
         dia = new DriveInputAggregator(false,false,true);
         assertEquals(D_LAT,
-                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors).getTargetLateral(),
+                dia.mergeTelemetry(driver,new DriveInput(),vision,sensors, true).getTargetLateral(),
                 0.001);
 
     }
