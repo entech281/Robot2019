@@ -46,7 +46,7 @@ public class ArmsSubsystem extends BaseSubsystem {
   @Override
   public void periodic() {
     periodicStopWatch.start("Arms Subsystem");
-    SmartDashboard.putBoolean("Deploying", isDeploying);
+    //SmartDashboard.putBoolean("Deploying", isDeploying);
     if(isDeploying){
       updateDeploy();
     }
