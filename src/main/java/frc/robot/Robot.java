@@ -109,14 +109,12 @@ public class Robot extends TimedRobot {
     CameraServer inst = CameraServer.getInstance();
     UsbCamera camera = new UsbCamera("USB Camera 0", 0);
     inst.addCamera(camera);
-    camera.setExposureManual(200);
-    camera.setWhiteBalanceManual(50);
-    camera.setVideoMode(PixelFormat.kMJPEG, 320,240,60);
+    camera.setExposureManual(1);
     camera.setBrightness(50);
     MjpegServer server = inst.addServer("serve_USB Camera 0");
     server.setSource(camera);
-    server.getProperty("compression").set(70);
-    server.getProperty("default_compression").set(70);
+    server.getProperty("compression").set(20);
+    server.getProperty("default_compression").set(20);
     server.setResolution(320, 240);
   }
 
