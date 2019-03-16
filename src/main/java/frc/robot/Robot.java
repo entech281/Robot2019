@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.MjpegServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlipSubsystem;
@@ -18,6 +19,9 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.drive.DriveInput;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.cscore.VideoProperty;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -102,9 +106,22 @@ public class Robot extends TimedRobot {
 
     oi = new OperatorInterface(this);
 
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-    camera.setResolution(320, 240);
-    camera.setFPS(30);
+    CameraServer inst = CameraServer.getInstance();
+    UsbCamera camera = new UsbCamera("USB Camera 0", 0);
+    inst.addCamera(camera);
+    camera.setExposureManual(2000);
+    camera.setWhiteBalanceManual(50);
+    camera.setVideoMode(PixelFormat.kMJPEG, 320,240,60);
+    camera.setBrightness(90);
+    MjpegServer server = inst.addServer("serve_USB Camera 0");
+    server.setSource(camera);
+    
+    for ( VideoProperty p: server.enumerateProperties()){
+        System.out.println("Property:'" + p.getName() + "'");
+    }
+    server.getProperty("compression").set(70);
+    server.getProperty("default_compression").set(70);
+    server.setResolution(320, 240);
   }
 
   @Override
