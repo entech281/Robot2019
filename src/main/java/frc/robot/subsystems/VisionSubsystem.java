@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
@@ -43,35 +44,44 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     @Override
     public void periodic() {
         periodicStopWatch.start("Vision subsystem");
-        SmartDashboard.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
-        SmartDashboard.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
-        SmartDashboard.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
+        SmartDashboardLogger.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
+        SmartDashboardLogger.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
+        SmartDashboardLogger.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
         periodicStopWatch.end("Vision subsystem");
     }
 
     @Override
     public DriveInput getDriveInput() {
         double currFrameCount = frameCount.getDouble(lastFrameCount);
+        double lateralDistance = lateral.getDouble(UNKNOWN);
+        double targetDistance = distance.getDouble(UNKNOWN);
+        
+        boolean valid = true;
+        if ( currFrameCount <= lastFrameCount){
+            valid = false;
+        }
+        if ( lateralDistance > 500 ){
+            valid = false;
+        }
+        if ( targetDistance > 2000 ){
+            valid = false;
+        }
+        if ( Double.isNaN(lateralDistance) || Double.isInfinite(lateralDistance)){
+            valid = false;
+        }
+        if ( Double.isNaN(targetDistance) || Double.isInfinite(targetDistance)){
+            valid = false;
+        }
+        
         DriveInput di = new DriveInput();  // created as invalid
-        if (currFrameCount > lastFrameCount) {
+        if (valid) {
           //scaleFactor = 1.0;
           lastDistanceFromTarget = distance.getDouble(UNKNOWN);
           lastLateralDistance = (-1)*lateral.getDouble(UNKNOWN);
           di.setTargetDistance(lastDistanceFromTarget);
-          if(lastLateralDistance <= (UNKNOWN-1)){
           di.setTargetLateral(lastLateralDistance);
-          }
         } 
-        /*else {
-          scaleFactor = 0.75*scaleFactor;
-          if ((Math.abs(lastLateralDistance-UNKNOWN) > 0.1) && 
-              (Math.abs(lastDistanceFromTarget-UNKNOWN) > 0.1)) {
-                di.setTargetDistance(scaleFactor*lastDistanceFromTarget);
-                di.setTargetLateral(scaleFactor*lastLateralDistance);
-                }
-          
-        }*/
-        
+        SmartDashboardLogger.putBoolean("Vision Input Valid", valid);
         return di;
     }
 

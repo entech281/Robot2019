@@ -9,13 +9,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.buttons.POVButton;
+import frc.logging.SmartDashboardLogger;
+import frc.robot.commands.AlignWithRocket;
+import frc.robot.commands.AlignWithRocketOff;
 import frc.robot.commands.AlignWithTarget;
 import frc.robot.commands.AlignWithTargetOff;
 import frc.robot.commands.ArmsDeploy;
 import frc.robot.commands.ArmsRelease;
 import frc.robot.commands.ArmsSqueeze;
+import frc.robot.commands.CancelSquareUpCommand;
 import frc.robot.commands.ReverseDeploy;
 import frc.robot.commands.FlipBackward;
 import frc.robot.commands.FlipForward;
@@ -24,8 +27,7 @@ import frc.robot.commands.HatchExtend;
 import frc.robot.commands.HatchRetract;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
-import frc.robot.commands.PushPlateHatchGrabHold;
-import frc.robot.commands.PushPlateHatchRelease;
+import frc.robot.commands.SquareUpCommand;
 import frc.robot.commands.ToggleFieldAbsolute;
 import frc.robot.commands.TwistOff;
 import frc.robot.commands.TwistOn;
@@ -44,9 +46,14 @@ public class OperatorInterface implements GetDriveInput {
   private Joystick gamePad;
   private Joystick operatorPanel;
   
+  private POVButton povButton;
+  private POVButton povButtonDown;
+  
   // Robot Alignment
-  private JoystickButton targetAlignButton;
-  private JoystickButton panelTargetAlignButton;
+  private JoystickButton targetAlignCargoButton;
+  private JoystickButton targetAlignRocketButton;
+  private JoystickButton panelTargetAlignCargoButton;
+  private JoystickButton panelTargetAlignRocketButton;
 
   // Arms Subsystem
   private JoystickButton armsDeployButton;
@@ -63,7 +70,6 @@ public class OperatorInterface implements GetDriveInput {
   private JoystickButton hatchRetractButton;
 
   private JoystickButton panelHatchExtendButton;
-  boolean USING_PUSH_PLATE_DEPLOYMENT_SYSTEM = false;
   
   // Flip Subsystem
   private JoystickButton flipForwardButton;
@@ -92,20 +98,27 @@ public class OperatorInterface implements GetDriveInput {
     
   @Override
   public DriveInput getDriveInput() {
-    SmartDashboard.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
-    SmartDashboard.putNumber("OI JS Raw X", driveStick.getX());
-    SmartDashboard.putNumber("OI JS Raw Y", driveStick.getY());
-    SmartDashboard.putNumber("OI JS Raw Z", driveStick.getZ());
+    SmartDashboardLogger.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
+    SmartDashboardLogger.putNumber("OI JS Raw X", driveStick.getX());
+    SmartDashboardLogger.putNumber("OI JS Raw Y", driveStick.getY());
+    SmartDashboardLogger.putNumber("OI JS Raw Z", driveStick.getZ());
     return new DriveInput(driveStick.getX(), -driveStick.getY(), driveStick.getZ());
   }
 
   protected void createButtons() {
     driveStick = new Joystick(RobotMap.DriveJoystick.PORT);
+    
+    povButton = new POVButton(driveStick,0);
+    povButtonDown = new POVButton(driveStick,180);
+    
     gamePad = new Joystick(RobotMap.GamePad.PORT);
     operatorPanel = new Joystick(RobotMap.OperatorPanel.PORT);
     // Target Alignment
-    targetAlignButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN);
-
+    targetAlignCargoButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN);
+    targetAlignRocketButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.TARGET_ALIGN_ROCKET);
+  
+    panelTargetAlignCargoButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN_CARGO);
+    panelTargetAlignRocketButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN_ROCKET);
     // Arms Subsystem
     armsDeployButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_DEPLOY);
     armsSqueezeButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_SQUEEZE);
@@ -113,16 +126,14 @@ public class OperatorInterface implements GetDriveInput {
     armsReverseButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_REVERSE_DEPLOY);
 
     // Hatch Subsystem
-      hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
-      hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
+    hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
+    hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
   
     // Flip Subsystem
     flipForwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_FORWARD);
     flipBackwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_BACKWARD);       
     
-    
-    panelTargetAlignButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.TARGET_ALIGN);
-
+  
     // Arms Subsystem
     panelArmsDeployButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_DEPLOY);
     panelArmsSqueezeButton = new JoystickButton(operatorPanel, RobotMap.OperatorPanel.Button.ARMS_SQUEEZE);
@@ -152,11 +163,29 @@ public class OperatorInterface implements GetDriveInput {
   
   protected void createCommands() { 
     // Target Align
-    targetAlignButton.whenPressed(new AlignWithTarget(this.robot));
-    targetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
-    panelTargetAlignButton.whenPressed(new AlignWithTarget(this.robot));
-    panelTargetAlignButton.whenReleased(new AlignWithTargetOff(this.robot));
+    targetAlignCargoButton.whenPressed(new AlignWithTarget(this.robot));
+    targetAlignCargoButton.whenReleased(new AlignWithTargetOff(this.robot));
 
+    targetAlignRocketButton.whenPressed(new AlignWithRocket(this.robot));
+    targetAlignRocketButton.whenReleased(new AlignWithRocketOff(this.robot));
+
+    panelTargetAlignCargoButton.whenPressed(new AlignWithTarget(this.robot));
+    panelTargetAlignCargoButton.whenReleased(new AlignWithTargetOff(this.robot));
+
+    panelTargetAlignRocketButton.whenPressed(new AlignWithRocket(this.robot));
+    panelTargetAlignRocketButton.whenReleased(new AlignWithRocketOff(this.robot));
+
+    povButton.whenPressed(
+            new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
+            SquareUpCommand.LockOption.STRAIGHT));
+    povButton.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
+    
+    povButtonDown.whenPressed(
+            new SquareUpCommand(this.robot.getNavXSubsystem(),this.robot.getDriveSubsystem(),
+            SquareUpCommand.LockOption.ANGLED));
+    
+    povButtonDown.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
+    
     // Arms Subsystem
     armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
@@ -167,14 +196,13 @@ public class OperatorInterface implements GetDriveInput {
     panelArmsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
     
     // Hatch Subsystem
-    if(USING_PUSH_PLATE_DEPLOYMENT_SYSTEM){
-      }
-    else{
-      hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
-      hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
-      panelHatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
-      panelHatchExtendButton.whenReleased(new HatchRetract(this.robot.getHatchSubsystem()));
-    }
+    
+    
+    hatchRetractButton.whenPressed(new HatchRetract(this.robot.getHatchSubsystem()));
+    hatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+    panelHatchExtendButton.whenPressed(new HatchExtend(this.robot.getHatchSubsystem()));
+    panelHatchExtendButton.whenReleased(new HatchRetract(this.robot.getHatchSubsystem()));
+    
     // Flip Subsystem
     flipForwardButton.whileHeld(new FlipForward(this.robot.getFlipSubsystem()));
     flipForwardButton.whenReleased(new FlipStop(this.robot.getFlipSubsystem()));

@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.RobotMap;
 
 /**
@@ -31,8 +31,10 @@ public class ArmsSubsystem extends BaseSubsystem {
   
   @Override
   public void initialize() {
-    squeezeSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_GRAB_FORWARD, RobotMap.PNEUMATICS.ARMS_GRAB_REVERSE);
-    deploySolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, RobotMap.PNEUMATICS.ARMS_DEPLOY_FORWARD, RobotMap.PNEUMATICS.ARMS_DEPLOY_REVERSE);
+    squeezeSolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, 
+      RobotMap.PNEUMATICS.ARMS_GRAB_FORWARD, RobotMap.PNEUMATICS.ARMS_GRAB_REVERSE);
+    deploySolenoid = new DoubleSolenoid(RobotMap.CAN.PCM_ID, 
+      RobotMap.PNEUMATICS.ARMS_DEPLOY_FORWARD, RobotMap.PNEUMATICS.ARMS_DEPLOY_REVERSE);
   }
 
   @Override
@@ -43,12 +45,14 @@ public class ArmsSubsystem extends BaseSubsystem {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Deploying", isDeploying);
+    periodicStopWatch.start("Arms Subsystem");
+    SmartDashboardLogger.putBoolean("Deploying", isDeploying);
     if(isDeploying){
       updateDeploy();
-      System.out.println("Timer" + timer.get());
     }
+    periodicStopWatch.end("Arms Subsystem");
   }
+
 public void updateDeploy(){
   if(timer.get() <=1.5){
     deploySolenoid.set(DoubleSolenoid.Value.kForward);
@@ -62,6 +66,7 @@ public void updateDeploy(){
     timer.stop();
   }
 }
+
   public void squeeze() {
     squeezeSolenoid.set(DoubleSolenoid.Value.kForward);
   }

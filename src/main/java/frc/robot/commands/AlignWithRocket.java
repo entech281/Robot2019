@@ -8,39 +8,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.PushPlateHatchSubsystem;
+import frc.robot.Robot;
 
-public class PushPlateHatchRelease extends Command {
-  private PushPlateHatchSubsystem hatch;
-  private int counter = 0;
+public class AlignWithRocket extends Command {
+  private Robot robot;
 
-  public PushPlateHatchRelease(PushPlateHatchSubsystem hatch) {
-    this.hatch=hatch;
-    requires(hatch);
+  public AlignWithRocket(Robot robot) {
+    // Use requires() here to declare subsystem dependencies
+    this.robot = robot;
+    requires(this.robot.getDriveSubsystem());
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    counter = 0;
-    hatch.release();
+    double angle = this.robot.getNavXSubsystem().findNearestAngledQuadrant();
+    this.robot.getDriveSubsystem().enableHoldYaw(angle);
+    this.robot.getDriveSubsystem().setAlignCargoBoolean(false);
+    this.robot.getDriveSubsystem().alignWithTarget(true);
   }
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    hatch.release();
-    counter++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ( counter > 50 ) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
   }
 
   // Called once after isFinished returns true

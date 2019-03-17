@@ -10,10 +10,9 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
@@ -71,13 +70,12 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
         periodicStopWatch.start("NAVX subsystem");
         latestYawAngle = angle_scale*navX.getYaw();
         SmartDashboard.putData(navX);
-        SmartDashboard.putNumber("Yaw Angle", latestYawAngle);
-        SmartDashboard.putNumber("Field Angle", angle_scale*navX.getAngle());
+        SmartDashboardLogger.putNumber("Yaw Angle", latestYawAngle);
+        SmartDashboardLogger.putNumber("Field Angle", angle_scale*navX.getAngle());
         periodicStopWatch.end("NAVX subsystem");
     }    
 
-    public double findNearestQuadrant() {
-        double angle = angle_scale*navX.getYaw();
+    public static double findNearestQuadrant(double angle){
         if (angle <= -135.0) {
           return -180.0;
         //} else if (angle < -112.5) {
@@ -96,7 +94,28 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
         //  return 135.0;
         } else {
           return 180.0;
+        }        
+    }
+    
+    public static double findNearestRocketSide(double angle){
+        if (angle < -81.25) {
+           return -140.25;
         }
-      }
+        else if (angle < 0) {
+            return -22.25;
+        } else if (angle < 81.25) {
+            return 22.25;
+        } 
+        else{
+            return 151.25;
+        }        
+    }    
+    
+    public double findNearestAngledQuadrant(){
+        return findNearestRocketSide(angle_scale*navX.getYaw());
+    }
+    public double findNearestQuadrant() {
+        return findNearestQuadrant(angle_scale*navX.getYaw());
+    }
 
 }

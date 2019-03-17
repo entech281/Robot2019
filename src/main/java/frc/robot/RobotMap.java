@@ -15,6 +15,8 @@ package frc.robot;
  */
 public class RobotMap {
 
+  public static final boolean IS_LOGGING_ENABLED = false;
+
   public interface CAN {
     public static final int FRONT_LEFT_MOTOR = 14;
     public static final int FRONT_RIGHT_MOTOR = 2;
@@ -22,19 +24,15 @@ public class RobotMap {
     public static final int REAR_RIGHT_MOTOR = 16;
     public static final int CLIMB = 7;
     public static final int PCM_ID = 10;
-
-    public static final int HORI_PCM_ID = 10;
-    public static final int VERT_PCM_ID = 10;
+    public static final int PCM_ID_2 = 6;
+    public static final int PCM_ID_3 = 7;
   }
 
   public interface PNEUMATICS {
     public static final int HATCH_FORWARD = 1;
     public static final int HATCH_REVERSE = 0;
-
-    public static final int PUSH_PLATE_HORIZONTAL_OUT = 1;
-    public static final int PUSH_PLATE_HORIZONTAL_IN = 0;
-    public static final int PUSH_PLATE_VERTICAL_UP = 1;
-    public static final int PUSH_PLATE_VERTICAL_DOWN = 0;
+    public static final int HATCH_RELEASE_TOP = 6;
+    public static final int HATCH_RELEASE_BOTTOM = 7;
 
     public static final int ARMS_GRAB_FORWARD = 5;
     public static final int ARMS_GRAB_REVERSE = 4;
@@ -59,6 +57,7 @@ public class RobotMap {
     public interface Button {
       // Button definitions for the PS3 controller
       public static final int TARGET_ALIGN = 8;
+      public static final int TARGET_ALIGN_ROCKET = 7;
       public static final int HATCH_RETRACT = 3;
       public static final int HATCH_EXTEND = 1;
       public static final int ARMS_DEPLOY = 13;
@@ -73,8 +72,9 @@ public class RobotMap {
   public interface OperatorPanel {
     public static final int PORT = 2;
     public interface Button {
-      // Button definitions for the PS3 controller
-      public static final int TARGET_ALIGN = 1;
+      // Button Definitions for Operator panel
+      public static final int TARGET_ALIGN_CARGO = 1;
+      public static final int TARGET_ALIGN_ROCKET = 7;
       public static final int HATCH_EXTEND = 6;
       public static final int ARMS_DEPLOY = 2;
       public static final int ARMS_SQUEEZE = 3;

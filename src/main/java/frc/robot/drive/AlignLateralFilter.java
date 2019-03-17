@@ -11,9 +11,9 @@ import frc.pid.CappedLinearControl;;
  */
 public class AlignLateralFilter extends DriveFilter  {
 
-  public static final double ALIGN_THRESHOLD_INCHES=0.2;
+  public static final double ALIGN_THRESHOLD_INCHES=0.1;
   private Controller cappedLinear = new CappedLinearControl(
-          ALIGN_THRESHOLD_INCHES,10, 0.1, 0.9);
+          ALIGN_THRESHOLD_INCHES,10, 0.2, 0.75);
   
   public AlignLateralFilter() {
     super(false);

@@ -7,24 +7,21 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.cscore.MjpegServer;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.BaseSubsystem;
-import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlipSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
-import frc.robot.subsystems.PushPlateHatchSubsystem;
 import frc.robot.subsystems.ArmsSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.drive.DriveInput;
-import frc.robot.RobotMap;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import frc.logging.*;
+import edu.wpi.first.wpilibj.TimedRobot;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +31,8 @@ import frc.logging.*;
  * project.
  */
 public class Robot extends TimedRobot {
+
+
   private Compressor compressor;
 
   private NavXSubsystem navX;
@@ -43,7 +42,7 @@ public class Robot extends TimedRobot {
   private HatchSubsystem hatch;
 
   private VisionSubsystem vision;
-  private SensorSubsystem sensors;
+
 
   private OperatorInterface oi;
   //private RobotPreferences prefs = new RobotPreferences();
@@ -53,10 +52,6 @@ public class Robot extends TimedRobot {
 
   public HatchSubsystem getHatchSubsystem() {
     return hatch;
-  }
-
-  public SensorSubsystem getSensorSubsystem(){
-    return sensors;
   }
 
   public NavXSubsystem getNavXSubsystem() {
@@ -90,7 +85,7 @@ public class Robot extends TimedRobot {
     compressor.start();
 
     // These must be created in this order since the different sensors are used by the Drive
-    sensors = new SensorSubsystem();
+
     navX = new NavXSubsystem();
     vision = new VisionSubsystem();
     robotDrive = new DriveSubsystem(this);
@@ -103,9 +98,16 @@ public class Robot extends TimedRobot {
 
     oi = new OperatorInterface(this);
 
-    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-    camera.setResolution(320, 240);
-    camera.setFPS(30);
+    CameraServer inst = CameraServer.getInstance();
+    UsbCamera camera = new UsbCamera("USB Camera 0", 0);
+    inst.addCamera(camera);
+    camera.setExposureManual(1);
+    camera.setBrightness(50);
+    MjpegServer server = inst.addServer("serve_USB Camera 0");
+    server.setSource(camera);
+    server.getProperty("compression").set(20);
+    server.getProperty("default_compression").set(20);
+    server.setResolution(320, 240);
   }
 
   @Override
@@ -125,10 +127,22 @@ public class Robot extends TimedRobot {
     robotDrive.setFieldAbsolute(false);
   }
 
+    @Override
+    public void disabledInit() {
+        
+    }
+
   @Override
   public void teleopPeriodic(){
+    BaseSubsystem.periodicStopWatch.start("MAIN LOOP");
+
     robotDrive.drive(oi.getDriveInput());
     Scheduler.getInstance().run();
+
+    if(RobotMap.IS_LOGGING_ENABLED){
+      System.out.println(BaseSubsystem.periodicStopWatch.toString());
+    }
+    BaseSubsystem.periodicStopWatch.end("MAIN LOOP");
   }
 
   @Override

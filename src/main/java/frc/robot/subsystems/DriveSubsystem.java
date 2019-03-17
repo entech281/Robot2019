@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.AlignLateralFilter;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.HoldYawFilter;
@@ -20,7 +19,6 @@ import frc.robot.drive.TwistFilter;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInputAggregator;
@@ -52,15 +50,12 @@ public class DriveSubsystem extends BaseSubsystem {
   private NudgeLeftFilter nudgeLeftFilter = new NudgeLeftFilter();
 
   private boolean targetLock = false;
+  private boolean alignCargo;
 
   private final NetworkTableInstance ntist = NetworkTableInstance.getDefault();
-  private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.Vision.targetLock");
+  private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.targetLock.buttonPressed");
   
-  //enable line sensors and vision sensors
-  //private DriveInputAggregator inputAggregator = new DriveInputAggregator(
-  //        robot.getPreferences().isEnableLineSensors(),
-  //        robot.getPreferences().isEnableVision());
-  private DriveInputAggregator inputAggregator = new DriveInputAggregator(false,true);
+  private DriveInputAggregator inputAggregator = new DriveInputAggregator(true,true);
   
   public DriveSubsystem(Robot robot) {
     this.robot = robot;
@@ -73,7 +68,11 @@ public class DriveSubsystem extends BaseSubsystem {
     frontRightTalon.setInverted(false);
     rearRightTalon.setInverted(false);
     
-
+    frontLeftTalon.enableCurrentLimit(false);
+    rearLeftTalon.enableCurrentLimit(false);
+    frontRightTalon.enableCurrentLimit(false);
+    rearRightTalon.enableCurrentLimit(false);
+    
     holdYawFilter = new HoldYawFilter();
     holdYawFilter.disable();
 
@@ -84,31 +83,39 @@ public class DriveSubsystem extends BaseSubsystem {
     robotDrive.setDeadband(0.1);
     joystickJitterFilter.disable();
     robotRelativeDriveFilter.disable();
+    twistFilter.enable();
   }
 
   @Override
   public void periodic() {
       periodicStopWatch.start("Drive Subsystem");
-      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
+      SmartDashboardLogger.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
+      SmartDashboardLogger.putBoolean("Target Lock Enabled", targetLock);
+      
+      targetLockReporter.forceSetBoolean(targetLock);
       periodicStopWatch.end("Drive Subsystem");   
+  }
+
+  public void setAlignCargoBoolean(boolean alignCargo){
+    this.alignCargo = alignCargo;
   }
 
   public void drive(DriveInput di) {
       
     DriveInput telemetryDriveInput = inputAggregator.mergeTelemetry(di, 
             this.robot.getNavXSubsystem().getDriveInput(),
-            this.robot.getVisionSubsystem().getDriveInput(),
-            this.robot.getSensorSubsystem().getDriveInput());
+            this.robot.getVisionSubsystem().getDriveInput(), alignCargo);
     
-    SmartDashboard.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
-    SmartDashboard.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
+    SmartDashboardLogger.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
+    SmartDashboardLogger.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
+    SmartDashboardLogger.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
     
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
-    //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
-    //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
+    SmartDashboardLogger.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
+    SmartDashboardLogger.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
     
-    SmartDashboardLogger.putOnSmartDashboard("Operator Input", di);
-    SmartDashboardLogger.putOnSmartDashboard("DriveInput JS", filteredDriveInput);
+    SmartDashboardLogger.putDriveInput("Operator Input", di);
+    SmartDashboardLogger.putDriveInput("DriveInput JS", filteredDriveInput);
     
     robotDrive.driveCartesian(
             filteredDriveInput.getX(), 
@@ -129,7 +136,9 @@ public class DriveSubsystem extends BaseSubsystem {
       di = nudgeRightFilter.filter(di);
     } else {
       di = holdYawFilter.filter(di);
-      di = alignLateralFilter.filter(di);
+      if ( alignLateralFilter.isEnabled()){
+          di = alignLateralFilter.filter(di);
+      }      
     }
     di = robotRelativeDriveFilter.filter(di);    
     return di;
@@ -187,7 +196,7 @@ public class DriveSubsystem extends BaseSubsystem {
       alignLateralFilter.disable();
       targetLock = false;
     }
-    targetLockReporter.forceSetBoolean(targetLock);
+    
   }
 
 
