@@ -10,8 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.logging.SmartDashboardVerifier;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.RobotMap;
 
 /**
@@ -40,7 +39,7 @@ public class FlipSubsystem extends BaseSubsystem {
   public void periodic() {
     
     periodicStopWatch.start("Flip subsystem");
-    SmartDashboardVerifier.putNumber("Flip Motor Speed", getDesiredSpeed());
+    SmartDashboardLogger.putNumber("Flip Motor Speed", getDesiredSpeed());
     periodicStopWatch.end("Flip subsystem");
   }
 

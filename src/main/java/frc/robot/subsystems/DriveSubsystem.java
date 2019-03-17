@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.AlignLateralFilter;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.HoldYawFilter;
@@ -22,7 +21,6 @@ import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.logging.SmartDashboardLogger;
-import frc.logging.SmartDashboardVerifier;
 import frc.robot.drive.DriveInputAggregator;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -57,11 +55,7 @@ public class DriveSubsystem extends BaseSubsystem {
   private final NetworkTableInstance ntist = NetworkTableInstance.getDefault();
   private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.targetLock.buttonPressed");
   
-  //enable line sensors and vision sensors
-  //private DriveInputAggregator inputAggregator = new DriveInputAggregator(
-  //        robot.getPreferences().isEnableLineSensors(),
-  //        robot.getPreferences().isEnableVision());
-  private DriveInputAggregator inputAggregator = new DriveInputAggregator(false,true,true);
+  private DriveInputAggregator inputAggregator = new DriveInputAggregator(true,true);
   
   public DriveSubsystem(Robot robot) {
     this.robot = robot;
@@ -95,8 +89,8 @@ public class DriveSubsystem extends BaseSubsystem {
   @Override
   public void periodic() {
       periodicStopWatch.start("Drive Subsystem");
-      SmartDashboard.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
-      SmartDashboard.putBoolean("Target Lock Enabled", targetLock);
+      SmartDashboardLogger.putBoolean("Robot Relative Drive:", robotRelativeDriveFilter.isEnabled());
+      SmartDashboardLogger.putBoolean("Target Lock Enabled", targetLock);
       
       targetLockReporter.forceSetBoolean(targetLock);
       periodicStopWatch.end("Drive Subsystem");   
@@ -110,19 +104,18 @@ public class DriveSubsystem extends BaseSubsystem {
       
     DriveInput telemetryDriveInput = inputAggregator.mergeTelemetry(di, 
             this.robot.getNavXSubsystem().getDriveInput(),
-            this.robot.getVisionSubsystem().getDriveInput(),
-            this.robot.getSensorSubsystem().getDriveInput(), alignCargo);
+            this.robot.getVisionSubsystem().getDriveInput(), alignCargo);
     
-    SmartDashboardVerifier.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
-    SmartDashboardVerifier.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
-    SmartDashboardVerifier.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
+    SmartDashboardLogger.putNumber("Telemetry::LateralOffset", telemetryDriveInput.getTargetLateral());
+    SmartDashboardLogger.putNumber("Telemetry::YawAngle", telemetryDriveInput.getFieldAngle());
+    SmartDashboardLogger.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
     
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
-    //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
-    //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
+    SmartDashboardLogger.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
+    SmartDashboardLogger.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
     
-    SmartDashboardLogger.putOnSmartDashboard("Operator Input", di);
-    SmartDashboardLogger.putOnSmartDashboard("DriveInput JS", filteredDriveInput);
+    SmartDashboardLogger.putDriveInput("Operator Input", di);
+    SmartDashboardLogger.putDriveInput("DriveInput JS", filteredDriveInput);
     
     robotDrive.driveCartesian(
             filteredDriveInput.getX(), 

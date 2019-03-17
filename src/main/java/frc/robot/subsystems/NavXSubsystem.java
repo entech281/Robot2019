@@ -10,11 +10,9 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.logging.SmartDashboardVerifier;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
@@ -72,8 +70,8 @@ public class NavXSubsystem extends BaseSubsystem implements GetDriveInput {
         periodicStopWatch.start("NAVX subsystem");
         latestYawAngle = angle_scale*navX.getYaw();
         SmartDashboard.putData(navX);
-        SmartDashboardVerifier.putNumber("Yaw Angle", latestYawAngle);
-        SmartDashboardVerifier.putNumber("Field Angle", angle_scale*navX.getAngle());
+        SmartDashboardLogger.putNumber("Yaw Angle", latestYawAngle);
+        SmartDashboardLogger.putNumber("Field Angle", angle_scale*navX.getAngle());
         periodicStopWatch.end("NAVX subsystem");
     }    
 

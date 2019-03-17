@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.logging.SmartDashboardVerifier;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.GetDriveInput;
 
@@ -44,9 +44,9 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
     @Override
     public void periodic() {
         periodicStopWatch.start("Vision subsystem");
-        SmartDashboardVerifier.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
-        SmartDashboardVerifier.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
-        SmartDashboardVerifier.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
+        SmartDashboardLogger.putNumber("Frame Count:", frameCount.getDouble(UNKNOWN));
+        SmartDashboardLogger.putNumber("Vision Distance To Target:", distance.getDouble(UNKNOWN));
+        SmartDashboardLogger.putNumber("Vision Lateral:", lateral.getDouble(UNKNOWN));  
         periodicStopWatch.end("Vision subsystem");
     }
 
@@ -81,7 +81,7 @@ public class VisionSubsystem extends BaseSubsystem implements GetDriveInput {
           di.setTargetDistance(lastDistanceFromTarget);
           di.setTargetLateral(lastLateralDistance);
         } 
-        SmartDashboard.putBoolean("Vision Input Valid", valid);
+        SmartDashboardLogger.putBoolean("Vision Input Valid", valid);
         return di;
     }
 
