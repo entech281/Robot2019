@@ -10,9 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.logging.SmartDashboardVerifier;
-import frc.robot.RobotMap;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.commands.AlignWithRocket;
 import frc.robot.commands.AlignWithRocketOff;
 import frc.robot.commands.AlignWithTarget;
@@ -100,10 +98,10 @@ public class OperatorInterface implements GetDriveInput {
     
   @Override
   public DriveInput getDriveInput() {
-    SmartDashboardVerifier.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
-    SmartDashboardVerifier.putNumber("OI JS Raw X", driveStick.getX());
-    SmartDashboardVerifier.putNumber("OI JS Raw Y", driveStick.getY());
-    SmartDashboardVerifier.putNumber("OI JS Raw Z", driveStick.getZ());
+    SmartDashboardLogger.putNumber("OI JS Angle", driveStick.getDirectionDegrees());
+    SmartDashboardLogger.putNumber("OI JS Raw X", driveStick.getX());
+    SmartDashboardLogger.putNumber("OI JS Raw Y", driveStick.getY());
+    SmartDashboardLogger.putNumber("OI JS Raw Z", driveStick.getZ());
     return new DriveInput(driveStick.getX(), -driveStick.getY(), driveStick.getZ());
   }
 
@@ -128,8 +126,8 @@ public class OperatorInterface implements GetDriveInput {
     armsReverseButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.ARMS_REVERSE_DEPLOY);
 
     // Hatch Subsystem
-      hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
-      hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
+    hatchRetractButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_RETRACT);
+    hatchExtendButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.HATCH_EXTEND);
   
     // Flip Subsystem
     flipForwardButton = new JoystickButton(gamePad, RobotMap.GamePad.Button.FLIP_FORWARD);

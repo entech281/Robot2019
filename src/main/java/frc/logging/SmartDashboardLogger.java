@@ -1,24 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package frc.logging;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.logging.SmartDashboardVerifier;
 import frc.robot.drive.DriveInput;
 
-/**
- *
- * @author dcowden
- */
+
 public class SmartDashboardLogger {
+
+    public static final long UPDATE_RATE_MILLIS = 300;    
+    private static UpdateRateTracker updateTracker = new UpdateRateTracker(UPDATE_RATE_MILLIS);  
     
-    public static void putOnSmartDashboard(String name, DriveInput input){
-    SmartDashboardVerifier.putNumber(name + " X", input.getX());
-    SmartDashboardVerifier.putNumber(name +" Y", input.getY());
-    SmartDashboardVerifier.putNumber(name +" Z", input.getZ());
-    SmartDashboardVerifier.putNumber(name +" Angle", input.getFieldAngle());        
+    public static void putNumber(String key, double output){
+  
+        boolean valid = true;
+        if ( Double.isNaN(output) || Double.isInfinite(output)){
+            valid = false;
+        }
+        
+        if(valid && updateTracker.shouldUpdate(key)){
+            SmartDashboard.putNumber(key, output);            
+        }
+        
     }
+    public static void putBoolean(String name, boolean value){
+        if ( updateTracker.shouldUpdate(name)){
+            SmartDashboard.putBoolean(name, value);
+        }
+    }
+    
+    public static void putDriveInput(String name, DriveInput input){
+        SmartDashboardLogger.putNumber(name + " X", input.getX());
+        SmartDashboardLogger.putNumber(name +" Y", input.getY());
+        SmartDashboardLogger.putNumber(name +" Z", input.getZ());
+        SmartDashboardLogger.putNumber(name +" Angle", input.getFieldAngle());        
+    }    
 }

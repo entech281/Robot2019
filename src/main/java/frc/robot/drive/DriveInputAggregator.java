@@ -9,18 +9,16 @@ import frc.robot.subsystems.NavXSubsystem;
  */
 public class DriveInputAggregator {
     
-    private boolean enableLineSensors = true;
     private boolean enableVision = true;
     private boolean includeAngleOffset = true;
     
-    public DriveInputAggregator(boolean enableLineSensors, boolean enableVision, boolean includeAngleOffset){
-        this.enableLineSensors=enableLineSensors;
+    public DriveInputAggregator( boolean enableVision, boolean includeAngleOffset){
         this.enableVision = enableVision;
         this.includeAngleOffset = includeAngleOffset;
     }
 
     
-    public DriveInput mergeTelemetry(DriveInput input, DriveInput navx, DriveInput vision, DriveInput sensors, boolean alignCargo){
+    public DriveInput mergeTelemetry(DriveInput input, DriveInput navx, DriveInput vision,  boolean alignCargo){
         DriveInput result = input.copy();
        
         if (navx.isValid()) {
@@ -59,12 +57,6 @@ public class DriveInputAggregator {
             result.setTargetDistance(vision.getTargetDistance());
             result.setTargetLateral(vision.getTargetLateral());  
           }
-        }
-
-        if (sensors.isValid() && enableLineSensors) {
-          result.setFieldAngle(sensors.getFieldAngle());
-          result.setTargetDistance(sensors.getTargetDistance());
-          result.setTargetLateral(sensors.getTargetLateral());
         }
         
         if ( ! canDisplay(result.getTargetLateral())){

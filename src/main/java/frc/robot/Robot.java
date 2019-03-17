@@ -14,7 +14,6 @@ import frc.robot.subsystems.FlipSubsystem;
 import frc.robot.subsystems.HatchSubsystem;
 import frc.robot.subsystems.NavXSubsystem;
 import frc.robot.subsystems.ArmsSubsystem;
-import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.BaseSubsystem;
 import frc.robot.drive.DriveInput;
@@ -43,7 +42,7 @@ public class Robot extends TimedRobot {
   private HatchSubsystem hatch;
 
   private VisionSubsystem vision;
-  private SensorSubsystem sensors;
+
 
   private OperatorInterface oi;
   //private RobotPreferences prefs = new RobotPreferences();
@@ -53,10 +52,6 @@ public class Robot extends TimedRobot {
 
   public HatchSubsystem getHatchSubsystem() {
     return hatch;
-  }
-
-  public SensorSubsystem getSensorSubsystem(){
-    return sensors;
   }
 
   public NavXSubsystem getNavXSubsystem() {
@@ -90,7 +85,7 @@ public class Robot extends TimedRobot {
     compressor.start();
 
     // These must be created in this order since the different sensors are used by the Drive
-    sensors = new SensorSubsystem();
+
     navX = new NavXSubsystem();
     vision = new VisionSubsystem();
     robotDrive = new DriveSubsystem(this);

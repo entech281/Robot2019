@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.logging.SmartDashboardLogger;
 import frc.robot.RobotMap;
 
 /**
@@ -46,7 +46,7 @@ public class ArmsSubsystem extends BaseSubsystem {
   @Override
   public void periodic() {
     periodicStopWatch.start("Arms Subsystem");
-    //SmartDashboard.putBoolean("Deploying", isDeploying);
+    SmartDashboardLogger.putBoolean("Deploying", isDeploying);
     if(isDeploying){
       updateDeploy();
     }
