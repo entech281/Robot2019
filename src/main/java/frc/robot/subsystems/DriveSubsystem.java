@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drive.AlignLateralFilter;
 import frc.robot.drive.DriveInput;
 import frc.robot.drive.HoldYawFilter;
@@ -56,10 +55,6 @@ public class DriveSubsystem extends BaseSubsystem {
   private final NetworkTableInstance ntist = NetworkTableInstance.getDefault();
   private final NetworkTableEntry targetLockReporter = ntist.getEntry("team281.targetLock.buttonPressed");
   
-  //enable line sensors and vision sensors
-  //private DriveInputAggregator inputAggregator = new DriveInputAggregator(
-  //        robot.getPreferences().isEnableLineSensors(),
-  //        robot.getPreferences().isEnableVision());
   private DriveInputAggregator inputAggregator = new DriveInputAggregator(true,true);
   
   public DriveSubsystem(Robot robot) {
@@ -116,8 +111,8 @@ public class DriveSubsystem extends BaseSubsystem {
     SmartDashboardLogger.putNumber("Telemetry::Distance", telemetryDriveInput.getTargetDistance());
     
     DriveInput filteredDriveInput =  applyActiveFilters(telemetryDriveInput);
-    //SmartDashboard.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
-    //SmartDashboard.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
+    SmartDashboardLogger.putBoolean("DriveInput HoldYawOn", holdYawFilter.isEnabled());
+    SmartDashboardLogger.putBoolean("DriveInput LateralAlignOn", alignLateralFilter.isEnabled());
     
     SmartDashboardLogger.putDriveInput("Operator Input", di);
     SmartDashboardLogger.putDriveInput("DriveInput JS", filteredDriveInput);
