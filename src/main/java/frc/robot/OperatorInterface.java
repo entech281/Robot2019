@@ -25,6 +25,7 @@ import frc.robot.commands.FlipForward;
 import frc.robot.commands.FlipStop;
 import frc.robot.commands.HatchExtend;
 import frc.robot.commands.HatchRetract;
+import frc.robot.commands.LoosenAndDeploy;
 import frc.robot.commands.NudgeLeft;
 import frc.robot.commands.NudgeRight;
 import frc.robot.commands.SquareUpCommand;
@@ -187,7 +188,7 @@ public class OperatorInterface implements GetDriveInput {
     povButtonDown.whenReleased(new CancelSquareUpCommand(this.robot.getDriveSubsystem()) );
     
     // Arms Subsystem
-    armsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
+    armsDeployButton.whenPressed(new LoosenAndDeploy(robot.getFlipSubsystem(), robot.getArmsSubsystem()));
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
     armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
     armsReverseButton.whenPressed(new ReverseDeploy(this.robot.getArmsSubsystem()));
