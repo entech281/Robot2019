@@ -192,7 +192,7 @@ public class OperatorInterface implements GetDriveInput {
     armsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
     armsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
     armsReverseButton.whenPressed(new ReverseDeploy(this.robot.getArmsSubsystem()));
-    panelArmsDeployButton.whenPressed(new ArmsDeploy(this.robot.getArmsSubsystem()));
+    panelArmsDeployButton.whenPressed(new LoosenAndDeploy(robot.getFlipSubsystem(), robot.getArmsSubsystem()));
     panelArmsSqueezeButton.whenPressed(new ArmsSqueeze(this.robot.getArmsSubsystem()));
     panelArmsReleaseButton.whenPressed(new ArmsRelease(this.robot.getArmsSubsystem()));
     

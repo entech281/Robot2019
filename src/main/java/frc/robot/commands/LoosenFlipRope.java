@@ -14,7 +14,7 @@ public class LoosenFlipRope extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     private FlipSubsystem flip;
-    private static double LOOSEN_SECONDS = 2;
+    private static double LOOSEN_SECONDS = 3;
     
     public LoosenFlipRope(FlipSubsystem flip) {
       this.flip=flip;
@@ -43,6 +43,7 @@ public class LoosenFlipRope extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    flip.stop();
   }
 
   // Called when another command which requires one or more of the same
